@@ -11,7 +11,6 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 
 @Configuration
-@EnableWebMvc
 @ComponentScan(basePackages = "com.online_market")
 public class WebConfig {
 

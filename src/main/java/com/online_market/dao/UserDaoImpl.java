@@ -33,10 +33,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> findAll() {
 
-        String s = "select * from users";
-        Query query = sessionFactory.getCurrentSession().createSQLQuery(s);
+        String s = "select e from User e";
+        Query query = sessionFactory.getCurrentSession().createQuery(s);
 
-        return query.list();
+        return query.getResultList();
 
     }
 

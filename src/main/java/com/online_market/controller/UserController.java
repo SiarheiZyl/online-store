@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/")
 public class UserController {
@@ -24,7 +26,7 @@ public class UserController {
 
         model.addAttribute("users", userService.findAll());
 
-        return "usersList";
+        return "itemList";
     }
 
     @GetMapping("/user/{id}")
@@ -40,6 +42,14 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user) {
         userService.update(user);
         return "redirect:/user/" + user.getId();
+    }
+
+    @GetMapping("/userList")
+    public String listCustomers(Model model) {
+        model.addAttribute("user", new User());
+        List<User> list = this.userService.findAll();
+        model.addAttribute("userList", list);
+        return "userList";
     }
 
 }
