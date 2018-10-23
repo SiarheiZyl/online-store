@@ -14,4 +14,22 @@ public class Param {
     @Column(name = "param_name")
     private String paramName;
 
+    public Param() {
+    }
+
+    public int getParamId() {
+        return paramId;
+    }
+
+    public void setParamId(int paramId) {
+        this.paramId = paramId;
+    }
+
+    public String getParamName() {
+        return paramName;
+    }
+
+    public void setParamName(String paramName) {
+        this.paramName = paramName;
+    }
 }

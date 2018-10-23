@@ -1,7 +1,10 @@
 package com.online_market.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -22,6 +25,7 @@ public class User {
     private String email;
 
     @Column(name = "birthdate")
+    @Temporal(TemporalType.DATE)
     private Date birthdate;
 
     @Column(name = "login")
@@ -32,6 +36,13 @@ public class User {
 
     @Column(name = "role")
     private int role;
+
+    @ManyToOne
+    @JoinColumn(name="addr_id")
+    private Address address;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
     public User() {
     }
@@ -72,8 +83,13 @@ public class User {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthdate(String birthdate) {
+        try {
+            Date d = new SimpleDateFormat("YYYY-MM-DD").parse(birthdate);
+            this.birthdate = d;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getLogin() {
@@ -98,6 +114,22 @@ public class User {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
 

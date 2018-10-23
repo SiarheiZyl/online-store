@@ -14,6 +14,7 @@
         <td>${item.weight}</td>
         <td>${item.availableCount}</td>
         <td>${item.picture}</td>
+        <td>${item.category.categoryName}</td>
     </tr>
 </c:forEach>
 </body>

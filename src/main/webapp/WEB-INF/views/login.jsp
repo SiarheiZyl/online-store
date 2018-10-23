@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -10,16 +13,38 @@
 
 <div style="margin:10px">
   <h2>${STATUS_MESSAGE}</h2>
-    <form action="loginProcess" method="post">
-
-        User Name : <input type="text" id="userName" name="username"/><br/>
-
-        Password : <input type="password" id="password" name="password"/><br/>
-
-        <input type="submit" value="Login" />
-
-    </form>
-    <a href="register">Not registred yet?</a>
+    <form:form id="logForm" action="loginProcess" method="post" modelAttribute="user" >
+        <table align="center">
+            <tr>
+                <td>
+                    <form:label path="login">Username</form:label>
+                </td>
+                <td>
+                    <form:input path="login" name="login" id="login" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form:label path="password">Password</form:label>
+                </td>
+                <td>
+                    <form:password path="password" name="password" id="password" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <form:button id="log" name="log">Log in</form:button>
+                </td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td></td>
+                <td><a href="register">Not registred yet?</a>
+                </td>
+            </tr>
+        </table>
+    </form:form>
 </div>
 
 </body>

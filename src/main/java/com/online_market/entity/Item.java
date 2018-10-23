@@ -39,9 +39,7 @@ public class Item {
     )
     private List<Param> params;
 
-    @Override
-    public String toString() {
-        return "Items [id=" + itemId + ",item name= " + itemName + "]";
+    public Item() {
     }
 
     public int getItemId() {
@@ -106,5 +104,10 @@ public class Item {
 
     public void setParams(List<Param> params) {
         this.params = params;
+    }
+
+    @Override
+    public String toString() {
+        return "Item [id=" + itemId + ",item name= " + itemName + "]";
     }
 }

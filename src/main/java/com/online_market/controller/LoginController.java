@@ -19,17 +19,19 @@ public class LoginController {
     public UserService userService;
 
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage(Model model){
+        model.addAttribute("user", new User());
+
         return "login";
     }
 
     @PostMapping("/loginProcess")
-    public String loginProcess(@ModelAttribute("username") String username, @ModelAttribute("password") String password, Model model, RedirectAttributes attributes){
+    public String loginProcess(@ModelAttribute("user") User user, Model model, RedirectAttributes attributes){
 
-            User loginUser = userService.validate(username, password);
+            User loginUser = userService.validate(user.getLogin(), user.getPassword());
 
-            attributes.addFlashAttribute("username", username);
-            attributes.addFlashAttribute("password", password);
+            attributes.addFlashAttribute("login", user.getLogin());
+            attributes.addFlashAttribute("password", user.getPassword());
 
 
             if(loginUser != null){

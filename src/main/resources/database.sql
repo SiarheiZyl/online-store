@@ -8,6 +8,8 @@ create table vebinar.users
   password   varchar(255) not null,
   email      varchar(255) not null,
   role       int(2)       null,
+  addr_id INTEGER(18) NOT NULL,
+  FOREIGN KEY (addr_id) REFERENCES addresses (address_id)
   constraint users_id_uindex
   unique (id)
 );
@@ -46,4 +48,36 @@ create table params (
   param_id INTEGER(18) NOT NULL AUTO_INCREMENT,
   param_name VARCHAR(60)  NOT NULL,
   CONSTRAINT param_id_pk PRIMARY KEY (param_id)
+);
+
+create table addresses (
+  address_id INTEGER(18) NOT NULL AUTO_INCREMENT,
+  country  VARCHAR(255) NOT NULL,
+  town  VARCHAR(255) NOT NULL,
+  zip_code VARCHAR(10) NOT NULL,
+  street VARCHAR(255) NOT NULL,
+  building VARCHAR(20) NOT NULL,
+  apartment  VARCHAR(20) NOT NULL,
+  CONSTRAINT client_address_pk PRIMARY KEY (address_id)
+);
+
+create table orders (
+  order_id  INTEGER (18) NOT NULL AUTO_INCREMENT,
+  ordering_user INTEGER(18)  NOT NULL,
+  payment_method  VARCHAR(40)    NOT NULL,
+  payment_state VARCHAR(40)    NOT NULL,
+  delivery_method VARCHAR(40)    NOT NULL,
+  order_status VARCHAR(40)    NOT NULL,
+  CONSTRAINT order_id_pk PRIMARY KEY (order_id),
+  FOREIGN KEY (ordering_user) REFERENCES users (id)
+);
+
+create table ordered_items (
+  ordered_item_id INTEGER(18) NOT NULL AUTO_INCREMENT,
+  orders INTEGER(18) NOT NULL,
+  item  INTEGER(18) NOT NULL,
+  quantity  INTEGER(18)  NOT NULL,
+  CONSTRAINT order_items_id_pk PRIMARY KEY (ordered_item_id),
+  FOREIGN KEY (orders) REFERENCES orders (order_id),
+  FOREIGN KEY (item) REFERENCES items (item_id)
 );
