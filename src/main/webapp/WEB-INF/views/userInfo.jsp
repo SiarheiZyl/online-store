@@ -85,6 +85,11 @@
             <td><a href="/login">Logout</a>
             </td>
         </tr>
+        <tr>
+            <td></td>
+            <td><a href="/user/${user.id}/items">ItemList</a>
+            </td>
+        </tr>
     </table>
 </form:form>
 </body>

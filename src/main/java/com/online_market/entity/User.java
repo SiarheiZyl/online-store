@@ -44,6 +44,18 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
+    @Transient
+    private boolean isAuth;
+
+
+    public boolean isAuth() {
+        return isAuth;
+    }
+
+    public void setAuth(boolean auth) {
+        isAuth = auth;
+    }
+
     public User() {
     }
 

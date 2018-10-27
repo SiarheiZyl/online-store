@@ -21,14 +21,6 @@ public class UserController {
         return "in";
     }
 
-    @GetMapping("/users")
-    public String getAllUsers(Model model) {
-
-        model.addAttribute("users", userService.findAll());
-
-        return "itemList";
-    }
-
     @GetMapping("/user/{id}")
     public String getById(@PathVariable("id") int id, Model model) {
 

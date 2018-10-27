@@ -20,4 +20,9 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> itemList() {
         return itemDao.itemList();
     }
+
+    @Override
+    public Item getById(int id) {
+        return itemDao.getById(id);
+    }
 }

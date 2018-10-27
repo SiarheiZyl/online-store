@@ -15,6 +15,7 @@
         <td>${item.availableCount}</td>
         <td>${item.picture}</td>
         <td>${item.category.categoryName}</td>
+        <td><a href="items/${item.itemId}/add">+</a>
     </tr>
 </c:forEach>
 </body>

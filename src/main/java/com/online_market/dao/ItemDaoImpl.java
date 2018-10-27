@@ -2,6 +2,8 @@ package com.online_market.dao;
 
 
 import com.online_market.entity.Item;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +25,15 @@ public class ItemDaoImpl implements ItemDao {
 
         return query.getResultList();
 
+    }
+
+    @Override
+    public Item getById(int id) {
+        Session session = sessionFactory.openSession();
+        Item item = session.get(Item.class, id);
+        Hibernate.initialize(item);
+        session.close();
+
+        return item;
     }
 }

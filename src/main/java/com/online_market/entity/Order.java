@@ -22,7 +22,7 @@ public class Order {
 
     @Column(name = "payment_state")
     @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
+    private PaymentStatus paymentStatus = PaymentStatus.WAITING;
 
     @Column(name = "delivery_method")
     @Enumerated(EnumType.STRING)
@@ -30,7 +30,7 @@ public class Order {
 
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus = OrderStatus.AWAITING_PAYMENT;
 
     @ManyToOne
     @JoinColumn(name="ordering_user")

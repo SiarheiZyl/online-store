@@ -10,4 +10,6 @@ import java.util.List;
 public interface ItemDao {
 
     List<Item> itemList();
+
+    Item getById(int id);
 }
