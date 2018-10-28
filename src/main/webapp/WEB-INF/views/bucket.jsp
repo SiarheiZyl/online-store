@@ -9,8 +9,19 @@
     <title>Registration</title>
 </head>
 <body>
-<form:form id="addItemForm" modelAttribute="order" action="/user/${id}/items/${itemId}/addItemProcess" method="post"  >
+<form:form id="addItemForm" modelAttribute="order" action="/user/${id}/orderProcess" method="post"  >
     <table align="center">
+
+        <c:forEach var="item" items="${order.items}">
+            <tr>
+                <td>${item.itemName}</td>
+                <td>${item.price}</td>
+                <td>${item.weight}</td>
+                <td>${item.availableCount}</td>
+                <td>${item.picture}</td>
+                <td>${item.category.categoryName}</td>
+            </tr>
+        </c:forEach>
         <tr>
             <td>
                 <form:label path="paymentMethod">PaymentMethod</form:label>
@@ -41,11 +52,6 @@
             </td>
         </tr>
         <tr></tr>
-        <tr>
-            <td></td>
-            <td><a href="../">Log in</a>
-            </td>
-        </tr>
     </table>
 </form:form>
 </body>

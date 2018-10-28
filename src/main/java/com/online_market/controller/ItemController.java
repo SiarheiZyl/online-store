@@ -47,12 +47,26 @@ public class ItemController {
         model.addAttribute("item", new Item());
         model.addAttribute("itemList", itemService.itemList());
 
+
+        List<Order> orders = orderService.userOrderList(id);
+        Order order;
+        if(orders.size()==0)
+            order = new Order();
+        else
+            order = orders.get(0);
+
+        order.setUser(userService.getById(id));
+
+        //model.addAttribute("order", order);
+
         return "itemList";
     }
 
-    @GetMapping("/user/{id}/items/{itemId}/add")
-    public String addItem(@PathVariable("id") int id, @PathVariable("itemId") int itemId, Model model){
-        model.addAttribute("order", new Order());
+    @GetMapping("/user/{id}/bucket")
+    public String addItem(@PathVariable("id") int id, Model model){
+        Order order = orderService.userOrderList(id) == null ? new Order() : orderService.userOrderList(id).get(0);
+
+        model.addAttribute("order", order);
 
         List<PaymentMethod> list = new ArrayList<>();
         list.add(PaymentMethod.APPLE_PAY);
@@ -69,27 +83,64 @@ public class ItemController {
         model.addAttribute("deliveryList", list2);
 
         model.addAttribute("id", id);
-        model.addAttribute("itemId", itemId);
 
-        return "addItem";
+        return "bucket";
     }
 
-    @PostMapping("/user/{id}/items/{itemId}/addItemProcess")
-    public String addItemProcess(@PathVariable("id") int id, @PathVariable("itemId") int itemId, @ModelAttribute("order") Order order, Model model){
+    @PostMapping("/user/{id}/orderProcess")
+    public String addItemProcess(@PathVariable("id") int id, @ModelAttribute("order") Order order){
+
+        //order.setUser(userService.getById(id));
+//        List<Item> itemList;
+//        if(order.getItems()!=null)
+//            itemList = new ArrayList<>(order.getItems());
+//        else
+//            itemList = new ArrayList<>();
+//
+//        itemList.add(itemService.getById(itemId));
+//
+//        order.setItems(itemList);
+
+//        orderService.save(order);
         order.setUser(userService.getById(id));
+
+        Order order1 = orderService.userOrderList(id).get(0);
+
+        order1.setDeliveryMethod(order.getDeliveryMethod());
+        order1.setPaymentMethod(order.getPaymentMethod());
+
+        orderService.update(order1);
+
+
+        return "redirect:/user/"+id+"/items";
+    }
+
+    @PostMapping("/user/{id}/items/{itemId}/addItemToOrderProcess")
+    public String addItemToOrderProcess(@PathVariable("id") int id, @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item, Model model){
+
+        List<Order> orders = orderService.userOrderList(id);
+        Order order;
+
+        if(orders.size() == 0)
+            order = new Order();
+        else
+            order = orders.get(0);
+
+
         List<Item> itemList;
         if(order.getItems()!=null)
             itemList = new ArrayList<>(order.getItems());
         else
             itemList = new ArrayList<>();
 
-        itemList.add(itemService.getById(itemId));
-
+        itemList.add(item);
         order.setItems(itemList);
 
-        orderService.save(order);
+        order.setUser(userService.getById(id));
 
-        return "redirect:../..";
+        orderService.update(order);
+
+        return "redirect:/user/"+id+"/items";
     }
 
 

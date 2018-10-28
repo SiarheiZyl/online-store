@@ -90,6 +90,12 @@
             <td><a href="/user/${user.id}/items">ItemList</a>
             </td>
         </tr>
+
+        <tr>
+            <td></td>
+            <td><a href="/user/${user.id}/bucket">Bucket</a>
+            </td>
+        </tr>
     </table>
 </form:form>
 </body>

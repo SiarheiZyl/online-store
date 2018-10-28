@@ -1,6 +1,7 @@
 package com.online_market.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
+
 
     @Transient
     private boolean isAuth;

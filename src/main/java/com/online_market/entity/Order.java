@@ -18,7 +18,7 @@ public class Order {
 
     @Column(name = "payment_method")
     @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+    private PaymentMethod paymentMethod = PaymentMethod.CREDIT_CARDS;
 
     @Column(name = "payment_state")
     @Enumerated(EnumType.STRING)
@@ -26,7 +26,7 @@ public class Order {
 
     @Column(name = "delivery_method")
     @Enumerated(EnumType.STRING)
-    private DeliveryMethod deliveryMethod;
+    private DeliveryMethod deliveryMethod = DeliveryMethod.COURIER;
 
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
@@ -36,7 +36,7 @@ public class Order {
     @JoinColumn(name="ordering_user")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "ordered_items",
             joinColumns = { @JoinColumn(name = "orders") },
