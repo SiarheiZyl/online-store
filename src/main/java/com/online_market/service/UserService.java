@@ -19,4 +19,6 @@ public interface UserService {
     User validate(String username, String password);
 
     void register(User user);
+
+
 }

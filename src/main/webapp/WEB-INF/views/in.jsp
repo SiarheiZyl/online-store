@@ -11,8 +11,8 @@
     <title>Online store</title>
 </head>
 <body>
-<h1>Welcome to online store</h1>
-<a href="login">Login</a>
+<h1 align="center">Welcome to online store</h1>
+<a  href="login">Login</a>
 <a href="register">Registration</a>
 <p>${login}</p>
 </body>

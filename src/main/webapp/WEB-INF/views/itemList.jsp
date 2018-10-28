@@ -6,30 +6,11 @@
     <title>Items</title>
 </head>
 <body>
-<h3>Items</h3>
-<%--<c:forEach var="item" items="${itemList}">
-    <tr>
-        <td>${item.itemId}</td>
-        <td>${item.itemName}</td>
-        <td>${item.price}</td>
-        <td>${item.weight}</td>
-        <td>${item.availableCount}</td>
-        <td>${item.picture}</td>
-        <td>${item.category.categoryName}</td>
-        <td>
-            <form:form id="addItemForm" modelAttribute="order" action="/items/${item.itemId}/addItemToOrderProcess" method="post"  >
-            <a href="items/${item.itemId}/add">+</a>
-            </form:form>
-        </td>
+<h3 align="center">Items</h3>
 
-
-    </tr>
-</c:forEach>--%>
-
-
+<table align="center">
  <c:forEach var="item" items="${itemList}">
      <form:form id="addItemForm" modelAttribute="item" action="items/${item.itemId}/addItemToOrderProcess" method="post"  >
-        <table align="center">
             <tr>
                 <td>
                     <form:label path="itemName">${item.itemName}</form:label>
@@ -59,10 +40,13 @@
                     <form:button id="order" name="order">Order</form:button>
                 </td>
             </tr>
-
-        </table>
      </form:form>
 </c:forEach>
-
+    <tr>
+        <td></td>
+        <td><a href="/user/${id}/bucket">Bucket</a>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

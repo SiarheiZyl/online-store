@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -37,80 +37,50 @@ public class ItemController {
         model.addAttribute("item", new Item());
         model.addAttribute("itemList", itemService.itemList());
 
-        System.out.println(itemService.itemList().get(0));
         return "itemList";
     }
 
     @GetMapping("/user/{id}/items")
     public String itemList2(@PathVariable("id") int id, Model model){
 
+        model.addAttribute("id", id);
         model.addAttribute("item", new Item());
         model.addAttribute("itemList", itemService.itemList());
-
-
-        List<Order> orders = orderService.userOrderList(id);
-        Order order;
-        if(orders.size()==0)
-            order = new Order();
-        else
-            order = orders.get(0);
-
-        order.setUser(userService.getById(id));
-
-        //model.addAttribute("order", order);
 
         return "itemList";
     }
 
     @GetMapping("/user/{id}/bucket")
     public String addItem(@PathVariable("id") int id, Model model){
-        Order order = orderService.userOrderList(id) == null ? new Order() : orderService.userOrderList(id).get(0);
+        Order order = orderService.getBucketOrder(id) == null ? new Order() : orderService.getBucketOrder(id);
 
         model.addAttribute("order", order);
 
-        List<PaymentMethod> list = new ArrayList<>();
-        list.add(PaymentMethod.APPLE_PAY);
-        list.add(PaymentMethod.GOOGLE_PAY);
-        list.add(PaymentMethod.CREDIT_CARDS);
-        list.add(PaymentMethod.MASTERPASS);
-
-        List<DeliveryMethod> list2 = new ArrayList<>();
-        list2.add(DeliveryMethod.COURIER);
-        list2.add(DeliveryMethod.PICKUP);
-        list2.add(DeliveryMethod.POST);
+        List<PaymentMethod> list = Arrays.asList(PaymentMethod.values());
+        List<DeliveryMethod> list2 = Arrays.asList(DeliveryMethod.values());
 
         model.addAttribute("paymentList", list);
         model.addAttribute("deliveryList", list2);
+
+        model.addAttribute("it", new Item());
 
         model.addAttribute("id", id);
 
         return "bucket";
     }
 
+/*    @PostMapping("/user/{id}/bucket/deleteProcess/{itemId}")
+    public String deletItemFromBucket(@PathVariable("id") int id, @PathVariable("itemId") int itemId, Model model){
+
+        orderService.removeFromBucket(itemId, id);
+
+        return "redirect:/user/"+id+"bucket";
+    }*/
+
     @PostMapping("/user/{id}/orderProcess")
     public String addItemProcess(@PathVariable("id") int id, @ModelAttribute("order") Order order){
 
-        //order.setUser(userService.getById(id));
-//        List<Item> itemList;
-//        if(order.getItems()!=null)
-//            itemList = new ArrayList<>(order.getItems());
-//        else
-//            itemList = new ArrayList<>();
-//
-//        itemList.add(itemService.getById(itemId));
-//
-//        order.setItems(itemList);
-
-//        orderService.save(order);
-        order.setUser(userService.getById(id));
-
-        Order order1 = orderService.userOrderList(id).get(0);
-
-        order1.setDeliveryMethod(order.getDeliveryMethod());
-        order1.setPaymentMethod(order.getPaymentMethod());
-
-        orderService.update(order1);
-
+        orderService.saveBucketToOrders(order, id);
 
         return "redirect:/user/"+id+"/items";
     }
@@ -118,27 +88,7 @@ public class ItemController {
     @PostMapping("/user/{id}/items/{itemId}/addItemToOrderProcess")
     public String addItemToOrderProcess(@PathVariable("id") int id, @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item, Model model){
 
-        List<Order> orders = orderService.userOrderList(id);
-        Order order;
-
-        if(orders.size() == 0)
-            order = new Order();
-        else
-            order = orders.get(0);
-
-
-        List<Item> itemList;
-        if(order.getItems()!=null)
-            itemList = new ArrayList<>(order.getItems());
-        else
-            itemList = new ArrayList<>();
-
-        itemList.add(item);
-        order.setItems(itemList);
-
-        order.setUser(userService.getById(id));
-
-        orderService.update(order);
+        orderService.addToBucket(item, id);
 
         return "redirect:/user/"+id+"/items";
     }

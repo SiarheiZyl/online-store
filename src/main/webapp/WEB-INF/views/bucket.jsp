@@ -9,7 +9,7 @@
     <title>Registration</title>
 </head>
 <body>
-<form:form id="addItemForm" modelAttribute="order" action="/user/${id}/orderProcess" method="post"  >
+<form:form id="addOrderForm" modelAttribute="order" action="/user/${id}/orderProcess" method="post"  >
     <table align="center">
 
         <c:forEach var="item" items="${order.items}">
@@ -49,6 +49,12 @@
             <td></td>
             <td>
                 <form:button id="order" name="order">Order</form:button>
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><a href="/user/${id}/items">ItemList</a>
             </td>
         </tr>
         <tr></tr>
