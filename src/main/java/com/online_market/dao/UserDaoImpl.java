@@ -42,15 +42,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void update(User user) {
-
-        User user_for_update = getById(user.getId());
-
-        if(user.getAddress() == null)
-            user.setAddress(user_for_update.getAddress());
-
-        if(user.getPassword().equals(""))
-            user.setPassword(user_for_update.getPassword());
-
         sessionFactory.getCurrentSession().update(user);
     }
 

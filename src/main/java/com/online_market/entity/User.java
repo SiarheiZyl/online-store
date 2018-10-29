@@ -1,8 +1,10 @@
 package com.online_market.entity;
 
+import com.online_market.entity.enums.Roles;
+
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,7 +28,6 @@ public class User {
     private String email;
 
     @Column(name = "birthdate")
-    @Temporal(TemporalType.DATE)
     private Date birthdate;
 
     @Column(name = "login")
@@ -36,7 +37,8 @@ public class User {
     private String password;
 
     @Column(name = "role")
-    private int role;
+    @Enumerated(EnumType.STRING)
+    private Roles role;
 
     @ManyToOne
     @JoinColumn(name="addr_id")
@@ -97,13 +99,8 @@ public class User {
         return birthdate;
     }
 
-    public void setBirthdate(String birthdate) {
-        try {
-            Date d = new SimpleDateFormat("YYYY-MM-DD").parse(birthdate);
-            this.birthdate = d;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
     public String getLogin() {
@@ -122,11 +119,11 @@ public class User {
         this.password = password;
     }
 
-    public int getRole() {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
 

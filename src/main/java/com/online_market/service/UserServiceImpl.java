@@ -33,6 +33,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
+
+        User user_for_update = getById(user.getId());
+
+        if(user.getAddress() == null)
+            user.setAddress(user_for_update.getAddress());
+
+        if(user.getPassword().equals(""))
+            user.setPassword(user_for_update.getPassword());
+        if(user.getRole() == null)
+            user.setRole(user_for_update.getRole());
+
         userDao.update(user);
     }
 

@@ -10,11 +10,11 @@
 <form:form id="infoForm" modelAttribute="user" action="/updateUser" method="post" var="placeHolderForPassword" >
     <table align="center">
         <tr>
+<%--            <td>
+            <form:label path="id">ID</form:label>
+        </td>--%>
             <td>
-                <form:label path="id">ID</form:label>
-            </td>
-            <td>
-                <form:input path="id" name="id" id="id"  />
+                <form:hidden path="id" name="id" id="id"  />
             </td>
         </tr>
         <tr>
@@ -70,7 +70,7 @@
                 <form:label path="role" >Role</form:label>
             </td>
             <td>
-                <form:input path="role" name="role" id="role" />
+                <form:label path="role" name="role" id="role">${user.role}</form:label>
             </td>
         </tr>
         <tr>
@@ -94,6 +94,11 @@
         <tr>
             <td></td>
             <td><a href="/user/${user.id}/bucket">Bucket</a>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><a href="/user/${user.id}/address">Edit address</a>
             </td>
         </tr>
     </table>
