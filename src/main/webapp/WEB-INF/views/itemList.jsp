@@ -47,6 +47,11 @@
         <td><a href="/user/${id}/bucket">Bucket</a>
         </td>
     </tr>
+    <tr>
+        <td></td>
+        <td><a href="/user/${id}">User Info</a>
+        </td>
+    </tr>
 </table>
 </body>
 </html>

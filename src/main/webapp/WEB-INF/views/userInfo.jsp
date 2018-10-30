@@ -1,5 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@page import="com.online_market.entity.enums.Roles"%>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -101,6 +103,13 @@
             <td><a href="/user/${user.id}/address">Edit address</a>
             </td>
         </tr>
+        <c:if test="${user.role==Roles.ADMIN}">
+        <tr>
+            <td></td>
+            <td><a href="/user/${user.id}/editOrders">Orders</a>
+            </td>
+        </tr>
+        </c:if>
     </table>
 </form:form>
 </body>

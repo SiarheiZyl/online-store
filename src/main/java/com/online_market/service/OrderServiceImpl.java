@@ -33,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void update(Order order) {
+ /*       Order order1 = getById(order.getOrderId());
+        order.setUser(order1.getUser());*/
         orderDao.update(order);
     }
 
@@ -95,5 +97,17 @@ public class OrderServiceImpl implements OrderService {
         userBucket.setItems(items);
 
         update(userBucket);
+    }
+
+    @Override
+    public List<Order> getAllTrackedOrders() {
+        List<Order> orders = orderDao.getAllOrders();
+
+        for (Order order : orderDao.getAllOrders()) {
+            if(order.getDeliveryMethod()==null && order.getPaymentMethod()==null)
+                orders.remove(order);
+        }
+
+        return orders;
     }
 }

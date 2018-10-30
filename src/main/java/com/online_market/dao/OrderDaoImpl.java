@@ -1,7 +1,6 @@
 package com.online_market.dao;
 
 import com.online_market.entity.Order;
-import com.online_market.entity.User;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -54,4 +53,11 @@ public class OrderDaoImpl implements OrderDao {
         return list;
     }
 
+    @Override
+    public List<Order> getAllOrders() {
+        String s = "select e from Order e";
+        Query query = sessionFactory.getCurrentSession().createQuery(s);
+
+        return query.getResultList();
+    }
 }
