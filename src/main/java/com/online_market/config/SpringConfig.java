@@ -9,7 +9,11 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -63,5 +67,28 @@ public class SpringConfig {
                 "hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 
         return properties;
+    }
+
+
+    @Bean
+    public ViewResolver viewResolver() {
+
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setViewClass(JstlView.class);
+        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setSuffix(".jsp");
+
+        return viewResolver;
+    }
+
+    @Bean
+    public UrlBasedViewResolver setupViewResolver() {
+
+        UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+        resolver.setPrefix("/WEB-INF/pages/");
+        resolver.setSuffix(".jsp");
+        resolver.setViewClass(JstlView.class);
+
+        return resolver;
     }
 }

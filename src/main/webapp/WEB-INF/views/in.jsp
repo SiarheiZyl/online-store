@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Siarhei
@@ -9,11 +10,19 @@
 <html>
 <head>
     <title>Online store</title>
+
+    <link href="<c:url value="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"/>" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <link href="<c:url value='../../resources/css/index.css' />" rel="stylesheet">
+
 </head>
 <body>
-<h1 align="center">Welcome to online store</h1>
+<h1 align="center" class="display-1" style="color: #5949c8;">Welcome to online store</h1>
+<div align="center" style="font-size: 20pt; margin-top: 10%">
 <a  href="login">Login</a>
 <a href="register">Registration</a>
-<p>${login}</p>
+</div>
 </body>
 </html>

@@ -8,44 +8,30 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Login Page</title>
+
+    <link href="<c:url value="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"/>" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <link href="<c:url value='../../resources/css/login.css' />" rel="stylesheet">
+
 </head>
 <body>
 
-<div style="margin:10px">
-  <h2>${STATUS_MESSAGE}</h2>
-    <form:form id="logForm" action="loginProcess" method="post" modelAttribute="user" >
-        <table align="center">
-            <tr>
-                <td>
-                    <form:label path="login">Username</form:label>
-                </td>
-                <td>
-                    <form:input path="login" name="login" id="login" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <form:label path="password">Password</form:label>
-                </td>
-                <td>
-                    <form:password path="password" name="password" id="password" />
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <form:button id="log" name="log">Log in</form:button>
-                </td>
-            </tr>
-            <tr></tr>
-            <tr>
-                <td></td>
-                <td><a href="register">Not registred yet?</a>
-                </td>
-            </tr>
-        </table>
-    </form:form>
-</div>
+<h2>${STATUS_MESSAGE}</h2>
+<form:form id="logForm" action="loginProcess" method="post" modelAttribute="user" class="form-signin" >
+        <h1 class="h3 mb-3 font-weight-normal" align="center">Please sign in</h1>
+        <label for="login" class="sr-only">Login</label>
+        <form:input path="login" name="login" id="login" class="form-control" placeholder="Login"  />
+        <label for="password" class="sr-only">Password</label>
+
+        <form:password path="password" name="password" id="password" class="form-control" placeholder="Password"/>
+
+        <form:button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</form:button>
+
+<a href="register" id="notReg">Not registred yet?</a>
+</form:form>
+
 
 </body>
 </html>
