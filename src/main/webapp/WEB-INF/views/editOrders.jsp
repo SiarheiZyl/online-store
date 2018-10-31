@@ -13,6 +13,7 @@
 <html>
 <head>
     <title>Orders</title>
+    <jsp:include page="layout.jsp"/>
 </head>
 <body>
 <c:forEach var="order" items="${orders}">

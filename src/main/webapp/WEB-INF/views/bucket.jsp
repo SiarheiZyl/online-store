@@ -7,6 +7,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Registration</title>
+    <jsp:include page="layout.jsp"/>
 </head>
 <body>
 <form:form id="addOrderForm" modelAttribute="order" action="/user/${id}/orderProcess" method="post"  >

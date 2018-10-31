@@ -33,6 +33,7 @@ public class UserController {
         if (userService.getById(id).isAuth()) {
             model.addAttribute("user", userService.getById(id));
             model.addAttribute("placeHolderForPassword", "New password");
+            model.addAttribute("id", id);
 
             return "userInfo";
         }

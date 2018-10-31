@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Items</title>
+    <jsp:include page="layout.jsp"/>
 </head>
 <body>
 <h3 align="center">Items</h3>
