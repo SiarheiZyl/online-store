@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
         if(user.getRole() == null)
             user.setRole(user_for_update.getRole());
 
+
         userDao.update(user);
     }
 
@@ -60,5 +61,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(User user) {
         userDao.register(user);
+    }
+
+    @Override
+    public void logout() {
+        List<User> users = findAll();
+        for (User user : users) {
+            if(user.isAuth()){
+                user.setAuth(false);
+                update(user);
+            }
+
+        }
+
+    }
+
+    @Override
+    public void authorize(int id) {
+        User user = getById(id);
+        user.setAuth(true);
+        update(user);
     }
 }

@@ -44,21 +44,11 @@ public class User {
     @JoinColumn(name="addr_id")
     private Address address;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Order> orders;
 
-
-    @Transient
+    @Column(name = "isAuth")
     private boolean isAuth;
-
-
-    public boolean isAuth() {
-        return isAuth;
-    }
-
-    public void setAuth(boolean auth) {
-        isAuth = auth;
-    }
 
     public User() {
     }
@@ -141,6 +131,14 @@ public class User {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public boolean isAuth() {
+        return isAuth;
+    }
+
+    public void setAuth(boolean auth) {
+        isAuth = auth;
     }
 }
 

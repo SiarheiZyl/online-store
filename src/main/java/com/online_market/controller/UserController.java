@@ -23,16 +23,22 @@ public class UserController {
 
     @GetMapping("/")
     public String index() {
+        userService.logout();
         return "in";
     }
 
     @GetMapping("/user/{id}")
     public String getById(@PathVariable("id") int id, Model model) {
 
-        model.addAttribute("user", userService.getById(id));
-        model.addAttribute("placeHolderForPassword", "New password");
+        if (userService.getById(id).isAuth()) {
+            model.addAttribute("user", userService.getById(id));
+            model.addAttribute("placeHolderForPassword", "New password");
 
-        return "userInfo";
+            return "userInfo";
+        }
+        else {
+            return "redirect:/";
+        }
     }
 
     @PostMapping("/updateUser")
@@ -51,12 +57,18 @@ public class UserController {
 
     @GetMapping("/user/{id}/address")
     public String getAddress(@PathVariable("id") int id, Model model){
-        Address address = userService.getById(id).getAddress() == null ? new Address() : userService.getById(id).getAddress();
+        if (userService.getById(id).isAuth()) {
+            Address address = userService.getById(id).getAddress() == null ? new Address() : userService.getById(id).getAddress();
 
-        model.addAttribute("address", address);
-        model.addAttribute("id", id);
+            model.addAttribute("address", address);
+            model.addAttribute("id", id);
 
-        return "address";
+            return "address";
+        }
+
+        else{
+            return "redirect:/";
+        }
     }
 
     @PostMapping("user/{id}/addressProcess")

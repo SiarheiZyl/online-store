@@ -20,8 +20,9 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginPage(Model model){
-        model.addAttribute("user", new User());
 
+        userService.logout();
+        model.addAttribute("user", new User());
         return "login";
     }
 
@@ -35,6 +36,7 @@ public class LoginController {
 
 
             if(loginUser != null){
+                userService.authorize(loginUser.getId());
                 return "redirect:/user/"+loginUser.getId();
             }
 

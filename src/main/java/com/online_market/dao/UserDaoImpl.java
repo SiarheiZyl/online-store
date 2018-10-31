@@ -68,6 +68,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void register(User user) {
+        user.setAuth(true);
         save(user);
     }
 }

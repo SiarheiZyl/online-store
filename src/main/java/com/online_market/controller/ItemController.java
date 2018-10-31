@@ -43,30 +43,42 @@ public class ItemController {
     @GetMapping("/user/{id}/items")
     public String itemList2(@PathVariable("id") int id, Model model){
 
-        model.addAttribute("id", id);
-        model.addAttribute("item", new Item());
-        model.addAttribute("itemList", itemService.itemList());
+        if (userService.getById(id).isAuth()) {
+            model.addAttribute("id", id);
+            model.addAttribute("item", new Item());
+            model.addAttribute("itemList", itemService.itemList());
 
-        return "itemList";
+            return "itemList";
+        }
+
+        else{
+            return "redirect:/";
+        }
     }
 
     @GetMapping("/user/{id}/bucket")
     public String addItem(@PathVariable("id") int id, Model model){
-        Order order = orderService.getBucketOrder(id) == null ? new Order() : orderService.getBucketOrder(id);
+        if (userService.getById(id).isAuth()) {
+            Order order = orderService.getBucketOrder(id) == null ? new Order() : orderService.getBucketOrder(id);
 
-        model.addAttribute("order", order);
+            model.addAttribute("order", order);
 
-        List<PaymentMethod> list = Arrays.asList(PaymentMethod.values());
-        List<DeliveryMethod> list2 = Arrays.asList(DeliveryMethod.values());
+            List<PaymentMethod> list = Arrays.asList(PaymentMethod.values());
+            List<DeliveryMethod> list2 = Arrays.asList(DeliveryMethod.values());
 
-        model.addAttribute("paymentList", list);
-        model.addAttribute("deliveryList", list2);
+            model.addAttribute("paymentList", list);
+            model.addAttribute("deliveryList", list2);
 
-        model.addAttribute("it", new Item());
+            model.addAttribute("it", new Item());
 
-        model.addAttribute("id", id);
+            model.addAttribute("id", id);
 
-        return "bucket";
+            return "bucket";
+        }
+
+        else{
+            return "redirect:/";
+        }
     }
 
 /*    @PostMapping("/user/{id}/bucket/deleteProcess/{itemId}")

@@ -18,7 +18,10 @@ public interface UserService {
 
     User validate(String username, String password);
 
+    void authorize(int id);
+
     void register(User user);
 
+    void logout();
 
 }
