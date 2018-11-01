@@ -1,6 +1,7 @@
 package com.online_market.controller;
 
 
+import com.online_market.dao.ItemDao;
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
 import com.online_market.entity.enums.DeliveryMethod;
@@ -31,6 +32,7 @@ public class ItemController {
     @Autowired
     OrderService orderService;
 
+
     @GetMapping("items")
     public String itemList(Model model){
 
@@ -47,6 +49,10 @@ public class ItemController {
             model.addAttribute("id", id);
             model.addAttribute("item", new Item());
             model.addAttribute("itemList", itemService.itemList());
+
+            //fix: userBucket
+            Order bucket = orderService.getBucketOrder(id);
+
 
             return "itemList";
         }
@@ -94,6 +100,8 @@ public class ItemController {
 
         orderService.saveBucketToOrders(order, id);
 
+
+
         return "redirect:/user/"+id+"/items";
     }
 
@@ -101,6 +109,8 @@ public class ItemController {
     public String addItemToOrderProcess(@PathVariable("id") int id, @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item, Model model){
 
         orderService.addToBucket(item, id);
+
+        //userService.test();
 
         return "redirect:/user/"+id+"/items";
     }

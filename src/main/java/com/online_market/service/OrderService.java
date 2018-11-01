@@ -24,4 +24,6 @@ public interface OrderService {
     void removeFromBucket(int itemId, int userId);
 
     List<Order> getAllTrackedOrders();
+
+    void updateQuantity(int userId, int itemId, int quantity);
 }

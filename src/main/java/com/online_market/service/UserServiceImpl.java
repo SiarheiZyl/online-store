@@ -1,5 +1,6 @@
 package com.online_market.service;
 
+import com.online_market.dao.ItemDao;
 import com.online_market.dao.UserDao;
 import com.online_market.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserDao userDao;
+
+    @Autowired
+    ItemDao itemDao;
 
     @Override
     public List<User> findAll() {
@@ -81,5 +85,13 @@ public class UserServiceImpl implements UserService {
         User user = getById(id);
         user.setAuth(true);
         update(user);
+    }
+
+    @Override
+    public void test() {
+        System.out.println(itemDao.orderedItemId(56, 2));
+        System.out.println(itemDao.orderedItemQuantity(56, 2));
+
+
     }
 }

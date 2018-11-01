@@ -24,10 +24,11 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void update(Order order) {
-        if(getById(order.getOrderId()) == null)
+ /*       if(getById(order.getOrderId()) == null)
             save(order);
         else
-            sessionFactory.getCurrentSession().update(order);
+            sessionFactory.getCurrentSession().update(order);*/
+        sessionFactory.getCurrentSession().saveOrUpdate(order);
     }
 
     @Override
@@ -60,4 +61,6 @@ public class OrderDaoImpl implements OrderDao {
 
         return query.getResultList();
     }
+
+
 }

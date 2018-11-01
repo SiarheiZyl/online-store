@@ -1,5 +1,6 @@
 package com.online_market.service;
 
+import com.online_market.dao.ItemDao;
 import com.online_market.dao.OrderDao;
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
@@ -17,6 +18,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderDao orderDao;
+
+    @Autowired
+    ItemDao itemDao;
 
     @Autowired
     UserService userService;
@@ -51,7 +55,14 @@ public class OrderServiceImpl implements OrderService {
             if(order.getDeliveryMethod()==null && order.getPaymentMethod()==null)
                 return order;
         }
-        return null;
+
+        Order userBucket = new Order();
+        List<Item> items = itemDao.itemList();
+        userBucket.setItems(items);
+        userBucket.setUser(userService.getById(userId));
+        update(userBucket);
+
+        return userBucket;
     }
 
     @Override
@@ -65,25 +76,63 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addToBucket(Item item, int userId) {
-        Order userBucket = getBucketOrder(userId);
+    public void addToBucket(Item it, int userId) {
+        Item item = itemDao.getById(it.getItemId());
 
-        if(userBucket==null) {
-            userBucket = new Order();
+        if (item.getAvailableCount()>0) {
+
+        Order userBucket = getBucketOrder(userId);
+            List<Item> itemList = userBucket.getItems()!=null ? userBucket.getItems() : new ArrayList<>();
+
+            int quantity = 0;
+
+           // boolean contains = true;
+
+/*            for (Item item1 : itemList) {
+                if(item1.getItemId()==item.getItemId()) {
+                    contains = true;
+                    break;
+                }
+            }*/
+
+
+          /*  if(!contains) {
+                quantity = 1;
+                itemList.add(item);
+            }*/
+           /* else{*/
+                for (Item item1 :itemList) {
+                    if(item1.getItemId() == item.getItemId()){
+                        item1.setAvailableCount(item1.getAvailableCount()-1);
+                    }
+                }
+            //}
+            item.setAvailableCount(item.getAvailableCount()-1);
+
+            itemDao.update(item);
+
+
+            userBucket.setUser(userService.getById(userId));
+
+            userBucket.setItems(itemList);
+
+            update(userBucket);
+
+            //if(contains) {
+                quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), item.getItemId()) + 1;
+            //}
+
+            updateQuantity(userId, item.getItemId(), quantity);
 
         }
-
-        List<Item> itemList = userBucket.getItems()!=null ? new ArrayList<>(userBucket.getItems()) : new ArrayList<>();
-        itemList.add(item);
-
-        userBucket.setUser(userService.getById(userId));
-
-        userBucket.setItems(itemList);
-
-        update(userBucket);
     }
 
- //?
+    @Override
+    public void updateQuantity(int userId, int itemId, int quantity) {
+        itemDao.updateQuantityOfOrderedItem(getBucketOrder(userId).getOrderId(), itemId, quantity);
+    }
+
+    //?
     @Override
     public void removeFromBucket(int itemId, int userId) {
         Order userBucket = getBucketOrder(userId);

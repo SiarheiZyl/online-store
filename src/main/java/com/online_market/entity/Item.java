@@ -2,6 +2,7 @@ package com.online_market.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "items")
@@ -31,7 +32,7 @@ public class Item {
     @JoinColumn(name="item_category")
     private Category category;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "item_params",
             joinColumns = { @JoinColumn(name = "item") },
@@ -104,6 +105,19 @@ public class Item {
 
     public void setParams(List<Param> params) {
         this.params = params;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return getItemId() == item.getItemId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getItemId());
     }
 
     @Override

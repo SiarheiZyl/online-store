@@ -24,4 +24,6 @@ public interface UserService {
 
     void logout();
 
+    void test();
+
 }

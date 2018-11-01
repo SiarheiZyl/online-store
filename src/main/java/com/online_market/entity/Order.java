@@ -7,6 +7,7 @@ import com.online_market.entity.enums.PaymentStatus;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="orders")
@@ -36,7 +37,7 @@ public class Order {
     @JoinColumn(name="ordering_user")
     private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "ordered_items",
             joinColumns = { @JoinColumn(name = "orders") },
@@ -102,5 +103,18 @@ public class Order {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return getOrderId() == order.getOrderId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getOrderId());
     }
 }

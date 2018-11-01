@@ -12,4 +12,14 @@ public interface ItemDao {
     List<Item> itemList();
 
     Item getById(int id);
+
+    void update(Item item);
+
+    int orderedItemQuantity(int orderId, int itemId);
+
+    public int orderedItemId(int orderId, int itemId);
+
+    void updateQuantityOfOrderedItem(int orderId, int itemId, int quantity);
+
+
 }
