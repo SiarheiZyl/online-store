@@ -100,8 +100,10 @@ public class ItemController {
     @PostMapping("/user/{id}/orderProcess")
     public String addItemProcess(@PathVariable("id") int id, @ModelAttribute("order") Order order){
 
-        orderService.saveBucketToOrders(order, id);
+        if(order.getPaymentMethod()== null || order.getDeliveryMethod()==null)
+            return "redirect+/user/"+id+"/bucket";
 
+        orderService.saveBucketToOrders(order, id);
 
 
         return "redirect:/user/"+id+"/items";
