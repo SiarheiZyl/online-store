@@ -81,12 +81,12 @@ public class OrderServiceImpl implements OrderService {
 
         if (item.getAvailableCount()>0) {
 
-        Order userBucket = getBucketOrder(userId);
+            Order userBucket = getBucketOrder(userId);
             List<Item> itemList = userBucket.getItems()!=null ? userBucket.getItems() : new ArrayList<>();
 
             int quantity = 0;
 
-           // boolean contains = true;
+            // boolean contains = true;
 
 /*            for (Item item1 : itemList) {
                 if(item1.getItemId()==item.getItemId()) {
@@ -100,12 +100,12 @@ public class OrderServiceImpl implements OrderService {
                 quantity = 1;
                 itemList.add(item);
             }*/
-           /* else{*/
-                for (Item item1 :itemList) {
-                    if(item1.getItemId() == item.getItemId()){
-                        item1.setAvailableCount(item1.getAvailableCount()-1);
-                    }
+            /* else{*/
+            for (Item item1 :itemList) {
+                if(item1.getItemId() == item.getItemId()){
+                    item1.setAvailableCount(item1.getAvailableCount()-1);
                 }
+            }
             //}
             item.setAvailableCount(item.getAvailableCount()-1);
 
@@ -119,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
             update(userBucket);
 
             //if(contains) {
-                quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), item.getItemId()) + 1;
+            quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), item.getItemId()) + 1;
             //}
 
             updateQuantity(userId, item.getItemId(), quantity);

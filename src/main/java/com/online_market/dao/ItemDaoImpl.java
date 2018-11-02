@@ -9,10 +9,14 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ItemDaoImpl implements ItemDao {
+
 
     @Autowired
     SessionFactory sessionFactory;
@@ -75,7 +79,7 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public void updateQuantityOfOrderedItem(int orderId, int itemId, int quantity) {
-        int q = orderedItemQuantity(orderId, itemId) + 1 ;
+        int q = quantity ;
         String s = "update ordered_items SET quantity = :quantity where orders = :orders AND item = :item";
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createSQLQuery(s);
@@ -85,5 +89,28 @@ public class ItemDaoImpl implements ItemDao {
         query.executeUpdate();
     }
 
+    @Override
+    public Map<Item, Integer> getNotNullItemsInBucket(int orderId) {
+        String s = "select item from ordered_items where quantity=0";
+        Query query = sessionFactory.getCurrentSession().createSQLQuery(s);
+        List<Integer> itemsId = query.list();
+        List<Item> itemList = itemList();
+
+        Map<Item, Integer> items = new HashMap<>();
+
+        for (Item item : itemList()) {
+            for (Integer i : itemsId) {
+                if (i.compareTo(item.getItemId()) == 0)
+                    itemList.remove(item);
+            }
+        }
+
+        for (Item item : itemList) {
+            items.put(item, orderedItemQuantity(orderId, item.getItemId()));
+        }
+
+
+        return items;
+    }
 
 }

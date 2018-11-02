@@ -79,6 +79,8 @@ public class ItemController {
 
             model.addAttribute("id", id);
 
+            model.addAttribute("itemMap", itemService.getBucketItems(order.getOrderId()));
+
             return "bucket";
         }
 

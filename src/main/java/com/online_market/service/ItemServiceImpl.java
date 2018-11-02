@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -24,5 +25,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item getById(int id) {
         return itemDao.getById(id);
+    }
+
+    @Override
+    public Map<Item, Integer> getBucketItems(int orderId) {
+        return itemDao.getNotNullItemsInBucket(orderId);
     }
 }

@@ -13,14 +13,15 @@
 <form:form id="addOrderForm" modelAttribute="order" action="/user/${id}/orderProcess" method="post"  >
     <table align="center">
 
-        <c:forEach var="item" items="${order.items}">
+        <c:forEach var="item" items="${itemMap}">
             <tr>
-                <td>${item.itemName}</td>
-                <td>${item.price}</td>
-                <td>${item.weight}</td>
-                <td>${item.availableCount}</td>
-                <td>${item.picture}</td>
-                <td>${item.category.categoryName}</td>
+                <td>${item.key.itemName}</td>
+                <td>${item.key.price}</td>
+                <td>${item.key.weight}</td>
+                <td>${item.key.availableCount}</td>
+                <td>${item.key.picture}</td>
+                <td>${item.key.category.categoryName}</td>
+                <td>quantity: ${item.value}</td>
             </tr>
         </c:forEach>
         <tr>
