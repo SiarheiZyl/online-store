@@ -94,10 +94,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void test() {
-        System.out.println(itemDao.orderedItemId(56, 2));
-        System.out.println(itemDao.orderedItemQuantity(56, 2));
-
-
+   /*     System.out.println(itemDao.orderedItemQuantity(84, 19));
+        itemDao.updateQuantityOfOrderedItem(84, 19, 2);
+        System.out.println(itemDao.orderedItemQuantity(84, 19));*/
     }
 
 

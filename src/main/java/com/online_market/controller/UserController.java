@@ -24,6 +24,7 @@ public class UserController {
 
     @GetMapping("/")
     public String index() {
+       // userService.test();
         userService.logout();
         return "in";
     }

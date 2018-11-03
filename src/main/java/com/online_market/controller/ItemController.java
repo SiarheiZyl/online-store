@@ -7,15 +7,13 @@ import com.online_market.entity.Order;
 import com.online_market.entity.Param;
 import com.online_market.entity.enums.DeliveryMethod;
 import com.online_market.entity.enums.PaymentMethod;
-import com.online_market.service.ItemService;
-import com.online_market.service.OrderService;
-import com.online_market.service.ParamService;
-import com.online_market.service.UserService;
+import com.online_market.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +32,9 @@ public class ItemController {
     @Autowired
     ParamService paramService;
 
+    @Autowired
+    CategoryService categoryService;
+
 
 /*    @GetMapping("items")
     public String itemList(Model model){
@@ -43,6 +44,27 @@ public class ItemController {
 
         return "itemList";
     }*/
+
+    @GetMapping("/catalog")
+    public String catalog(Model model){
+        int id = userService.getAuthirizedUserId();
+        if (userService.getById(id).isAuth()) {
+            model.addAttribute("id", id);
+            model.addAttribute("item", new Item());
+            model.addAttribute("itemList", itemService.itemList());
+            model.addAttribute("categoryList", categoryService.listCategories());
+
+            //fix: userBucket
+            Order bucket = orderService.getBucketOrder(id);
+
+
+            return "catalog";
+        }
+
+        else{
+            return "redirect:/";
+        }
+    }
 
     @GetMapping("/items")
     public String itemList2(Model model){
@@ -55,6 +77,7 @@ public class ItemController {
 
             model.addAttribute("authors", paramService.getAllAuthors());
             model.addAttribute("countries", paramService.getAllCountries());
+            model.addAttribute("category", "ALL");
 
             //fix: userBucket
             Order bucket = orderService.getBucketOrder(id);
@@ -68,14 +91,20 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/filterItems")
-    public String filteredItemList2( @ModelAttribute("params") Param params, Model model){
+    @GetMapping("/filterItems/{category}")
+    public String filteredItemList2( @ModelAttribute("params") Param params,@PathVariable("category") String category, Model model){
         int id = userService.getAuthirizedUserId();
         if (userService.getById(id).isAuth()) {
+
             model.addAttribute("id", id);
             model.addAttribute("item", new Item());
-            model.addAttribute("itemList", itemService.getFilteredItemsByAllParams(params.getAuthor(), params.getCountry(), params.getWidth(), params.getHeight()));
-
+            List<Item> itemList;
+            if(params.getWidth()==0&&params.getHeight()==0&&params.getAuthor()==null&&params.getCountry()==null)
+                itemList = itemService.itemList();
+            else
+                itemList = itemService.getFilteredItemsByAllParams(params.getAuthor(), params.getCountry(), params.getWidth(), params.getHeight());
+            model.addAttribute("itemList", itemService.getFilteredItemsByCategory(itemList, category));
+            model.addAttribute("category", category);
 
             model.addAttribute("authors", paramService.getAllAuthors());
             model.addAttribute("countries", paramService.getAllCountries());
@@ -143,13 +172,11 @@ public class ItemController {
     }
 
     @PostMapping("/items/{itemId}/addItemToOrderProcess")
-    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item, Model model){
+    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, @ModelAttribute("category") String category, @ModelAttribute("item") Item item, Model model){
         int id = userService.getAuthirizedUserId();
         orderService.addToBucket(item, id);
 
-        //userService.test();
-
-        return "redirect:/items";
+        return "redirect:/filterItems/"+itemService.getById(itemId).getCategory().getCategoryName();
     }
 
 

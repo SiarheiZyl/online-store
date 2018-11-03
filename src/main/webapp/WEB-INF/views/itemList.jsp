@@ -22,9 +22,9 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-lg-2" style="position: ">
+        <div class="col-lg-2">
             <h1 class="my-4"><i>Filtering</i></h1>
-            <form:form modelAttribute="params" action="/filterItems" method="get" >
+            <form:form modelAttribute="params" action="/filterItems/${category}" method="get" >
             <div class="list-group">
                 <div class="form-group">
                 <form:select  path="author" class="form-control">
@@ -61,7 +61,7 @@
                         <c:if test="${rowCounter.count % 3 == 1}">
                             <tr>
                         </c:if>
-                        <form:form id="addItemForm" modelAttribute="item" action="items/${item.itemId}/addItemToOrderProcess" method="post"  >
+                        <form:form id="addItemForm" modelAttribute="item" action="/items/${item.itemId}/addItemToOrderProcess" method="post"  >
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card" style="height: 600px;">
                                 <img class="card-img-top img-fluid img-thumbnail" width="300" height="200" src=/resources/images/${item.itemId}.jpg style="cursor:zoom-in;" >

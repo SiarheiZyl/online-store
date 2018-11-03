@@ -88,8 +88,22 @@ public class ItemServiceImpl implements ItemService {
         if(maxWidth>0)
             items = getFilteredItemsByMaxWidth(items, maxWidth);
         if(maxHeight>0)
-            items = getFilteredItemsByMaxWidth(items, maxHeight);
+            items = getFilteredItemsByMaxHeight(items, maxHeight);
 
         return items;
+    }
+
+    @Override
+    public List<Item> getFilteredItemsByCategory(List<Item> items, String category) {
+
+        if(category.equals("ALL"))
+            return items;
+        List<Item> result = new ArrayList<>();
+
+        for (Item item : items) {
+            if(item.getCategory().getCategoryName().toLowerCase().equals(category.toLowerCase()))
+                result.add(item);
+        }
+        return result;
     }
 }

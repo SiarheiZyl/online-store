@@ -91,8 +91,9 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Map<Item, Integer> getNotNullItemsInBucket(int orderId) {
-        String s = "select item from ordered_items where quantity=0";
+        String s = "select item from ordered_items where orders =:orders AND quantity=0";
         Query query = sessionFactory.getCurrentSession().createSQLQuery(s);
+        query.setParameter("orders", orderId);
         List<Integer> itemsId = query.list();
         List<Item> itemList = itemList();
 
@@ -108,7 +109,6 @@ public class ItemDaoImpl implements ItemDao {
         for (Item item : itemList) {
             items.put(item, orderedItemQuantity(orderId, item.getItemId()));
         }
-
 
         return items;
     }

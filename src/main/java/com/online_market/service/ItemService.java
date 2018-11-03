@@ -22,4 +22,6 @@ public interface ItemService {
     List<Item> getFilteredItemsByMaxHeight(List<Item> items, int maxHeight);
 
     List<Item> getFilteredItemsByAllParams(String author, String country, int maxWidth, int maxHeight);
+
+    List<Item> getFilteredItemsByCategory(List<Item> items, String category);
 }
