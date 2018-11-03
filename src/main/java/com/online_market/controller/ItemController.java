@@ -4,18 +4,17 @@ package com.online_market.controller;
 import com.online_market.dao.ItemDao;
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
+import com.online_market.entity.Param;
 import com.online_market.entity.enums.DeliveryMethod;
 import com.online_market.entity.enums.PaymentMethod;
 import com.online_market.service.ItemService;
 import com.online_market.service.OrderService;
+import com.online_market.service.ParamService;
 import com.online_market.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +30,9 @@ public class ItemController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    ParamService paramService;
 
 
     @GetMapping("items")
@@ -49,6 +51,10 @@ public class ItemController {
             model.addAttribute("id", id);
             model.addAttribute("item", new Item());
             model.addAttribute("itemList", itemService.itemList());
+            model.addAttribute("params", new Param());
+
+            model.addAttribute("authors", paramService.getAllAuthors());
+            model.addAttribute("countries", paramService.getAllCountries());
 
             //fix: userBucket
             Order bucket = orderService.getBucketOrder(id);
@@ -61,6 +67,32 @@ public class ItemController {
             return "redirect:/";
         }
     }
+
+    @GetMapping("/user/{id}/filterItems")
+    public String filteredItemList2(@PathVariable("id") int id, @ModelAttribute("params") Param params, Model model){
+
+        if (userService.getById(id).isAuth()) {
+            model.addAttribute("id", id);
+            model.addAttribute("item", new Item());
+            model.addAttribute("itemList", itemService.getFilteredItemsByAllParams(params.getAuthor(), params.getCountry(), params.getWidth(), params.getHeight()));
+
+
+            model.addAttribute("authors", paramService.getAllAuthors());
+            model.addAttribute("countries", paramService.getAllCountries());
+
+            //fix: userBucket
+            Order bucket = orderService.getBucketOrder(id);
+
+
+            return "itemList";
+        }
+
+        else{
+            return "redirect:/";
+        }
+    }
+
+
 
     @GetMapping("/user/{id}/bucket")
     public String addItem(@PathVariable("id") int id, Model model){
