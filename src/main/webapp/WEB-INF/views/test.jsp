@@ -43,7 +43,7 @@
             <div class="row">
 
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card " ">
+                    <div class="card " style="height: 80px;">
                         <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
                         <div class="card-body">
                             <h4 class="card-title">

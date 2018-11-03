@@ -8,6 +8,9 @@ import java.util.Objects;
 @Table(name = "items")
 public class Item {
 
+    @Transient
+    private static final String IMAGES_LOCATION = "/resources/images/";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
@@ -22,8 +25,8 @@ public class Item {
     @Column(name = "available_count")
     private int availableCount;
 
-    @Column(name = "picture")
-    private String picture;
+    @Transient
+    private String picture = IMAGES_LOCATION+itemId+".jpg" ;
 
     @ManyToOne
     @JoinColumn(name="item_category")

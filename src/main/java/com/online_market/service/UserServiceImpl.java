@@ -88,10 +88,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int getAuthirizedUserId() {
+        return userDao.getAuthirizedUserId();
+    }
+
+    @Override
     public void test() {
         System.out.println(itemDao.orderedItemId(56, 2));
         System.out.println(itemDao.orderedItemQuantity(56, 2));
 
 
     }
+
+
 }

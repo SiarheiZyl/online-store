@@ -71,4 +71,15 @@ public class UserDaoImpl implements UserDao {
         user.setAuth(true);
         save(user);
     }
+
+    @Override
+    public int getAuthirizedUserId() {
+
+
+        String s = "select e from User e where e.isAuth = true ";
+        Query query = sessionFactory.getCurrentSession().createQuery(s);
+        List<User> list  = query.list();
+
+        return list.size()>0 ? list.get(0).getId() : 0;
+    }
 }

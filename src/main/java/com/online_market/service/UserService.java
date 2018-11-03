@@ -26,4 +26,6 @@ public interface UserService {
 
     void test();
 
+    int getAuthirizedUserId();
+
 }

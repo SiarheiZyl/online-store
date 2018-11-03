@@ -20,4 +20,6 @@ public interface UserDao {
 
     void register(User user);
 
+    int getAuthirizedUserId();
+
 }

@@ -81,9 +81,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getFilteredItemsByAllParams(String author, String country, int maxWidth, int maxHeight) {
         List<Item> items = itemList();
-        if(!author.equals(""))
+        if(author==null || !author.equals(""))
             items = getFilteredItemsByAuthor(items, author);
-        if(!country.equals(""))
+        if(country==null || !country.equals(""))
             items = getFilteredItemsByCountry(items, country);
         if(maxWidth>0)
             items = getFilteredItemsByMaxWidth(items, maxWidth);

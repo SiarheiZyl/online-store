@@ -35,18 +35,18 @@ public class ItemController {
     ParamService paramService;
 
 
-    @GetMapping("items")
+/*    @GetMapping("items")
     public String itemList(Model model){
 
         model.addAttribute("item", new Item());
         model.addAttribute("itemList", itemService.itemList());
 
         return "itemList";
-    }
+    }*/
 
-    @GetMapping("/user/{id}/items")
-    public String itemList2(@PathVariable("id") int id, Model model){
-
+    @GetMapping("/items")
+    public String itemList2(Model model){
+        int id = userService.getAuthirizedUserId();
         if (userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
             model.addAttribute("item", new Item());
@@ -68,9 +68,9 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/user/{id}/filterItems")
-    public String filteredItemList2(@PathVariable("id") int id, @ModelAttribute("params") Param params, Model model){
-
+    @GetMapping("/filterItems")
+    public String filteredItemList2( @ModelAttribute("params") Param params, Model model){
+        int id = userService.getAuthirizedUserId();
         if (userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
             model.addAttribute("item", new Item());
@@ -94,8 +94,9 @@ public class ItemController {
 
 
 
-    @GetMapping("/user/{id}/bucket")
-    public String addItem(@PathVariable("id") int id, Model model){
+    @GetMapping("/bucket")
+    public String addItem(Model model){
+        int id = userService.getAuthirizedUserId();
         if (userService.getById(id).isAuth()) {
             Order order = orderService.getBucketOrder(id) == null ? new Order() : orderService.getBucketOrder(id);
 
@@ -129,26 +130,26 @@ public class ItemController {
         return "redirect:/user/"+id+"bucket";
     }*/
 
-    @PostMapping("/user/{id}/orderProcess")
-    public String addItemProcess(@PathVariable("id") int id, @ModelAttribute("order") Order order){
-
+    @PostMapping("/orderProcess")
+    public String addItemProcess( @ModelAttribute("order") Order order){
+        int id = userService.getAuthirizedUserId();
         if(order.getPaymentMethod()== null || order.getDeliveryMethod()==null)
-            return "redirect+/user/"+id+"/bucket";
+            return "redirect:/bucket";
 
         orderService.saveBucketToOrders(order, id);
 
 
-        return "redirect:/user/"+id+"/items";
+        return "redirect:/items";
     }
 
-    @PostMapping("/user/{id}/items/{itemId}/addItemToOrderProcess")
-    public String addItemToOrderProcess(@PathVariable("id") int id, @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item, Model model){
-
+    @PostMapping("/items/{itemId}/addItemToOrderProcess")
+    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item, Model model){
+        int id = userService.getAuthirizedUserId();
         orderService.addToBucket(item, id);
 
         //userService.test();
 
-        return "redirect:/user/"+id+"/items";
+        return "redirect:/items";
     }
 
 
