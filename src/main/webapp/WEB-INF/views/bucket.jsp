@@ -22,7 +22,7 @@
                 <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
                     <h4 class="product-name"><strong>${item.key.itemName}</strong></h4>
                     <h4>
-                        <small style="font-size: 10pt">Weight: ${item.key.weight}<br> Category: ${item.key.category.categoryName}<br>Availible:${item.key.availableCount} </small>
+                        <small style="font-size: 10pt"> Category: ${item.key.category.categoryName}<br>Availible:${item.key.availableCount} </small>
                     </h4>
                 </div>
 

@@ -19,9 +19,6 @@ public class Item {
     @Column(name = "price")
     private double price;
 
-    @Column(name = "weight")
-    private double weight;
-
     @Column(name = "available_count")
     private int availableCount;
 
@@ -32,13 +29,17 @@ public class Item {
     @JoinColumn(name="item_category")
     private Category category;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "item_params",
-            joinColumns = { @JoinColumn(name = "item") },
-            inverseJoinColumns = { @JoinColumn(name = "param") }
-    )
-    private List<Param> params;
+    @OneToOne
+    @JoinColumn(name="params")
+    private Param params;
+
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "item_params",
+//            joinColumns = { @JoinColumn(name = "item") },
+//            inverseJoinColumns = { @JoinColumn(name = "param") }
+//    )
+//    private List<Param> params;
 
     public Item() {
     }
@@ -67,13 +68,6 @@ public class Item {
         this.price = price;
     }
 
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
 
     public int getAvailableCount() {
         return availableCount;
@@ -99,11 +93,11 @@ public class Item {
         this.category = category;
     }
 
-    public List<Param> getParams() {
+    public Param getParams() {
         return params;
     }
 
-    public void setParams(List<Param> params) {
+    public void setParams(Param params) {
         this.params = params;
     }
 

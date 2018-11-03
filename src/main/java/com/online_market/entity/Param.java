@@ -11,8 +11,20 @@ public class Param {
     @Column(name = "param_id")
     private int paramId;
 
-    @Column(name = "param_name")
-    private String paramName;
+    @Column(name = "author")
+    private String author;
+
+    @Column(name = "width")
+    private int width;
+
+    @Column(name = "height")
+    private int height;
+
+    @Column(name = "country")
+    private String country;
+
+    @OneToOne(mappedBy = "params")
+    private Item item;
 
     public Param() {
     }
@@ -25,11 +37,43 @@ public class Param {
         this.paramId = paramId;
     }
 
-    public String getParamName() {
-        return paramName;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setParamName(String paramName) {
-        this.paramName = paramName;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 }

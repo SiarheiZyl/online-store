@@ -22,10 +22,6 @@
                 </td>
 
                 <td>
-                    <form:label path="weight">${item.weight}</form:label>
-                </td>
-
-                <td>
                     <form:label path="availableCount">${item.availableCount}</form:label>
                 </td>
 

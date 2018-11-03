@@ -57,6 +57,6 @@ public class AdminController {
 
         orderService.update(order1);
 
-        return "redirect:/user/" + id ;
+        return "redirect:/user/"+id+"/editOrders" ;
     }
 }
