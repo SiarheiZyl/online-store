@@ -30,7 +30,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Map<Item, Integer> getBucketItems(int orderId) {
+    public void update(Item item) {
+        itemDao.update(item);
+    }
+
+    @Override
+    public Map<Item, Integer> getOrderNotNullItems(int orderId) {
         return itemDao.getNotNullItemsInBucket(orderId);
     }
 

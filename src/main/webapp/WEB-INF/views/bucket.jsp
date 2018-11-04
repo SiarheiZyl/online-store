@@ -1,10 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Registration</title>
+    <title>Basket</title>
     <jsp:include page="layout.jsp"/>
     <link href="<c:url value='../../resources/css/bucket.css' />" rel="stylesheet">
 </head>
@@ -31,9 +33,7 @@
                     </div>
                     <div class="col-4 col-sm-4 .col-md-4">
                         <div class="quantity">
-
-                            <input type="number" step="1" max="99" min="1" value= ${item.value} title="Qty" class="qty"
-                                    id="#qty_input">
+                            <input type="number" step="1" max="99" min="1" value= ${item.value} title="Qty" class="qty" id="#qty_input">
                         </div>
                     </div>
                     <div class="col-2 col-sm-2 col-md-2 text-right">

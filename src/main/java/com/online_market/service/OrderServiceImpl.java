@@ -4,12 +4,16 @@ import com.online_market.dao.ItemDao;
 import com.online_market.dao.OrderDao;
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
+import com.online_market.entity.enums.OrderStatus;
+import com.online_market.entity.enums.PaymentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -24,6 +28,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+   ItemService itemService;
 
     @Override
     public void save(Order order) {
@@ -65,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
         return userBucket;
     }
 
-    @Override
+   @Override
     public void saveBucketToOrders(Order order, int userId) {
         Order order1 = getBucketOrder(userId);
 
@@ -74,6 +81,24 @@ public class OrderServiceImpl implements OrderService {
 
         update(order1);
     }
+
+/*    @Override
+    public void saveBucketToOrders(Order order, int userId) {
+        Order order1 = getBucketOrder(userId);
+
+        Map<Item, Integer> itemQuantity = itemDao.getNotNullItemsInBucket(order1.getOrderId());
+        List<Item> itemList = new ArrayList<>(itemQuantity.keySet());
+
+        order1.setDeliveryMethod(order.getDeliveryMethod());
+        order1.setPaymentMethod(order.getPaymentMethod());
+        order1.setItems(itemList);
+        for (Item item : itemList) {
+            setQuantity(order1.getOrderId(), item.getItemId(), itemQuantity.get(item));
+        }
+        update(order1);
+
+
+    }*/
 
     @Override
     public void addToBucket(Item it, int userId) {
@@ -132,6 +157,11 @@ public class OrderServiceImpl implements OrderService {
         itemDao.updateQuantityOfOrderedItem(getBucketOrder(userId).getOrderId(), itemId, quantity);
     }
 
+    @Override
+    public void setQuantity(int orderId, int itemId, int quantity) {
+        itemDao.updateQuantityOfOrderedItem(orderId, itemId, quantity);
+    }
+
     //?
     @Override
     public void removeFromBucket(int itemId, int userId, int quantity) {
@@ -151,5 +181,64 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return orders;
+    }
+
+    @Override
+    public List<Order> getAllTrackedOrdersById(int userId) {
+        List<Order> result = new ArrayList<>();
+
+        for (Order order : getAllTrackedOrders()) {
+            if(order.getUser().getId() == userId)
+                result.add(order);
+        }
+        return result;
+    }
+
+    @Override
+    public Map<Order, Map<Item, Integer>> getHistoryOfOrders(int userId) {
+        Map<Order, Map<Item, Integer>> result = new HashMap<>();
+
+        List<Order> orders = getAllTrackedOrdersById(userId);
+        for (Order order : orders) {
+            Map<Item, Integer> map = itemService.getOrderNotNullItems(order.getOrderId());
+            result.put(order, map);
+        }
+      return result;
+    }
+
+    @Override
+    public void repeatOrder(Order repeatedOrder, int orderId) {
+/*
+
+        Map<Item, Integer> items = itemService.getOrderNotNullItems(orderId);
+
+
+        update(repeatedOrder);
+
+        orderId = repeatedOrder.getOrderId();
+
+
+
+        for (Item item : repeatedOrder.getItems()) {
+            for (Map.Entry<Item, Integer> itemEntry : items.entrySet()) {
+                if(item.getItemId()== itemEntry.getKey().getItemId()){
+                    for (int i = 0; i < itemEntry.getValue(); i++) {
+                        int availibleCount = item.getAvailableCount();
+                        if(availibleCount==0)
+                            break;
+                        else{
+                            availibleCount--;
+                            item.setAvailableCount(availibleCount);
+                            itemService.update(item);
+                            updateQuantity(userService.getAuthirizedUserId(), orderId, itemDao.orderedItemQuantity(orderId,item.getItemId())+1);
+                        }
+                    }
+                }
+            }
+
+        }
+*/
+
+
     }
 }

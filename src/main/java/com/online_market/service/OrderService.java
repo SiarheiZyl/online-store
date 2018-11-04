@@ -4,6 +4,7 @@ import com.online_market.entity.Item;
 import com.online_market.entity.Order;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
 
@@ -25,5 +26,13 @@ public interface OrderService {
 
     List<Order> getAllTrackedOrders();
 
+    List<Order> getAllTrackedOrdersById(int userId);
+
     void updateQuantity(int userId, int itemId, int quantity);
+
+    void setQuantity(int orderId, int itemId, int quantity);
+
+    Map <Order, Map<Item, Integer>> getHistoryOfOrders(int userId);
+
+    void repeatOrder(Order repeatedOrder, int orderId);
 }

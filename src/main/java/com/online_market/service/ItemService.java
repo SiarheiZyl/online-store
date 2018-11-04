@@ -11,7 +11,9 @@ public interface ItemService {
 
     Item getById(int id);
 
-    Map<Item, Integer> getBucketItems(int orderId);
+    void update(Item item);
+
+    Map<Item, Integer> getOrderNotNullItems(int orderId);
 
     List<Item> getFilteredItemsByAuthor(List<Item> items, String author);
 

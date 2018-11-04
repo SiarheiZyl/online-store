@@ -1,7 +1,6 @@
 package com.online_market.controller;
 
 
-import com.online_market.dao.ItemDao;
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
 import com.online_market.entity.Param;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,6 +48,7 @@ public class ItemController {
         int id = userService.getAuthirizedUserId();
         if (userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
+            model.addAttribute("user", userService.getById(id));
             model.addAttribute("item", new Item());
             model.addAttribute("itemList", itemService.itemList());
             model.addAttribute("categoryList", categoryService.listCategories());
@@ -71,6 +70,7 @@ public class ItemController {
         int id = userService.getAuthirizedUserId();
         if (userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
+            model.addAttribute("user", userService.getById(id));
             model.addAttribute("item", new Item());
             model.addAttribute("itemList", itemService.itemList());
             model.addAttribute("params", new Param());
@@ -97,6 +97,7 @@ public class ItemController {
         if (userService.getById(id).isAuth()) {
 
             model.addAttribute("id", id);
+            model.addAttribute("user", userService.getById(id));
             model.addAttribute("item", new Item());
             List<Item> itemList;
             if(params.getWidth()==0&&params.getHeight()==0&&params.getAuthor()==null&&params.getCountry()==null)
@@ -139,8 +140,9 @@ public class ItemController {
             model.addAttribute("it", new Item());
 
             model.addAttribute("id", id);
+            model.addAttribute("user", userService.getById(id));
 
-            model.addAttribute("itemMap", itemService.getBucketItems(order.getOrderId()));
+            model.addAttribute("itemMap", itemService.getOrderNotNullItems(order.getOrderId()));
 
             return "bucket";
         }
@@ -148,6 +150,34 @@ public class ItemController {
         else{
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/orderHistory")
+    public String orderHistory(Model model){
+        int id = userService.getAuthirizedUserId();
+        if (userService.getById(id).isAuth()) {
+
+
+            model.addAttribute("ord", new Order());
+
+            model.addAttribute("orders", orderService.getHistoryOfOrders(id));
+
+            model.addAttribute("id", id);
+            model.addAttribute("user", userService.getById(id));
+
+            return "orderHistory";
+        }
+
+        else{
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping("/repeatOrderProcess/{orderId}")
+    public String repeatOrderItemProcess( @PathVariable("orderId") int orderId){
+        int id = userService.getAuthirizedUserId();
+
+        return "redirect:/orderHistory";
     }
 
     @PostMapping("/bucket/deleteProcess/{itemId}/{quantity}")

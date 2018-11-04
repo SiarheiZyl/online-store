@@ -64,7 +64,7 @@ public class ItemDaoImpl implements ItemDao {
         query.setParameter("item", itemId);
         List list = query.list();
 
-        return list == null ? 0 : (Integer)list.get(0);
+        return list.size()==0 ? 0 : (Integer)list.get(0);
     }
     @Override
     public int orderedItemId(int orderId, int itemId) {
@@ -91,18 +91,18 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Map<Item, Integer> getNotNullItemsInBucket(int orderId) {
-        String s = "select item from ordered_items where orders =:orders AND quantity=0";
+        String s = "select item from ordered_items where orders =:orders AND quantity >0";
         Query query = sessionFactory.getCurrentSession().createSQLQuery(s);
         query.setParameter("orders", orderId);
         List<Integer> itemsId = query.list();
-        List<Item> itemList = itemList();
+        List<Item> itemList = new ArrayList<>();
 
         Map<Item, Integer> items = new HashMap<>();
 
         for (Item item : itemList()) {
-            for (Integer i : itemsId) {
-                if (i.compareTo(item.getItemId()) == 0)
-                    itemList.remove(item);
+            for (int i : itemsId) {
+                if (i==item.getItemId())
+                    itemList.add(item);
             }
         }
 
