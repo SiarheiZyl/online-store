@@ -1,8 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@page import="com.online_market.entity.enums.PaymentMethod"%>
-<%@page import="com.online_market.entity.enums.DeliveryMethod"%>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -13,8 +11,9 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 <div class="card-body">
-<form:form id="addOrderForm" modelAttribute="order" action="/orderProcess" method="post"  >
+
         <c:forEach var="item" items="${itemMap}">
+            <form:form id="deleteItemForm" modelAttribute="order" action="/bucket/deleteProcess/${item.key.itemId}/${item.value}" method="post"  >
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-2 text-center">
                     <img class="img-responsive img-thumbnail" src=/resources/images/${item.key.itemId}.jpg  width="120" height="80">
@@ -38,16 +37,14 @@
                         </div>
                     </div>
                     <div class="col-2 col-sm-2 col-md-2 text-right">
-                        <button type="button" class="btn btn-outline-danger btn-xs">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </button>
+                        <form:button id="order" name="order" class="btn btn-outline-danger btn-xs" ><i class="fa fa-trash" aria-hidden="true"></i></form:button>
                     </div>
                 </div>
             </div>
-
+            </form:form>
         </c:forEach>
-    <c:if test="${itemMap.size()!=0}">
-
+<c:if test="${itemMap.size()!=0}">
+ <form:form id="addOrderForm" modelAttribute="order" action="/orderProcess" method="post"  >
     <div class="card-footer pull-bottom">
         <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
             <div class="row ">
@@ -75,8 +72,9 @@
                 Total price: <b>50.00</b>
             </div>
         </div>
-    </c:if>
-</form:form>
+ </form:form>
+</c:if>
+
 </div>
 </body>
 </html>

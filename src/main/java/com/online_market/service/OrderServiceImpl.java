@@ -134,18 +134,11 @@ public class OrderServiceImpl implements OrderService {
 
     //?
     @Override
-    public void removeFromBucket(int itemId, int userId) {
-        Order userBucket = getBucketOrder(userId);
-
-        List<Item> items = userBucket.getItems();
-        for (Item item : userBucket.getItems()) {
-            if(item.getItemId()==itemId)
-                items.remove(item);
-        }
-
-        userBucket.setItems(items);
-
-        update(userBucket);
+    public void removeFromBucket(int itemId, int userId, int quantity) {
+        Item item = itemDao.getById(itemId);
+        item.setAvailableCount(item.getAvailableCount()+quantity);
+        itemDao.update(item);
+        updateQuantity(userId, itemId, 0);
     }
 
     @Override

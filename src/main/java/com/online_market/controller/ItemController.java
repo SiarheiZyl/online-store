@@ -104,7 +104,6 @@ public class ItemController {
             else
                 itemList = itemService.getFilteredItemsByAllParams(params.getAuthor(), params.getCountry(), params.getWidth(), params.getHeight());
             model.addAttribute("itemList", itemService.getFilteredItemsByCategory(itemList, category));
-            model.addAttribute("category", category);
 
             model.addAttribute("authors", paramService.getAllAuthors());
             model.addAttribute("countries", paramService.getAllCountries());
@@ -151,13 +150,13 @@ public class ItemController {
         }
     }
 
-/*    @PostMapping("/user/{id}/bucket/deleteProcess/{itemId}")
-    public String deletItemFromBucket(@PathVariable("id") int id, @PathVariable("itemId") int itemId, Model model){
+    @PostMapping("/bucket/deleteProcess/{itemId}/{quantity}")
+    public String deletItemFromBucket( @PathVariable("itemId") int itemId, @PathVariable("quantity") int quantity){
+        int id = userService.getAuthirizedUserId();
+        orderService.removeFromBucket(itemId, id, quantity);
 
-        orderService.removeFromBucket(itemId, id);
-
-        return "redirect:/user/"+id+"bucket";
-    }*/
+        return "redirect:/bucket";
+    }
 
     @PostMapping("/orderProcess")
     public String addItemProcess( @ModelAttribute("order") Order order){
@@ -172,7 +171,7 @@ public class ItemController {
     }
 
     @PostMapping("/items/{itemId}/addItemToOrderProcess")
-    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, @ModelAttribute("category") String category, @ModelAttribute("item") Item item, Model model){
+    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item){
         int id = userService.getAuthirizedUserId();
         orderService.addToBucket(item, id);
 
