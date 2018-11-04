@@ -45,9 +45,6 @@
                         <div style="margin-bottom: 5px">
                         <form:button id="repeatOrder" class="btn btn-outline-dark btn-sm pull-bottom" >Repeat Order</form:button>
                         </div>
-                            <%--<a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-ok" href="#" title="View"></a>
-                        <a data-placement="top" class="btn btn-danger  btn-xs glyphicon glyphicon-trash" href="#" title="Danger"></a>
-                        <a data-placement="top" class="btn btn-info  btn-xs glyphicon glyphicon-usd" href="#" title="Danger"></a>--%>
                     </div>
                 </div>
             </div>
