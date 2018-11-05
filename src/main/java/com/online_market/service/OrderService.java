@@ -3,6 +3,7 @@ package com.online_market.service;
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -35,4 +36,8 @@ public interface OrderService {
     Map <Order, Map<Item, Integer>> getHistoryOfOrders(int userId);
 
     void repeatOrder(Order repeatedOrder, int orderId);
+
+    void addItemToSession(int itemId, HttpSession session);
+
+    void addFromSessionToBucket(Map <Item, Integer> itemMap, int userId);
 }

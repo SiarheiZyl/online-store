@@ -13,6 +13,8 @@ public interface ItemService {
 
     void update(Item item);
 
+    void changeAvailibleCount(int itemId, int delta);
+
     Map<Item, Integer> getOrderNotNullItems(int orderId);
 
     List<Item> getFilteredItemsByAuthor(List<Item> items, String author);

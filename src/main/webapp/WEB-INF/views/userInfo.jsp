@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Registration</title>
+    <title>User Info</title>
     <jsp:include page="layout.jsp"/>
     <link href="<c:url value='../../resources/css/registration.css' />" rel="stylesheet">
 </head>

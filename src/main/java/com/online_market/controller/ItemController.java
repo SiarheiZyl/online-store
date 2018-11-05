@@ -12,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ItemController {
@@ -34,122 +37,128 @@ public class ItemController {
     CategoryService categoryService;
 
 
-/*    @GetMapping("items")
-    public String itemList(Model model){
+    @GetMapping("/catalog")
+    public String catalog(Model model , HttpSession session){
 
         model.addAttribute("item", new Item());
         model.addAttribute("itemList", itemService.itemList());
+        model.addAttribute("categoryList", categoryService.listCategories());
 
-        return "itemList";
-    }*/
-
-    @GetMapping("/catalog")
-    public String catalog(Model model){
         int id = userService.getAuthirizedUserId();
-        if (userService.getById(id).isAuth()) {
+
+        if (id!=0 && userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
-            model.addAttribute("item", new Item());
-            model.addAttribute("itemList", itemService.itemList());
-            model.addAttribute("categoryList", categoryService.listCategories());
 
             //fix: userBucket
             Order bucket = orderService.getBucketOrder(id);
-
-
-            return "catalog";
         }
 
         else{
-            return "redirect:/";
+            Map<Item, Integer> itemMap = new HashMap<>();
+            if(session.getAttribute("basket")==null)
+            session.setAttribute("basket", itemMap);
         }
+
+        return "catalog";
     }
 
     @GetMapping("/items")
-    public String itemList2(Model model){
+    public String itemList2(Model model, HttpSession session){
+
+        model.addAttribute("item", new Item());
+        model.addAttribute("itemList", itemService.itemList());
+        model.addAttribute("params", new Param());
+
+        model.addAttribute("authors", paramService.getAllAuthors());
+        model.addAttribute("countries", paramService.getAllCountries());
+        model.addAttribute("category", "ALL");
+
         int id = userService.getAuthirizedUserId();
-        if (userService.getById(id).isAuth()) {
+        if (id!=0 && userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
-            model.addAttribute("item", new Item());
-            model.addAttribute("itemList", itemService.itemList());
-            model.addAttribute("params", new Param());
-
-            model.addAttribute("authors", paramService.getAllAuthors());
-            model.addAttribute("countries", paramService.getAllCountries());
-            model.addAttribute("category", "ALL");
 
             //fix: userBucket
             Order bucket = orderService.getBucketOrder(id);
-
-
-            return "itemList";
         }
 
         else{
-            return "redirect:/";
+            Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
         }
+
+        return "itemList";
     }
 
     @GetMapping("/filterItems/{category}")
-    public String filteredItemList2( @ModelAttribute("params") Param params,@PathVariable("category") String category, Model model){
+    public String filteredItemList2( @ModelAttribute("params") Param params,@PathVariable("category") String category, Model model, HttpSession session){
+
+        model.addAttribute("item", new Item());
+        List<Item> itemList;
+        if(params.getWidth()==0&&params.getHeight()==0&&params.getAuthor()==null&&params.getCountry()==null)
+            itemList = itemService.itemList();
+        else
+            itemList = itemService.getFilteredItemsByAllParams(params.getAuthor(), params.getCountry(), params.getWidth(), params.getHeight());
+
+        model.addAttribute("itemList", itemService.getFilteredItemsByCategory(itemList, category));
+
+        model.addAttribute("authors", paramService.getAllAuthors());
+        model.addAttribute("countries", paramService.getAllCountries());
+
         int id = userService.getAuthirizedUserId();
-        if (userService.getById(id).isAuth()) {
+        if (id!=0 && userService.getById(id).isAuth()) {
 
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
-            model.addAttribute("item", new Item());
-            List<Item> itemList;
-            if(params.getWidth()==0&&params.getHeight()==0&&params.getAuthor()==null&&params.getCountry()==null)
-                itemList = itemService.itemList();
-            else
-                itemList = itemService.getFilteredItemsByAllParams(params.getAuthor(), params.getCountry(), params.getWidth(), params.getHeight());
-            model.addAttribute("itemList", itemService.getFilteredItemsByCategory(itemList, category));
-
-            model.addAttribute("authors", paramService.getAllAuthors());
-            model.addAttribute("countries", paramService.getAllCountries());
 
             //fix: userBucket
             Order bucket = orderService.getBucketOrder(id);
-
-
-            return "itemList";
         }
 
         else{
-            return "redirect:/";
+            Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
         }
+
+        return "itemList";
     }
 
 
 
     @GetMapping("/bucket")
-    public String addItem(Model model){
+    public String getBucket(Model model, HttpSession session){
+
+        List<PaymentMethod> list = Arrays.asList(PaymentMethod.values());
+        List<DeliveryMethod> list2 = Arrays.asList(DeliveryMethod.values());
+
+        model.addAttribute("paymentList", list);
+        model.addAttribute("deliveryList", list2);
+
+        model.addAttribute("it", new Item());
+
         int id = userService.getAuthirizedUserId();
-        if (userService.getById(id).isAuth()) {
+        if (id != 0 && userService.getById(id).isAuth()) {
+            Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
+            if(itemMap!=null) {
+                orderService.addFromSessionToBucket(itemMap, id);
+                session.invalidate();
+            }
+
             Order order = orderService.getBucketOrder(id) == null ? new Order() : orderService.getBucketOrder(id);
 
             model.addAttribute("order", order);
-
-            List<PaymentMethod> list = Arrays.asList(PaymentMethod.values());
-            List<DeliveryMethod> list2 = Arrays.asList(DeliveryMethod.values());
-
-            model.addAttribute("paymentList", list);
-            model.addAttribute("deliveryList", list2);
-
-            model.addAttribute("it", new Item());
 
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
 
             model.addAttribute("itemMap", itemService.getOrderNotNullItems(order.getOrderId()));
-
-            return "bucket";
         }
 
         else{
-            return "redirect:/";
+            model.addAttribute("order", new Order());
+            model.addAttribute("itemMap", (Map<Item, Integer>) session.getAttribute("basket"));
         }
+
+        return "bucket";
     }
 
     @GetMapping("/orderHistory")
@@ -181,9 +190,18 @@ public class ItemController {
     }
 
     @PostMapping("/bucket/deleteProcess/{itemId}/{quantity}")
-    public String deletItemFromBucket( @PathVariable("itemId") int itemId, @PathVariable("quantity") int quantity){
+    public String deleteItemFromBucket( @PathVariable("itemId") int itemId, @PathVariable("quantity") int quantity, HttpSession session){
+
         int id = userService.getAuthirizedUserId();
         orderService.removeFromBucket(itemId, id, quantity);
+        if(id != 0) {
+            orderService.updateQuantity(id, itemId, 0);
+        }
+        else {
+            Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
+            itemMap.remove(itemService.getById(itemId));
+            session.setAttribute("basket", itemMap);
+        }
 
         return "redirect:/bucket";
     }
@@ -201,9 +219,13 @@ public class ItemController {
     }
 
     @PostMapping("/items/{itemId}/addItemToOrderProcess")
-    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item){
+    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item, HttpSession session){
         int id = userService.getAuthirizedUserId();
+        if(id!=0)
         orderService.addToBucket(item, id);
+        else {
+            orderService.addItemToSession(itemId, session);
+        }
 
         return "redirect:/filterItems/"+itemService.getById(itemId).getCategory().getCategoryName();
     }

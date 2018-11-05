@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,8 +46,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void update(Order order) {
- /*       Order order1 = getById(order.getOrderId());
-        order.setUser(order1.getUser());*/
         orderDao.update(order);
     }
 
@@ -86,24 +85,6 @@ public class OrderServiceImpl implements OrderService {
         update(order1);
     }
 
-/*    @Override
-    public void saveBucketToOrders(Order order, int userId) {
-        Order order1 = getBucketOrder(userId);
-
-        Map<Item, Integer> itemQuantity = itemDao.getNotNullItemsInBucket(order1.getOrderId());
-        List<Item> itemList = new ArrayList<>(itemQuantity.keySet());
-
-        order1.setDeliveryMethod(order.getDeliveryMethod());
-        order1.setPaymentMethod(order.getPaymentMethod());
-        order1.setItems(itemList);
-        for (Item item : itemList) {
-            setQuantity(order1.getOrderId(), item.getItemId(), itemQuantity.get(item));
-        }
-        update(order1);
-
-
-    }*/
-
     @Override
     public void addToBucket(Item it, int userId) {
         Item item = itemDao.getById(it.getItemId());
@@ -115,44 +96,24 @@ public class OrderServiceImpl implements OrderService {
 
             int quantity = 0;
 
-            // boolean contains = true;
-
-/*            for (Item item1 : itemList) {
-                if(item1.getItemId()==item.getItemId()) {
-                    contains = true;
-                    break;
-                }
-            }*/
-
-
-          /*  if(!contains) {
-                quantity = 1;
-                itemList.add(item);
-            }*/
-            /* else{*/
             for (Item item1 :itemList) {
                 if(item1.getItemId() == item.getItemId()){
                     item1.setAvailableCount(item1.getAvailableCount()-1);
                 }
             }
             //}
-            item.setAvailableCount(item.getAvailableCount()-1);
-
-            itemDao.update(item);
-
+            if(item.getAvailableCount()!=0) {
+                item.setAvailableCount(item.getAvailableCount() - 1);
+                itemDao.update(item);
+            }
 
             userBucket.setUser(userService.getById(userId));
-
             userBucket.setItems(itemList);
-
             update(userBucket);
 
-            //if(contains) {
             quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), item.getItemId()) + 1;
-            //}
 
             updateQuantity(userId, item.getItemId(), quantity);
-
         }
     }
 
@@ -172,7 +133,6 @@ public class OrderServiceImpl implements OrderService {
         Item item = itemDao.getById(itemId);
         item.setAvailableCount(item.getAvailableCount()+quantity);
         itemDao.update(item);
-        updateQuantity(userId, itemId, 0);
     }
 
     @Override
@@ -242,7 +202,43 @@ public class OrderServiceImpl implements OrderService {
 
         }
 */
+    }
 
+    @Override
+    public void addItemToSession(int itemId, HttpSession session) {
 
+        Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
+        Item item1 = itemService.getById(itemId);
+        int quantity = 1;
+        if(item1.getAvailableCount()!=0) {
+
+        if(itemMap.containsKey(item1)) {
+            quantity = itemMap.get(item1) + 1;
+            itemMap.remove(item1);
+        }
+
+            item1.setAvailableCount(item1.getAvailableCount()-1);
+            itemService.update(item1);
+
+            itemMap.put(item1, quantity);
+            session.setAttribute("basket", itemMap);
+        }
+    }
+
+/*    @Override
+    public void removeItemFromSession(int itemId, int quantity, HttpSession session) {
+        Item item = itemDao.getById(itemId);
+        item.setAvailableCount(item.getAvailableCount()+quantity);
+        itemDao.update(item);
+        updateQuantity(userId, itemId, 0);
+    }*/
+
+    @Override
+    public void addFromSessionToBucket(Map<Item, Integer> itemMap, int userId) {
+        Order userBucket = getBucketOrder(userId);
+        for (Map.Entry<Item, Integer> itemEntry : itemMap.entrySet()) {
+          int  quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), itemEntry.getKey().getItemId()) + itemEntry.getValue();
+          updateQuantity(userId,  itemEntry.getKey().getItemId(), quantity);
+        }
     }
 }

@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-4 col-sm-4 .col-md-4">
                         <div class="quantity">
-                            <input type="number" step="1" max="99" min="1" value= ${item.value} title="Qty" class="qty" id="#qty_input">
+                            <input type="number" step="1" max="99" min="1" value= ${item.value} title="quantity" class="qty" id="#qty_input">
                         </div>
                     </div>
                     <div class="col-2 col-sm-2 col-md-2 text-right">
@@ -46,14 +46,15 @@
         </c:forEach>
 
 <c:if test="${itemMap.size()!=0}">
+ <c:if test="${id>0}">
  <form:form id="addOrderForm" modelAttribute="order" action="/orderProcess" method="post"  >
     <div class="card-footer pull-bottom">
         <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
-            <div class="row ">
+            <div class="row " style="margin-top: 10px">
                 <div class="col-6">
                     <form:label path="paymentMethod">PaymentMethod</form:label>
                     <form:select path="paymentMethod" class="form-control b-select">
-                        <form:option value="NONE" label="--- Select ---" />
+                        <form:option value="NONE" label="         --- Select ---" />
                         <form:options items="${paymentList}"/>
                     </form:select>
                 </div>
@@ -61,7 +62,7 @@
                 <div class="col-6">
                     <form:label path="deliveryMethod">DeliveryMethod</form:label>
                     <form:select path="deliveryMethod" class="form-control b-select">
-                        <form:option value="NONE" label="--- Select ---" />
+                        <form:option value="NONE" label="         --- Select ---" />
                         <form:options items="${deliveryList}" />
                     </form:select>
                 </div>
@@ -72,13 +73,15 @@
 
             <form:button id="order" name="order" class="btn btn-primary pull-right vbottom" >Order</form:button>
             <div class="pull-right" style="margin: 5px">
-                Total price: <b>${sum}$</b>
-                <form:hidden path="amount" value="${sum}"></form:hidden>
+                <form:hidden path="amount" value="${sum}"/>
             </div>
         </div>
  </form:form>
+ </c:if>
 </c:if>
-
+    <div class="pull-right" style="margin: 5px">
+        Total price: <b>${sum}$</b>
+    </div>
 </div>
 </body>
 </html>

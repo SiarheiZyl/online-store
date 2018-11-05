@@ -35,6 +35,14 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public void changeAvailibleCount(int itemId, int delta) {
+
+        Item item = getById(itemId);
+        item.setAvailableCount(item.getAvailableCount()+(delta));
+        update(item);
+    }
+
+    @Override
     public Map<Item, Integer> getOrderNotNullItems(int orderId) {
         return itemDao.getNotNullItemsInBucket(orderId);
     }
