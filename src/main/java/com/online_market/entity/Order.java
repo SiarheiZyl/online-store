@@ -6,6 +6,7 @@ import com.online_market.entity.enums.PaymentMethod;
 import com.online_market.entity.enums.PaymentStatus;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,6 +33,12 @@ public class Order {
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus = OrderStatus.AWAITING_PAYMENT;
+
+    @Column(name = "date")
+    private Date date;
+
+    @Column(name= "amount")
+    private double amount;
 
     @ManyToOne
     @JoinColumn(name="ordering_user")
@@ -88,6 +95,21 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 
     public User getUser() {
         return user;

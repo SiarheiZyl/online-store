@@ -38,11 +38,3 @@
 .panel-order .panel-deading {
     margin-bottom: 0;
 }
-
-li {
-    display: inline-block;
-
-    margin-right:5px;
-    height:100%;
-    width:50px;
-}

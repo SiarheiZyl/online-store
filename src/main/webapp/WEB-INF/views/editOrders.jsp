@@ -31,7 +31,7 @@
                     <div class="pull-right"><h3><label class="badge badge-success"> Delivered</label> </h3></div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_PAYMENT}">
-                    <div class="pull-right"><h3></h3><label class="badge badge-warning"> Awaiting payment</label></h3> </div>
+                    <div class="pull-right"><h3><label class="badge badge-warning"> Awaiting payment</label></h3> </div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_SHIPMENT}">
                     <div class="pull-right"><h3><label class="badge badge-info"> Awaiting shipment</label></h3> </div>
@@ -39,22 +39,25 @@
                 <c:if test="${order.orderStatus==OrderStatus.SHIPPED}">
                     <div class="pull-right"><h3><label class="badge badge-primary"> Shipped </label> </h3></div>
                 </c:if>
-
+                <div style="margin-right: 10px">
                 <c:if test="${order.paymentStatus==PaymentStatus.WAITING}">
                     <div class="pull-right"><h3><label class="badge badge-info"> Waiting </label> </h3></div>
                 </c:if>
                 <c:if test="${order.paymentStatus==PaymentStatus.PAID}">
                     <div class="pull-right"><h3><label class="badge badge-success"> Paid </label> </h3></div>
                 </c:if>
+                </div>
                 <span><strong>Payment method:</strong></span>
                 <span class="label label-info">${order.paymentMethod}</span><br>
                 <span><strong>Delivery method:</strong></span>
                 <span class="label label-info">${order.deliveryMethod}</span><br>
                 <div style="margin-bottom: 5px">
                     <div style="margin-top: 10px; width: 220px; margin-bottom: 10px">
+                    <div style="margin-bottom: 10px">
                     <form:select path="orderStatus" class="form-control">
                         <form:options items="${orderStatusList}" />
                     </form:select>
+                    </div>
                     <form:select path="paymentStatus" class="form-control">
                         <form:options items="${paymentStatusList}" />
                     </form:select>
@@ -62,7 +65,7 @@
                     <form:button id="repeatOrder" class="btn btn-outline-dark btn-sm pull-bottom" >Change</form:button>
                 </div>
                 <div class="col-md-12">
-                  <small><i>Order made by ${order.user.login}</i></small>
+                  <small><i>Order made by ${order.user.login} on ${order.date}</i></small>
                 </div>
             </div>
         </div>

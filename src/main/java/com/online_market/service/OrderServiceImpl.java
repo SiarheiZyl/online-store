@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +79,9 @@ public class OrderServiceImpl implements OrderService {
 
         order1.setDeliveryMethod(order.getDeliveryMethod());
         order1.setPaymentMethod(order.getPaymentMethod());
+        java.util.Date date1 = new java.util.Date();
+        order1.setDate(new Date(date1.getTime()));
+        order1.setAmount(order.getAmount());
 
         update(order1);
     }

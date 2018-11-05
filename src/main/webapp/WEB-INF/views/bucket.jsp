@@ -13,8 +13,8 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 <div class="card-body">
-
-        <c:forEach var="item" items="${itemMap}">
+    <c:set var="sum" value="${0}"/>
+    <c:forEach var="item" items="${itemMap}">
             <form:form id="deleteItemForm" modelAttribute="order" action="/bucket/deleteProcess/${item.key.itemId}/${item.value}" method="post"  >
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-2 text-center">
@@ -41,8 +41,10 @@
                     </div>
                 </div>
             </div>
+                <c:set var="sum" value="${sum + item.key.price*item.value}"/>
             </form:form>
         </c:forEach>
+
 <c:if test="${itemMap.size()!=0}">
  <form:form id="addOrderForm" modelAttribute="order" action="/orderProcess" method="post"  >
     <div class="card-footer pull-bottom">
@@ -67,9 +69,11 @@
             </div>
         </div>
         <div class="pull-right pull-bottom" style="margin: 10px">
+
             <form:button id="order" name="order" class="btn btn-primary pull-right vbottom" >Order</form:button>
             <div class="pull-right" style="margin: 5px">
-                Total price: <b>50.00</b>
+                Total price: <b>${sum}$</b>
+                <form:hidden path="amount" value="${sum}"></form:hidden>
             </div>
         </div>
  </form:form>
