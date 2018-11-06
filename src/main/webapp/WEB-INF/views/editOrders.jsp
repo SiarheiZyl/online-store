@@ -37,25 +37,24 @@
         <div class="row border-bottom" style="margin-top: 10px">
             <div class="col-md-12">
                 <c:if test="${order.orderStatus==OrderStatus.DELIVERED}">
-                    <div class="pull-right"><h3><label class="badge badge-success"> Delivered</label> </h3></div>
+                    <div class="pull-right"><h3><label class="badge badge-success" style="margin-left: 10px" > Delivered</label> </h3></div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_PAYMENT}">
-                    <div class="pull-right"><h3><label class="badge badge-warning"> Awaiting payment</label></h3> </div>
+                    <div class="pull-right"><h3><label class="badge badge-warning"style="margin-left: 10px" > Awaiting payment</label></h3> </div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_SHIPMENT}">
-                    <div class="pull-right"><h3><label class="badge badge-info"> Awaiting shipment</label></h3> </div>
+                    <div class="pull-right"><h3><label class="badge badge-info"style="margin-left: 10px" > Awaiting shipment</label></h3> </div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.SHIPPED}">
-                    <div class="pull-right"><h3><label class="badge badge-primary"> Shipped </label> </h3></div>
+                    <div class="pull-right"><h3><label class="badge badge-primary"style="margin-left: 10px"> Shipped </label> </h3></div>
                 </c:if>
-                <div style="margin-right: 110px">
                 <c:if test="${order.paymentStatus==PaymentStatus.WAITING}">
                     <div class="pull-right"><h3><label class="badge badge-info"> Waiting </label> </h3></div>
                 </c:if>
                 <c:if test="${order.paymentStatus==PaymentStatus.PAID}">
                     <div class="pull-right"><h3><label class="badge badge-success"> Paid </label> </h3></div>
                 </c:if>
-                </div>
+
                 <span><strong>Payment method:</strong></span>
                 <span class="label label-info">${order.paymentMethod} </span><br>
                 <span><strong>Delivery method:</strong></span>
