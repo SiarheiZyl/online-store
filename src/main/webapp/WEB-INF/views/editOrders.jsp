@@ -26,7 +26,7 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 
-<div class="panel panel-default panel-order " <%--style="margin-top: 5%; margin-left: 5%; width: 90%"--%>>
+<div class="panel panel-default panel-order " style="margin-left: 5%; width: 90%">
     <h1 class="my-4"><i>Orders</i></h1>
     <div class="panel-body   " >
 <c:forEach var="order" items="${orders}">
@@ -37,22 +37,22 @@
         <div class="row border-bottom" style="margin-top: 10px">
             <div class="col-md-12">
                 <c:if test="${order.orderStatus==OrderStatus.DELIVERED}">
-                    <div class="pull-right"><h3><label class="badge badge-success" style="margin-left: 10px" > Delivered</label> </h3></div>
+                    <div class="pull-right"><h4><label class="badge badge-success" style="margin-left: 10px" > Delivered</label> </h4></div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_PAYMENT}">
-                    <div class="pull-right"><h3><label class="badge badge-warning"style="margin-left: 10px" > Awaiting payment</label></h3> </div>
+                    <div class="pull-right"><h4><label class="badge badge-warning"style="margin-left: 10px" > Awaiting payment</label></h4> </div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_SHIPMENT}">
-                    <div class="pull-right"><h3><label class="badge badge-info"style="margin-left: 10px" > Awaiting shipment</label></h3> </div>
+                    <div class="pull-right"><h4><label class="badge badge-info"style="margin-left: 10px" > Awaiting shipment</label></h4> </div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.SHIPPED}">
-                    <div class="pull-right"><h3><label class="badge badge-primary"style="margin-left: 10px"> Shipped </label> </h3></div>
+                    <div class="pull-right"><h4><label class="badge badge-primary"style="margin-left: 10px"> Shipped </label> </h4></div>
                 </c:if>
                 <c:if test="${order.paymentStatus==PaymentStatus.WAITING}">
-                    <div class="pull-right"><h3><label class="badge badge-info"> Waiting </label> </h3></div>
+                    <div class="pull-right"><h4><label class="badge badge-info"> Waiting </label> </h4></div>
                 </c:if>
                 <c:if test="${order.paymentStatus==PaymentStatus.PAID}">
-                    <div class="pull-right"><h3><label class="badge badge-success"> Paid </label> </h3></div>
+                    <div class="pull-right"><h4><label class="badge badge-success"> Paid </label> </h4></div>
                 </c:if>
 
                 <span><strong>Payment method:</strong></span>

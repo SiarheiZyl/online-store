@@ -2,10 +2,12 @@ package com.online_market.service;
 
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
+import com.online_market.entity.User;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface OrderService {
 
@@ -40,4 +42,10 @@ public interface OrderService {
     void addItemToSession(int itemId, HttpSession session);
 
     void addFromSessionToBucket(Map <Item, Integer> itemMap, int userId);
+
+    Map<User, Double> getTopUsers();
+
+    Map<Item, Integer> getTopItems();
+
+    Map<String, Double> getIncome();
 }

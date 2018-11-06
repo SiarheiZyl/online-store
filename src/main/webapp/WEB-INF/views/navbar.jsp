@@ -19,9 +19,10 @@
                 </c:if>
                 <c:if test="${user.role==Roles.ADMIN}">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/user/${id}/editOrders" >Edit orders
-                            <span class="glyphicon glyphicon-log-in" ></span>
-                        </a>
+                        <a class="nav-link" href="/user/${id}/editOrders" >Edit orders</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/user/${id}/statistics" >Statistics</a>
                     </li>
                 </c:if>
                 <li class="nav-item active">

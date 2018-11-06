@@ -71,7 +71,7 @@
                                     <p class="card-text-bottom">Category: ${item.category.categoryName}<br>Availible count: ${item.availableCount}</p>
                                 </div>
                                 <div class="card-footer">
-                                    <form:button id="order" class="btn btn-primary btn-block">Buy</form:button>
+                                    <form:button id="order" class="btn btn-outline-dark btn-block">Buy</form:button>
                                 </div>
                             </div>
                         </div>

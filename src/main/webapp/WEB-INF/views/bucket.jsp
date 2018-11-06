@@ -78,10 +78,11 @@
         </div>
  </form:form>
  </c:if>
-</c:if>
     <div class="pull-right" style="margin: 5px">
         Total price: <b>${sum}$</b>
     </div>
+</c:if>
+
 </div>
 </body>
 </html>

@@ -23,4 +23,5 @@ public interface ItemDao {
     void updateQuantityOfOrderedItem(int orderId, int itemId, int quantity);
 
     Map<Item, Integer> getNotNullItemsInBucket(int orderId);
+
 }

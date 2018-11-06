@@ -4,6 +4,7 @@ import com.online_market.dao.ItemDao;
 import com.online_market.dao.OrderDao;
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
+import com.online_market.entity.User;
 import com.online_market.entity.enums.OrderStatus;
 import com.online_market.entity.enums.PaymentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -152,7 +152,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> result = new ArrayList<>();
 
         for (Order order : getAllTrackedOrders()) {
-            if(order.getUser().getId() == userId)
+            if(order.getUser().getId() == userId && order.getDeliveryMethod()!=null && order.getPaymentMethod()!=null)
                 result.add(order);
         }
         return result;
@@ -240,5 +240,100 @@ public class OrderServiceImpl implements OrderService {
           int  quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), itemEntry.getKey().getItemId()) + itemEntry.getValue();
           updateQuantity(userId,  itemEntry.getKey().getItemId(), quantity);
         }
+    }
+
+    @Override
+    public Map<User, Double> getTopUsers() {
+        Map<User, Double> map = new HashMap<>();
+
+        List<User> users = userService.findAll();
+        for (User user :users) {
+            double sum = 0.0;
+            for (Order order : getAllTrackedOrdersById(user.getId())) {
+                sum += order.getAmount();
+            }
+            if(sum > 0.0)
+            map.put(user, sum);
+        }
+
+        Map<User, Double> result = new LinkedHashMap<>();
+        map.entrySet().stream()
+                .sorted(Map.Entry.<User, Double>comparingByValue().reversed()).limit(10)
+                .forEachOrdered(x -> result.put(x.getKey(), x.getValue()));
+
+        return  result;
+    }
+
+    @Override
+    public Map<Item, Integer> getTopItems() {
+        Map<Item, Integer> map = new HashMap<>();
+
+        List<Order> orders = getAllTrackedOrders();
+
+        for (Order order : orders) {
+            Map<Item, Integer> itemMap = itemService.getOrderNotNullItems(order.getOrderId());
+            for (Map.Entry<Item, Integer> itemEntry : itemMap.entrySet()) {
+                if(map.containsKey(itemEntry.getKey())){
+                    int quantity = map.get(itemEntry.getKey());
+                    map.put(itemEntry.getKey(), quantity + itemEntry.getValue());
+                }
+
+                else{
+                    map.put(itemEntry.getKey(), itemEntry.getValue());
+                }
+            }
+
+        }
+
+        Map<Item, Integer> result = new LinkedHashMap<>();
+        map.entrySet().stream()
+                .sorted(Map.Entry.<Item, Integer>comparingByValue().reversed()).limit(10)
+                .forEachOrdered(x -> result.put(x.getKey(), x.getValue()));
+
+        return  result;
+    }
+
+    @Override
+    public Map<String, Double> getIncome() {
+
+        Map<String, Double> incomeMap = new HashMap<>();
+        incomeMap.put("month", 0.0);
+        incomeMap.put("week", 0.0);
+        incomeMap.put("day", 0.0);
+
+        for (Order order : getAllTrackedOrders()) {
+            LocalDate now = LocalDate.now();
+            LocalDate previousDay = now.minusDays(1);
+            LocalDate previousWeek = now.minusWeeks(1);
+            LocalDate previousMonth = now.minusMonths(1);
+
+            if (order.getPaymentStatus()==PaymentStatus.PAID) {
+                if(order.getDate().toLocalDate().isAfter(previousDay)){
+                    double incomeDay = incomeMap.get("day") + order.getAmount();
+                    double incomeWeek = incomeMap.get("week") + order.getAmount();
+                    double incomeMonth = incomeMap.get("month") + order.getAmount();
+
+                    incomeMap.put("day", incomeDay);
+                    incomeMap.put("week", incomeWeek);
+                    incomeMap.put("month", incomeMonth);
+                }
+
+                else if(order.getDate().toLocalDate().isAfter(previousWeek)){
+                    double incomeWeek = incomeMap.get("week") + order.getAmount();
+                    double incomeMonth = incomeMap.get("month") + order.getAmount();
+
+                    incomeMap.put("week", incomeWeek);
+                    incomeMap.put("month", incomeMonth);
+                }
+
+                else if(order.getDate().toLocalDate().isAfter(previousMonth)){
+                    double incomeMonth = incomeMap.get("month") + order.getAmount();
+
+                    incomeMap.put("month", incomeMonth);
+                }
+            }
+        }
+
+    return incomeMap;
     }
 }
