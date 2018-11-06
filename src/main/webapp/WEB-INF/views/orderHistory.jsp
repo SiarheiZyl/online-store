@@ -1,6 +1,7 @@
 <<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="gravatar" uri="http://www.paalgyula.hu/schemas/tld/gravatar" %>
 <%@page import="com.online_market.entity.enums.OrderStatus"%>
 
 <html>
@@ -16,10 +17,10 @@
 
 <div class="panel panel-default panel-order " style="margin-top: 5%; margin-left: 5%; width: 90%">
     <h1 class="my-4"><i>Order history</i></h1>
-    <div class="panel-body   " >
+    <div class="panel-body" >
 <c:forEach var="order" items="${orders}">
     <form:form id="repeatOrderrderForm" modelAttribute="ord" action="/repeatOrderProcess/${order.key.orderId}" method="post"  >
-            <div class="col-md-12">
+        <div class="col-md-12">
                 <div class="row border-bottom" style="margin-top: 10px">
                     <div class="col-md-12">
                         <c:if test="${order.key.orderStatus==OrderStatus.DELIVERED}">

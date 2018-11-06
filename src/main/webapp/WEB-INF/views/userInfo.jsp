@@ -69,20 +69,6 @@
 
 </form:form>
             </article>
-            <c:if test="${user.role==Roles.ADMIN}">
-                <div class="container">
-                    <div class="row">
-                        <div class="container">
-                         <div class="border-top card-body text-center">
-                            <a href="/user/${user.id}/address">Edit address</a></div>
-                        </div>
-                        <div class="border-top card-body text-center">
-                            <a href="/user/${user.id}/editOrders" >Orders</a>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </c:if>
             <c:if test="${user.role==Roles.USER}">
                     <div class="border-top card-body text-center"><a href="/user/${user.id}/address">Edit address</a></div>
             </c:if>
