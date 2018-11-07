@@ -9,6 +9,28 @@
     <title>User Info</title>
     <jsp:include page="layout.jsp"/>
     <link href="<c:url value='../../resources/css/registration.css' />" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            /*  Submit form using Ajax */
+            $('button[type=submit]').click(function(e) {
+
+                //Prevent default submission of form
+                e.preventDefault();
+
+                //Remove all errors
+                $('input').next().remove();
+
+                $.post({
+                    url : '/updateUser',
+                    data : $('form[name=infoForm]').serialize()
+                })
+            });
+        });
+    </script>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
@@ -19,55 +41,54 @@
                 <h4 class="card-title mt-1">User Info</h4>
             </header>
             <article class="card-body">
-<form:form id="infoForm" modelAttribute="user" action="/updateUser" method="post" var="placeHolderForPassword" >
+    <form action="/updateUser" method="post" name="infoForm">
     <div>
-        <form:hidden path="id" name="id" id="id"  />
+        <input type="hidden" path="id" name="id" id="id" value="${user.id}" />
     </div>
 
     <div class="form-row">
         <div class="col form-group">
             <label>First name </label>
-            <form:input path="firstName" name="firstName" id="firstName" class="form-control" />
+            <input name="firstName" id="firstName" class="form-control" value="${user.firstName}" />
         </div> <!-- form-group end.// -->
         <div class="col form-group">
             <label>Last name</label>
-            <form:input path="lastName" name="lastName" id="lastName" class="form-control"/>
+            <input name="lastName" id="lastName" class="form-control" value="${user.lastName}"/>
         </div> <!-- form-group end.// -->
     </div>
 
     <div class="form-group">
         <label>Username</label>
-        <form:input path="login" name="login" id="username" class="form-control"/>
+        <input name="login" id="username" class="form-control" value="${user.login}"/>
     </div>
 
     <div class="form-group">
         <label>Email address</label>
-        <form:input path="email" name="email" id="email" type="email" class="form-control"/>
+        <input name="email" id="email" type="email" class="form-control" value="${user.email}"/>
         <small class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
 
     <div class="form-group">
         <label>Birthdate</label>
-        <form:input path="birthdate" type="date" name="birthdate" id="birthdate" class="form-control"/>
+        <input type="date" name="birthdate" id="birthdate" class="form-control" value="${user.birthdate}"/>
     </div>
 
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label>Role</label>
-            <form:label path="role" name="role" id="role">${user.role}</form:label>
+            <label>Role: ${user.role}</label>
+            <input type="hidden" name="role" id="role"></in>
         </div>
     </div>
 
     <div class="form-group">
         <label>Create password</label>
-        <form:password path="password" name="password" id="password" class="form-control" placeholder="${placeHolderForPassword}" />
+        <input type="password" name="password" id="password" class="form-control" placeholder="${placeHolderForPassword}" />
     </div>
 
     <div class="form-group">
-        <form:button id="edit" name="edit" class="btn btn-primary btn-block">Save</form:button>
+        <button id="editInfo" name="editInfo" type="submit" class="btn btn-primary btn-block">Save</button>
     </div>
-
-</form:form>
+    </form>
             </article>
             <c:if test="${user.role==Roles.USER}">
                     <div class="border-top card-body text-center"><a href="/user/${user.id}/address">Edit address</a></div>
