@@ -77,6 +77,19 @@ public class UserController {
     }
 
     @PostMapping("user/{id}/addressProcess")
+    @ResponseBody
+    public Address updateAddress(@PathVariable("id") int id, @ModelAttribute("address") Address address) {
+        addressService.update(address);
+
+        User user = userService.getById(id);
+        user.setAddress(address);
+
+        userService.update(user);
+
+        return address;
+    }
+
+   /* @PostMapping("user/{id}/addressProcess")
     public String updateAddress(@PathVariable("id") int id, @ModelAttribute("address") Address address) {
         addressService.update(address);
 
@@ -86,6 +99,6 @@ public class UserController {
         userService.update(user);
 
         return "redirect:/user/" + user.getId();
-    }
+    }*/
 
 }

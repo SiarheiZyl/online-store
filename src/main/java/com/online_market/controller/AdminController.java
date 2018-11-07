@@ -44,6 +44,7 @@ public class AdminController {
             model.addAttribute("orderStatusList", list4);
 
 
+            return "editOrders";
     }
 
     @GetMapping("/user/{id}/statistics")
