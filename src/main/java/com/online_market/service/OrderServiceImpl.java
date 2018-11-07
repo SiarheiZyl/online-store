@@ -86,8 +86,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addToBucket(Item it, int userId) {
-        Item item = itemDao.getById(it.getItemId());
+    public void addToBucket(int itemId, int userId) {
+        Item item = itemDao.getById(itemId);
 
         if (item.getAvailableCount()>0) {
 

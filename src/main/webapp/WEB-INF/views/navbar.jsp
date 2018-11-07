@@ -12,17 +12,27 @@
             <ul class="nav navbar-nav nav-flex-icons ml-auto">
                 <c:if test="${user.role==Roles.USER}">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/orderHistory" >Order history
-                            <span class="glyphicon glyphicon-log-in" ></span>
+                        <a class="nav-link" href="/orderHistory" >Order history</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/user/${id}" >
+                            <span class="fa fa-user " style="font-size:24px" ></span>
                         </a>
                     </li>
+
                 </c:if>
                 <c:if test="${user.role==Roles.ADMIN}">
+
                     <li class="nav-item active">
                         <a class="nav-link" href="/user/${id}/editOrders" >Edit orders</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/user/${id}/statistics" >Statistics</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/user/${id}" >
+                            <span class="fa fa-user" style="font-size:24px" ></span>
+                        </a>
                     </li>
                 </c:if>
                 <li class="nav-item active">

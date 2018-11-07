@@ -36,37 +36,37 @@
             <article class="card-body">
 <form action="user/${id}/addressProcess" method="post" name="addressForm">
     <div>
-        <input type="number" name="addressId" value="${address.addressId}">
+        <input type="hidden" name="addressId" value="${address.addressId}">
     </div>
 
     <div class="form-group">
         <label>Country</label>
-        <input type="text" name="country" class="form-control">
+        <input type="text" name="country" value="${address.country}" class="form-control">
     </div>
 
     <div class="form-group">
         <label>City/town</label>
-        <input name="town" id="town" class="form-control"/>
+        <input name="town" id="town" value="${address.town}" class="form-control"/>
     </div>
 
     <div class="form-group">
         <label>ZipCode</label>
-        <input name="zipCode" id="zipCode" class="form-control"/>
+        <input name="zipCode" id="zipCode" value="${address.zipCode}" class="form-control"/>
     </div>
 
     <div class="form-group">
         <label>Street</label>
-        <input name="street" id="street" class="form-control" />
+        <input name="street" id="street" value="${address.street}" class="form-control" />
     </div>
 
     <div class="form-row">
         <div class="col form-group">
             <label>Bulding</label>
-            <input name="building" id="building" class="form-control"/>
+            <input name="building" id="building" value="${address.building}" class="form-control"/>
         </div>
         <div class="col form-group">
             <label>Apartment</label>
-            <input name="apartment" id="apartment" class="form-control"/>
+            <input name="apartment" id="apartment" value="${address.apartment}" class="form-control"/>
         </div>
     </div>
 

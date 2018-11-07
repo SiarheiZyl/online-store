@@ -15,9 +15,9 @@
 </head>
 <body>
 
-<h2>${STATUS_MESSAGE}</h2>
 <form:form id="logForm" action="loginProcess" method="post" modelAttribute="user" class="form-signin" >
         <h1 class="h3 mb-3 font-weight-normal" align="center">Please sign in</h1>
+        <h6 style="color: red">${STATUS_MESSAGE}</h6>
         <label for="login" class="sr-only">Login</label>
         <form:input path="login" name="login" id="login" class="form-control" placeholder="Login"  />
         <label for="password" class="sr-only">Password</label>

@@ -23,7 +23,7 @@ public interface OrderService {
 
     void saveBucketToOrders(Order order, int userId);
 
-    void addToBucket(Item item, int userId);
+    void addToBucket(int itemId, int userId);
 
     void removeFromBucket(int itemId, int userId, int quantity);
 

@@ -23,6 +23,7 @@ public class RegistrationController {
 
         model.addAttribute("user", new User());
         model.addAttribute("roles", Arrays.asList(Roles.values()));
+
         return "register";
     }
 
@@ -31,6 +32,7 @@ public class RegistrationController {
     public String addUser( @ModelAttribute("user") User user) {
 
         userService.register(user);
+
         return "redirect:/user/"+user.getId();
     }
 }

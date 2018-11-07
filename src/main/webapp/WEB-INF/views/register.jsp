@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@page import="com.online_market.entity.enums.Roles"%>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -44,17 +43,6 @@
     <div class="form-group">
         <label>Birthdate</label>
         <form:input path="birthdate" type="date" name="birthdate" id="birthdate" class="form-control"/>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Role</label>
-
-            <form:select path="role" class="form-control">
-                <form:option value="NONE" label="--- Select ---" />
-                <form:options items="${roles}"/>
-            </form:select>
-        </div> <!-- form-group end.// -->
     </div>
 
     <div class="form-group">

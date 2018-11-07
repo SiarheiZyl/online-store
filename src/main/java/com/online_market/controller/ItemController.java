@@ -64,7 +64,7 @@ public class ItemController {
     }
 
     @GetMapping("/items")
-    public String itemList2(Model model, HttpSession session){
+    public String itemList2(Model model){
 
         model.addAttribute("item", new Item());
         model.addAttribute("itemList", itemService.itemList());
@@ -83,15 +83,11 @@ public class ItemController {
             Order bucket = orderService.getBucketOrder(id);
         }
 
-        else{
-            Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
-        }
-
         return "itemList";
     }
 
     @GetMapping("/filterItems/{category}")
-    public String filteredItemList2( @ModelAttribute("params") Param params,@PathVariable("category") String category, Model model, HttpSession session){
+    public String filteredItemList2( @ModelAttribute("params") Param params,@PathVariable("category") String category, Model model){
 
         model.addAttribute("item", new Item());
         List<Item> itemList;
@@ -113,10 +109,6 @@ public class ItemController {
 
             //fix: userBucket
             Order bucket = orderService.getBucketOrder(id);
-        }
-
-        else{
-            Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
         }
 
         return "itemList";
@@ -163,6 +155,7 @@ public class ItemController {
 
     @GetMapping("/orderHistory")
     public String orderHistory(Model model){
+
         int id = userService.getAuthirizedUserId();
         if (userService.getById(id).isAuth()) {
 
@@ -208,28 +201,26 @@ public class ItemController {
 
     @PostMapping("/orderProcess")
     public String addItemProcess( @ModelAttribute("order") Order order){
+
         int id = userService.getAuthirizedUserId();
         if(order.getPaymentMethod()== null || order.getDeliveryMethod()==null)
             return "redirect:/bucket";
 
         orderService.saveBucketToOrders(order, id);
 
-
         return "redirect:/items";
     }
 
     @PostMapping("/items/{itemId}/addItemToOrderProcess")
-    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, @ModelAttribute("item") Item item, HttpSession session){
+    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, HttpSession session){
+
         int id = userService.getAuthirizedUserId();
         if(id!=0)
-        orderService.addToBucket(item, id);
+            orderService.addToBucket(itemId, id);
         else {
             orderService.addItemToSession(itemId, session);
         }
 
         return "redirect:/filterItems/"+itemService.getById(itemId).getCategory().getCategoryName();
     }
-
-
-
 }

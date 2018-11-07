@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("/")
     public String index() {
-       // userService.test();
+
         userService.logout();
         return "in";
     }
@@ -46,21 +46,26 @@ public class UserController {
 
     @PostMapping("/updateUser")
     public String updateUser(@ModelAttribute("user") User user) {
+
         user.setAuth(true);
         userService.update(user);
+
         return "redirect:/user/" + user.getId();
     }
 
     @GetMapping("/userList")
     public String listCustomers(Model model) {
+
         model.addAttribute("user", new User());
         List<User> list = this.userService.findAll();
         model.addAttribute("userList", list);
+
         return "userList";
     }
 
     @GetMapping("/user/{id}/address")
     public String getAddress(@PathVariable("id") int id, Model model){
+
         if (userService.getById(id).isAuth()) {
             Address address = userService.getById(id).getAddress() == null ? new Address() : userService.getById(id).getAddress();
 
@@ -79,6 +84,7 @@ public class UserController {
     @PostMapping("user/{id}/addressProcess")
     @ResponseBody
     public Address updateAddress(@PathVariable("id") int id, @ModelAttribute("address") Address address) {
+
         addressService.update(address);
 
         User user = userService.getById(id);
@@ -88,17 +94,4 @@ public class UserController {
 
         return address;
     }
-
-   /* @PostMapping("user/{id}/addressProcess")
-    public String updateAddress(@PathVariable("id") int id, @ModelAttribute("address") Address address) {
-        addressService.update(address);
-
-        User user = userService.getById(id);
-        user.setAddress(address);
-
-        userService.update(user);
-
-        return "redirect:/user/" + user.getId();
-    }*/
-
 }

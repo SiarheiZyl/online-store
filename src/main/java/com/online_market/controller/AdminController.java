@@ -28,9 +28,11 @@ public class AdminController {
 
     @GetMapping("/user/{id}/editOrders")
     public String getEditOrdersPage(@PathVariable("id") int id, Model model) {
+
             model.addAttribute("orders", orderService.getAllTrackedOrders());
             model.addAttribute("order", new Order());
             model.addAttribute("id", id);
+            model.addAttribute("user", userService.getById(id));
 
             List<PaymentMethod> list = Arrays.asList(PaymentMethod.values());
             List<DeliveryMethod> list2 = Arrays.asList(DeliveryMethod.values());
@@ -42,7 +44,6 @@ public class AdminController {
             model.addAttribute("deliveryList", list2);
             model.addAttribute("paymentStatusList", list3);
             model.addAttribute("orderStatusList", list4);
-
 
             return "editOrders";
     }
@@ -56,12 +57,13 @@ public class AdminController {
             model.addAttribute("topUsers", orderService.getTopUsers());
             model.addAttribute("topItems", orderService.getTopItems());
             model.addAttribute("incomeMap", orderService.getIncome());
-            return "statisticsForAdmin";
 
+            return "statisticsForAdmin";
     }
 
     @PostMapping("/user/{id}/editOrdersProcess/{orderId}")
     public  String editOrders(@PathVariable("id") int id, @PathVariable("orderId") int orderId, @ModelAttribute("order") Order order){
+
         Order order1 = orderService.getById(orderId);
         order1.setOrderStatus(order.getOrderStatus());
         order1.setPaymentStatus(order.getPaymentStatus());

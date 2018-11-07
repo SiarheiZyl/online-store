@@ -23,6 +23,7 @@ public class LoginController {
 
         userService.logout();
         model.addAttribute("user", new User());
+
         return "login";
     }
 
@@ -37,11 +38,11 @@ public class LoginController {
 
             if(loginUser != null){
                 userService.authorize(loginUser.getId());
-                return "redirect:/user/"+loginUser.getId();
+                return "redirect:/catalog";
             }
 
             else{
-                model.addAttribute("STATUS_MESSAGE", "No user found");
+                model.addAttribute("STATUS_MESSAGE", "Login or password is incorrect!");
                 return "login";
             }
     }
