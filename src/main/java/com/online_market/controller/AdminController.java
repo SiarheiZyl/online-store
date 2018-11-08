@@ -30,7 +30,7 @@ public class AdminController {
     public String getEditOrdersPage(@PathVariable("id") int id, Model model) {
 
             model.addAttribute("orders", orderService.getAllTrackedOrders());
-            model.addAttribute("order", new Order());
+            model.addAttribute("ord", new Order());
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
 
@@ -61,15 +61,21 @@ public class AdminController {
             return "statisticsForAdmin";
     }
 
-    @PostMapping("/user/{id}/editOrdersProcess/{orderId}")
-    public  String editOrders(@PathVariable("id") int id, @PathVariable("orderId") int orderId, @ModelAttribute("order") Order order){
+    @PostMapping("/editOrdersProcess")
+    @ResponseBody
+    public int editOrders(@RequestParam("orderId") int orderId, @RequestParam("orderStatus") OrderStatus orderStatus, @RequestParam("paymentStatus") PaymentStatus paymentStatus ){
 
         Order order1 = orderService.getById(orderId);
-        order1.setOrderStatus(order.getOrderStatus());
-        order1.setPaymentStatus(order.getPaymentStatus());
+        order1.setOrderStatus(orderStatus);
+        order1.setPaymentStatus(paymentStatus);
 
         orderService.update(order1);
+        OrderStatus[] orderStatuses = OrderStatus.values();
+        for (int i = 0; i<orderStatuses.length; i++) {
+            if(order1.getOrderStatus()==orderStatuses[i])
+                return i;
+        }
 
-        return "redirect:/user/"+id+"/editOrders" ;
+        return 0;
     }
 }

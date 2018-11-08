@@ -8,20 +8,54 @@
 
 <%@ taglib prefix="gravatar" uri="http://www.paalgyula.hu/schemas/tld/gravatar" %>
 
-
-<%--
-  Created by IntelliJ IDEA.
-  User: Siarhei
-  Date: 30.10.2018
-  Time: 11:12
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Edit orders</title>
     <jsp:include page="layout.jsp"/>
     <link href="<c:url value='../../resources/css/orderHistory.css' />" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        img:active {
+            -webkit-transform: scale(2);
+            transform: scale(2);
+            z-index: 3;
+        }
+    </style>
+    <script>
+        function changeStatus(orderId){
+            $.ajax({
+                type:'POST',
+                data:{orderId: orderId,
+                    orderStatus: $("#orderStatus"+orderId).val(),
+                    paymentStatus: $("#paymentStatus"+orderId).val() },
+                url:"/editOrdersProcess" ,
+                success: function (res) {
+                    $("#orderStatusLabel"+orderId).removeClass();
+                    if(res == 0)
+                        $("#orderStatusLabel"+orderId).addClass("badge badge-warning");
+                    if(res == 1)
+                        $("#orderStatusLabel"+orderId).addClass("badge badge-info");
+                    if(res == 2)
+                        $("#orderStatusLabel"+orderId).addClass("badge badge-primary");
+                    if(res == 3)
+                        $("#orderStatusLabel"+orderId).addClass("badge badge-success");
+                    $("#orderStatusLabel"+orderId).html($("#orderStatus"+orderId).val());
+
+                    $("#paymentStatusLabel"+orderId).removeClass();
+                    if($("#paymentStatus"+orderId).text()=="WAITING")
+                        $("#paymentStatusLabel"+orderId).addClass("badge badge-info")
+                    else
+                        $("#paymentStatusLabel"+orderId).addClass("badge badge-success");
+                    $("#paymentStatusLabel"+orderId).html($("#paymentStatus"+orderId).val());
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
@@ -30,30 +64,25 @@
     <h1 class="my-4"><i>Orders</i></h1>
     <div class="panel-body   " >
 <c:forEach var="order" items="${orders}">
-    <form:form id="editOrdersForm" modelAttribute="order" action="/user/${id}/editOrdersProcess/${order.orderId}" method="post"  >
     <div class="row">
     <div class="col-md-1"><img src="http://www.gravatar.com/avatar/${MD5Util.md5Hex(order.user.email)}" class="media-object img-thumbnail"></div>
         <div class="col-md-11">
         <div class="row border-bottom" style="margin-top: 10px">
             <div class="col-md-12">
                 <c:if test="${order.orderStatus==OrderStatus.DELIVERED}">
-                    <div class="pull-right"><h4><label class="badge badge-success" style="margin-left: 10px" > Delivered</label> </h4></div>
+                    <div class="pull-right" ><h4><label class="badge badge-success" id="orderStatusLabel${order.orderId}" style="margin-left: 10px" >${order.orderStatus}</label> </h4></div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_PAYMENT}">
-                    <div class="pull-right"><h4><label class="badge badge-warning"style="margin-left: 10px" > Awaiting payment</label></h4> </div>
+                    <div class="pull-right" ><h4><label class="badge badge-warning" id="orderStatusLabel${order.orderId}" style="margin-left: 10px" > ${order.orderStatus}</label></h4> </div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_SHIPMENT}">
-                    <div class="pull-right"><h4><label class="badge badge-info"style="margin-left: 10px" > Awaiting shipment</label></h4> </div>
+                    <div class="pull-right"><h4><label class="badge badge-info" id="orderStatusLabel${order.orderId}" style="margin-left: 10px" > ${order.orderStatus}</label></h4> </div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.SHIPPED}">
-                    <div class="pull-right"><h4><label class="badge badge-primary"style="margin-left: 10px"> Shipped </label> </h4></div>
+                    <div class="pull-right"><h4><label class="badge badge-primary" id="orderStatusLabel${order.orderId}" style="margin-left: 10px"> ${order.orderStatus}</label> </h4></div>
                 </c:if>
-                <c:if test="${order.paymentStatus==PaymentStatus.WAITING}">
-                    <div class="pull-right"><h4><label class="badge badge-info"> Waiting </label> </h4></div>
-                </c:if>
-                <c:if test="${order.paymentStatus==PaymentStatus.PAID}">
-                    <div class="pull-right"><h4><label class="badge badge-success"> Paid </label> </h4></div>
-                </c:if>
+
+                    <div class="pull-right"><h4><label ${order.paymentStatus==PaymentStatus.WAITING ? 'class="badge badge-info"': 'class="badge badge-success"' }  id="paymentStatusLabel${order.orderId}"> ${order.paymentStatus}</label> </h4></div>
 
                 <span><strong>Payment method:</strong></span>
                 <span class="label label-info">${order.paymentMethod} </span><br>
@@ -64,15 +93,19 @@
                 <div style="margin-bottom: 5px">
                     <div style="margin-top: 10px; width: 220px; margin-bottom: 10px">
                     <div style="margin-bottom: 10px">
-                    <form:select path="orderStatus" class="form-control">
-                        <form:options items="${orderStatusList}" />
-                    </form:select>
+                        <select id="orderStatus${order.orderId}" class="form-control">
+                            <c:forEach var="OS" items="${orderStatusList}">
+                                <option value="${OS}" ${OS == order.orderStatus ? 'selected="selected"' : ''}>${OS}</option>
+                            </c:forEach>
+                        </select>
                     </div>
-                    <form:select path="paymentStatus" class="form-control">
-                        <form:options items="${paymentStatusList}" />
-                    </form:select>
+                        <select id="paymentStatus${order.orderId}" class="form-control">
+                            <c:forEach var="PS" items="${paymentStatusList}">
+                                <option value="${PS}" ${PS == order.paymentStatus ? 'selected="selected"' : ''}>${PS}</option>
+                            </c:forEach>
+                        </select>
                     </div>
-                    <form:button id="repeatOrder" class="btn btn-outline-dark btn-sm pull-bottom" >Change</form:button>
+                    <button id="repeatOrder" class="btn btn-outline-dark btn-sm pull-bottom" onclick="changeStatus(${order.orderId})">Change</button>
                 </div>
             </div>
                 <div class="col-md-12">
@@ -82,7 +115,6 @@
             </div>
         </div>
     </div>
-</form:form>
 </c:forEach>
     </div>
 </div>

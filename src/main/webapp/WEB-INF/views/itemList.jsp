@@ -71,6 +71,8 @@ function addItem(itemId){
             <div class="row">
 
                 <table>
+
+
                     <c:forEach items="${itemList}" var="item" varStatus="rowCounter">
 
                         <c:if test="${rowCounter.count % 3 == 1}">
@@ -82,7 +84,7 @@ function addItem(itemId){
                                 <div class="card-body ">
                                     <h4 class="card-title"><strong>${item.itemName}</strong></h4>
                                     <h5><strong><i>$${item.price}</i></strong></h5>
-                                    <p class="card-text-bottom">Category: ${item.category.categoryName}<br>
+                                    <p class="card-text-bottom">Category: ${item.category.categoryName}<br>Author: ${item.params.author}<br>Size: ${item.params.height}x${item.params.width}<br>
                                     <label id="availible${item.itemId}">Availible count: ${item.availableCount}</label>
                                     </p>
                                 </div>
