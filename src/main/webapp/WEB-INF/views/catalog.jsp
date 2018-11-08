@@ -7,6 +7,13 @@
     <title>Items</title>
     <jsp:include page="layout.jsp"/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <style>
         img:active {
             -webkit-transform: scale(2);
@@ -14,12 +21,18 @@
             z-index: 3;
         }
     </style>
+
     <script language="JavaScript" type="text/javascript">
-        $(document).ready(function(){
-            $('.carousel').carousel({
-                interval: 2000
-            })
-        });
+        function addItem(itemId){
+            $.ajax({
+                type:'GET',//тип запроса
+                data:{itId: itemId},//параметры запроса
+                url:"/addItemToOrderProcess" ,//url адрес обработчика
+                success: function (res) {
+                    $("#availible"+itemId).html("Availible count: "+res);
+                }//возвращаемый результат от сервера
+            });
+        }
     </script>
 </head>
 <body>
@@ -76,22 +89,21 @@
                         <c:if test="${rowCounter.count % 3 == 1}">
                             <tr>
                         </c:if>
-                        <form:form id="addItemForm" modelAttribute="item" action="items/${item.itemId}/addItemToOrderProcess" method="post"  >
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card" style="height: 600px;">
                                     <img class="card-img-top img-fluid img-thumbnail" width="300" height="200" src=/resources/images/${item.itemId}.jpg style="cursor:zoom-in;" >
                                     <div class="card-body ">
                                         <h4 class="card-title"><strong>${item.itemName}</strong></h4>
                                         <h5><strong><i>$${item.price}</i></strong></h5>
-                                        <p class="card-text-bottom">Author: ${item.params.author} Category: ${item.category.categoryName}<br>Size: ${item.params.height}x${item.params.width}<br>Availible count: ${item.availableCount}</p>
+                                        <p class="card-text-bottom">Category: ${item.category.categoryName}<br>
+                                            <label id="availible${item.itemId}">Availible count: ${item.availableCount}</label>
+                                        </p>
                                     </div>
                                     <div class="card-footer">
-                                        <form:button id="order" class="btn btn-outline-dark btn-block">Buy</form:button>
+                                        <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block">Buy</button>
                                     </div>
                                 </div>
                             </div>
-
-                        </form:form>
                         <c:if test="${rowCounter.count % 3 == 0||rowCounter.count == fn:length(itemList)}">
                             </tr>
                         </c:if>

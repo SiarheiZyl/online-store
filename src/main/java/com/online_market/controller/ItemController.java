@@ -66,7 +66,7 @@ public class ItemController {
     @GetMapping("/items")
     public String itemList2(Model model){
 
-        model.addAttribute("item", new Item());
+        model.addAttribute("it", new Item());
         model.addAttribute("itemList", itemService.itemList());
         model.addAttribute("params", new Param());
 
@@ -211,8 +211,9 @@ public class ItemController {
         return "redirect:/items";
     }
 
-    @PostMapping("/items/{itemId}/addItemToOrderProcess")
-    public String addItemToOrderProcess( @PathVariable("itemId") int itemId, HttpSession session){
+    @GetMapping("/addItemToOrderProcess")
+    @ResponseBody
+    public String addItemToOrderProcess( @RequestParam("itId") int itemId, HttpSession session){
 
         int id = userService.getAuthirizedUserId();
         if(id!=0)
@@ -221,6 +222,6 @@ public class ItemController {
             orderService.addItemToSession(itemId, session);
         }
 
-        return "redirect:/filterItems/"+itemService.getById(itemId).getCategory().getCategoryName();
+    return itemService.getById(itemId).getAvailableCount()+"";
     }
 }
