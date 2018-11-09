@@ -1,5 +1,6 @@
 package com.online_market.controller;
 
+import com.online_market.entity.Order;
 import com.online_market.service.ItemService;
 import com.online_market.service.OrderService;
 import com.online_market.service.UserService;
@@ -34,6 +35,7 @@ public class OrderController {
 
             model.addAttribute("orders", orderService.getHistoryOfOrders(id));
 
+            model.addAttribute("ord", new Order());
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
 

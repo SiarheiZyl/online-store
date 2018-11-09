@@ -68,8 +68,9 @@ public class BucketController {
         return "bucket";
     }
 
-    @PostMapping("/bucket/deleteProcess/{itemId}/{quantity}")
-    public String deleteItemFromBucket(@PathVariable("itemId") int itemId, @PathVariable("quantity") int quantity, HttpSession session){
+    @PostMapping("/deleteProcess")
+    @ResponseBody
+    public String deleteItemFromBucket(@RequestParam("itemId") int itemId, @RequestParam("quantity") int quantity, HttpSession session){
 
         int id = userService.getAuthirizedUserId();
         orderService.removeFromBucket(itemId, id, quantity);
@@ -82,7 +83,7 @@ public class BucketController {
             session.setAttribute("basket", itemMap);
         }
 
-        return "redirect:/bucket";
+        return "";
     }
 
     @PostMapping("/orderProcess")

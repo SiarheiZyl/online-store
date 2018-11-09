@@ -9,14 +9,33 @@
     <title>Basket</title>
     <jsp:include page="layout.jsp"/>
     <link href="<c:url value='../../resources/css/bucket.css' />" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
+<script>
+    function removeItem(itemId, quantity, price){
+        $.ajax({
+            type:'POST',//тип запроса
+            data:{itemId: itemId,
+                  quantity: quantity},//параметры запроса
+            url:"/deleteProcess" ,//url адрес обработчика
+            success: function (res) {
+
+                $("#totalPrice").html("Total price:"+"$<b id=\"sum\">"+(Number($("#sum").text())-Number(price))+"<b>");
+                $("#row"+itemId).remove();
+            }//возвращаемый результат от сервера
+        });
+    }
+</script>
 <jsp:include page="navbar.jsp"/>
 <div class="card-body">
     <c:set var="sum" value="${0}"/>
     <c:forEach var="item" items="${itemMap}">
-        <form:form id="deleteItemForm" modelAttribute="order" action="/bucket/deleteProcess/${item.key.itemId}/${item.value}" method="post"  >
-            <div class="row">
+        <c:set var="sum" value="${sum + item.key.price*item.value}"/>
+            <div class="row" id="row${item.key.itemId}">
                 <div class="col-12 col-sm-12 col-md-2 text-center">
                     <img class="img-responsive img-thumbnail" src=/resources/images/${item.key.itemId}.jpg  width="120" height="80">
                 </div>
@@ -37,12 +56,11 @@
                         </div>
                     </div>
                     <div class="col-2 col-sm-2 col-md-2 text-right">
-                        <form:button id="order" name="order" class="btn btn-outline-danger btn-xs" ><i class="fa fa-trash" aria-hidden="true"></i></form:button>
+                        <button id="delete" name="delete" class="btn btn-outline-danger btn-xs" onclick="removeItem(${item.key.itemId},${item.value},${item.key.price*item.value})" ><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
-            <c:set var="sum" value="${sum + item.key.price*item.value}"/>
-        </form:form>
+
     </c:forEach>
 
     <c:if test="${itemMap.size()!=0}">
@@ -76,8 +94,8 @@
                 </div>
             </form:form>
         </c:if>
-        <div class="float-right" style="margin: 5px">
-            Total price: <b>${sum}$</b>
+        <div class="float-right" id="totalPrice" style="margin: 5px">
+            Total price: $<b id="sum">${sum}</b>
         </div>
     </c:if>
 

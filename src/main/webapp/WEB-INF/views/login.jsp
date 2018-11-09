@@ -14,7 +14,6 @@
 
 </head>
 <body>
-
 <form:form id="logForm" action="loginProcess" method="post" modelAttribute="user" class="form-signin" >
         <h1 class="h3 mb-3 font-weight-normal" align="center">Please sign in</h1>
         <h5 style="color: red">${STATUS_MESSAGE}</h5>

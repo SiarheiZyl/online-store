@@ -24,16 +24,16 @@
                 <div class="row border-bottom" style="margin-top: 10px">
                     <div class="col-md-12">
                         <c:if test="${order.key.orderStatus==OrderStatus.DELIVERED}">
-                        <div class="pull-right"><label class="badge badge-success">Delivered</label> </div>
+                        <div class="float-right"><label class="badge badge-success">Delivered</label> </div>
                         </c:if>
                         <c:if test="${order.key.orderStatus==OrderStatus.AWAITING_PAYMENT}">
-                            <div class="pull-right"><label class="badge badge-warning">Awaiting payment</label> </div>
+                            <div class="float-right"><label class="badge badge-warning">Awaiting payment</label> </div>
                         </c:if>
                         <c:if test="${order.key.orderStatus==OrderStatus.AWAITING_SHIPMENT}">
-                            <div class="pull-right"><label class="badge badge-info">Awaiting shipment</label> </div>
+                            <div class="float-right"><label class="badge badge-info">Awaiting shipment</label> </div>
                         </c:if>
                         <c:if test="${order.key.orderStatus==OrderStatus.SHIPPED}">
-                            <div class="pull-right"><label class="badge badge-primary">Shipped</label> </div>
+                            <div class="float-right"><label class="badge badge-primary">Shipped</label> </div>
                         </c:if>
                         <span><strong>Items:</strong></span> <span class="label label-info">
                         <c:set var="sum" value="${0}"/>
@@ -43,6 +43,7 @@
                         </c:forEach>
                             </span><br>
                         Cost: $${sum}<br>
+                        Made on: ${order.key.date}
                         <div style="margin-bottom: 5px">
                         <form:button id="repeatOrder" class="btn btn-outline-dark btn-sm pull-bottom" >Repeat Order</form:button>
                         </div>

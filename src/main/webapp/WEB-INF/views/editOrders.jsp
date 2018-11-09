@@ -70,19 +70,19 @@
         <div class="row border-bottom" style="margin-top: 10px">
             <div class="col-md-12">
                 <c:if test="${order.orderStatus==OrderStatus.DELIVERED}">
-                    <div class="pull-right" ><h4><label class="badge badge-success" id="orderStatusLabel${order.orderId}" style="margin-left: 10px" >${order.orderStatus}</label> </h4></div>
+                    <div class="float-right" ><h4><label class="badge badge-success" id="orderStatusLabel${order.orderId}" style="margin-left: 10px" >${order.orderStatus}</label> </h4></div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_PAYMENT}">
-                    <div class="pull-right" ><h4><label class="badge badge-warning" id="orderStatusLabel${order.orderId}" style="margin-left: 10px" > ${order.orderStatus}</label></h4> </div>
+                    <div class="float-right" ><h4><label class="badge badge-warning" id="orderStatusLabel${order.orderId}" style="margin-left: 10px" > ${order.orderStatus}</label></h4> </div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.AWAITING_SHIPMENT}">
-                    <div class="pull-right"><h4><label class="badge badge-info" id="orderStatusLabel${order.orderId}" style="margin-left: 10px" > ${order.orderStatus}</label></h4> </div>
+                    <div class="float-right"><h4><label class="badge badge-info" id="orderStatusLabel${order.orderId}" style="margin-left: 10px" > ${order.orderStatus}</label></h4> </div>
                 </c:if>
                 <c:if test="${order.orderStatus==OrderStatus.SHIPPED}">
-                    <div class="pull-right"><h4><label class="badge badge-primary" id="orderStatusLabel${order.orderId}" style="margin-left: 10px"> ${order.orderStatus}</label> </h4></div>
+                    <div class="float-right"><h4><label class="badge badge-primary" id="orderStatusLabel${order.orderId}" style="margin-left: 10px"> ${order.orderStatus}</label> </h4></div>
                 </c:if>
 
-                    <div class="pull-right"><h4><label ${order.paymentStatus==PaymentStatus.WAITING ? 'class="badge badge-info"': 'class="badge badge-success"' }  id="paymentStatusLabel${order.orderId}"> ${order.paymentStatus}</label> </h4></div>
+                    <div class="float-right"><h4><label ${order.paymentStatus==PaymentStatus.WAITING ? 'class="badge badge-info"': 'class="badge badge-success"' }  id="paymentStatusLabel${order.orderId}"> ${order.paymentStatus}</label> </h4></div>
 
                 <span><strong>Payment method:</strong></span>
                 <span class="label label-info">${order.paymentMethod} </span><br>
