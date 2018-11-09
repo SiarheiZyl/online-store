@@ -2,11 +2,8 @@ package com.online_market.controller;
 
 
 import com.online_market.entity.Order;
-        import com.online_market.entity.enums.DeliveryMethod;
-        import com.online_market.entity.enums.OrderStatus;
-        import com.online_market.entity.enums.PaymentMethod;
-        import com.online_market.entity.enums.PaymentStatus;
-        import com.online_market.service.OrderService;
+import com.online_market.entity.enums.*;
+import com.online_market.service.OrderService;
         import com.online_market.service.UserService;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Controller;
@@ -26,11 +23,13 @@ public class AdminController {
     @Autowired
     OrderService orderService;
 
-    @GetMapping("/user/{id}/editOrders")
-    public String getEditOrdersPage(@PathVariable("id") int id, Model model) {
+    @GetMapping("/editOrders")
+    public String getEditOrdersPage( Model model) {
 
+            int id = userService.getAuthirizedUserId();
+
+        if (id != 0 && userService.getById(id).getRole()== Roles.ADMIN) {
             model.addAttribute("orders", orderService.getAllTrackedOrders());
-            model.addAttribute("ord", new Order());
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
 
@@ -46,11 +45,20 @@ public class AdminController {
             model.addAttribute("orderStatusList", list4);
 
             return "editOrders";
+        }
+        else {
+            return "redirect:/login";
+        }
+
+
     }
 
-    @GetMapping("/user/{id}/statistics")
-    public String getStatisticsPage(@PathVariable("id") int id, Model model) {
+    @GetMapping("/statistics")
+    public String getStatisticsPage(Model model) {
 
+        int id = userService.getAuthirizedUserId();
+
+        if (id != 0 && userService.getById(id).getRole()== Roles.ADMIN) {
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
 
@@ -59,6 +67,10 @@ public class AdminController {
             model.addAttribute("incomeMap", orderService.getIncome());
 
             return "statisticsForAdmin";
+        }
+        else {
+            return "redirect:/login";
+        }
     }
 
     @PostMapping("/editOrdersProcess")

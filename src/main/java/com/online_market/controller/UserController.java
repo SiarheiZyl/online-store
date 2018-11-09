@@ -54,16 +54,6 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("/userList")
-    public String listCustomers(Model model) {
-
-        model.addAttribute("user", new User());
-        List<User> list = this.userService.findAll();
-        model.addAttribute("userList", list);
-
-        return "userList";
-    }
-
     @GetMapping("/user/{id}/address")
     public String getAddress(@PathVariable("id") int id, Model model){
 
@@ -95,4 +85,6 @@ public class UserController {
 
         return address;
     }
+
+
 }

@@ -16,10 +16,11 @@
 
 </head>
 <body>
-<h1 align="center" class="display-1" style="color: #5949c8;">Welcome to online store</h1>
+<h1 align="center" class="display-1" style="color: #5949c8;">Welcome to art shop</h1>
 <div align="center" style="font-size: 20pt; margin-top: 10%">
 <a  href="login">Login</a>
 <a href="register">Registration</a>
+<a href="/catalog">Art store</a>
 </div>
 </body>
 </html>

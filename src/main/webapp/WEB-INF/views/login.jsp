@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Login Page</title>
+    <title>Login</title>
 
     <jsp:include page="layout.jsp"/>
     <link href="<c:url value='../../resources/css/login.css' />" rel="stylesheet">

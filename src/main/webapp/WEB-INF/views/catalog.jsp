@@ -4,7 +4,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Items</title>
+    <title>Catalog</title>
     <jsp:include page="layout.jsp"/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
