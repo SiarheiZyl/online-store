@@ -24,4 +24,20 @@ public class CategoryDaoImpl implements CategoryDao {
 
         return query.getResultList();
     }
+
+    @Override
+    public void saveOrUpdate(Category category) {
+        sessionFactory.getCurrentSession().saveOrUpdate(category);
+    }
+
+    @Override
+    public Category findByName(String categoryName) {
+
+        String s = "select * from categories where category_name = :categoty_name";
+        Query query = sessionFactory.getCurrentSession().createSQLQuery(s).addEntity(Category.class);
+        query.setParameter("categoty_name", categoryName);
+        List list = query.list();
+
+        return list.size()>0 ? (Category) list.get(0) : null;
+    }
 }

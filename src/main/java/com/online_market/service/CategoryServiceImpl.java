@@ -23,4 +23,18 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> listCategories() {
         return categoryDao.listCategories();
     }
+
+    @Override
+    public String save(String categName) {
+
+        Category category = new Category();
+
+        categName = categName.trim();
+        String categoryName = categName.toUpperCase().toCharArray()[0] + categName.toLowerCase().substring(1,categName.length());
+        category.setCategoryName(categoryName);
+
+        categoryDao.saveOrUpdate(category);
+
+        return categoryName;
+    }
 }

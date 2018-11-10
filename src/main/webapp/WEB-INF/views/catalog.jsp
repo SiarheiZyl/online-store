@@ -23,6 +23,7 @@
     </style>
 
     <script language="JavaScript" type="text/javascript">
+
         function addItem(itemId){
             $.ajax({
                 type:'GET',//тип запроса
@@ -54,7 +55,7 @@
 
         <div class="col-lg-9" style="margin-top: 5%">
 
-            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel" data-interval="2000">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>

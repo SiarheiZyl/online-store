@@ -28,6 +28,11 @@
                         <a class="nav-link" href="/editOrders" >Edit orders</a>
                     </li>
                     <li class="nav-item active">
+                        <a class="nav-link" href="/editCategories" >
+                            <span class="fas fa-edit" style="font-size:24px" ></span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
                         <a class="nav-link" href="/statistics" >
                             <span class="fas fa-chart-bar" style="font-size:24px" ></span>
                         </a>
@@ -38,13 +43,11 @@
                         </a>
                     </li>
                 </c:if>
-                <c:if test="${user.role!=Roles.ADMIN}">
                 <li class="nav-item active">
                     <a class="nav-link" href="/bucket" >
                         <span class="fa fa-shopping-basket"style="font-size:24px" ></span>
                     </a>
                 </li>
-                </c:if>
                 <li class="nav-item active">
                     <a class="nav-link" href="/login" >
                         <span ${ id>0 ? 'class="fas fa-sign-out-alt"' : 'class="fas fa-sign-in-alt"'}style="font-size:24px" ></span>

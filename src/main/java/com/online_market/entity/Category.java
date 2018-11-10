@@ -35,4 +35,8 @@ public class Category {
         this.categoryName = categoryName;
     }
 
+    @Override
+    public String toString() {
+        return categoryName;
+    }
 }

@@ -7,6 +7,8 @@ import java.util.Set;
 
 public interface ParamDao {
 
+    void save(Param param);
+
     Set<String> getAllAuthors();
 
     Set<String> getAllCountries();

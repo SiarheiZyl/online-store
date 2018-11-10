@@ -1,7 +1,10 @@
 package com.online_market.service;
 
 
+import com.online_market.dao.CategoryDao;
 import com.online_market.dao.ItemDao;
+import com.online_market.dao.ParamDao;
+import com.online_market.entity.Category;
 import com.online_market.entity.Item;
 import com.online_market.entity.Param;
 import org.apache.log4j.Logger;
@@ -22,6 +25,12 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     ItemDao itemDao;
 
+    @Autowired
+    ParamDao paramDao;
+
+    @Autowired
+    CategoryDao categoryDao;
+
     @Override
     public List<Item> itemList() {
         return itemDao.itemList();
@@ -34,15 +43,32 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void update(Item item) {
-        itemDao.update(item);
+        itemDao.updateQuantity(item);
     }
 
     @Override
-    public void changeAvailibleCount(int itemId, int delta) {
+    public void addNewItem(String itemName, int avalCount, int price, String itemCateg, String author, String country, int height, int width) {
 
-        Item item = getById(itemId);
-        item.setAvailableCount(item.getAvailableCount()+(delta));
-        update(item);
+        Param param = new Param();
+
+        param.setAuthor(author);
+        param.setCountry(country);
+        param.setHeight(height);
+        param.setWidth(width);
+
+        paramDao.save(param);
+
+        Category category = categoryDao.findByName(itemCateg);
+
+        Item item = new Item();
+
+        item.setItemName(itemName);
+        item.setAvailableCount(avalCount);
+        item.setPrice((double)price);
+        item.setParams(param);
+        item.setCategory(category);
+
+        itemDao.save(item);
     }
 
     @Override

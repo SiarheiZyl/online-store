@@ -44,7 +44,12 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void update(Item item) {
+    public void save(Item item) {
+        sessionFactory.getCurrentSession().save(item);
+    }
+
+    @Override
+    public void updateQuantity(Item item) {
 
         String s = "update items SET available_count = :available_count where item_id = :item_id";
         Session session = sessionFactory.getCurrentSession();

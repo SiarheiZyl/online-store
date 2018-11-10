@@ -1,6 +1,7 @@
 package com.online_market.service;
 
 import com.online_market.entity.Item;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ public interface ItemService {
 
     void update(Item item);
 
-    void changeAvailibleCount(int itemId, int delta);
+    void addNewItem(String itemName, int avalCount, int price, String itemCateg, String author, String country, int height, int width);
 
     Map<Item, Integer> getOrderNotNullItems(int orderId);
 

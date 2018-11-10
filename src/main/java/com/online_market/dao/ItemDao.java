@@ -14,7 +14,9 @@ public interface ItemDao {
 
     Item getById(int id);
 
-    void update(Item item);
+    void save(Item item);
+
+    void updateQuantity(Item item);
 
     int orderedItemQuantity(int orderId, int itemId);
 

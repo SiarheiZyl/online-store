@@ -7,4 +7,8 @@ import java.util.List;
 public interface CategoryDao {
 
     List<Category> listCategories();
+
+    void saveOrUpdate(Category category);
+
+    Category findByName(String categoryName);
 }

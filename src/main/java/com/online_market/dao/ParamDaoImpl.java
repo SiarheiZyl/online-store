@@ -20,6 +20,11 @@ public class ParamDaoImpl implements ParamDao {
     SessionFactory sessionFactory;
 
     @Override
+    public void save(Param param) {
+        sessionFactory.getCurrentSession().save(param);
+    }
+
+    @Override
     public List<Param> getAllParams() {
         Query query = sessionFactory.getCurrentSession().createQuery("select e from Param e");
         return  query.getResultList();

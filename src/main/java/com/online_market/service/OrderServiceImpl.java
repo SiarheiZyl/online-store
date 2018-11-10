@@ -5,7 +5,6 @@ import com.online_market.dao.OrderDao;
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
 import com.online_market.entity.User;
-import com.online_market.entity.enums.OrderStatus;
 import com.online_market.entity.enums.PaymentStatus;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +15,13 @@ import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
-    final static Logger logger = Logger.getLogger(OrederService.class);
+    final static Logger logger = Logger.getLogger(OrderService.class);
 
     @Autowired
     OrderDao orderDao;
@@ -107,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
             //}
             if(item.getAvailableCount()!=0) {
                 item.setAvailableCount(item.getAvailableCount() - 1);
-                itemDao.update(item);
+                itemDao.updateQuantity(item);
             }
 
             userBucket.setUser(userService.getById(userId));
@@ -135,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
     public void removeFromBucket(int itemId, int userId, int quantity) {
         Item item = itemDao.getById(itemId);
         item.setAvailableCount(item.getAvailableCount()+quantity);
-        itemDao.update(item);
+        itemDao.updateQuantity(item);
     }
 
     @Override
@@ -180,7 +178,7 @@ public class OrderServiceImpl implements OrderService {
         Map<Item, Integer> items = itemService.getOrderNotNullItems(orderId);
 
 
-        update(repeatedOrder);
+        updateQuantity(repeatedOrder);
 
         orderId = repeatedOrder.getOrderId();
 
@@ -196,7 +194,7 @@ public class OrderServiceImpl implements OrderService {
                         else{
                             availibleCount--;
                             item.setAvailableCount(availibleCount);
-                            itemService.update(item);
+                            itemService.updateQuantity(item);
                             updateQuantity(userService.getAuthirizedUserId(), orderId, itemDao.orderedItemQuantity(orderId,item.getItemId())+1);
                         }
                     }
@@ -232,7 +230,7 @@ public class OrderServiceImpl implements OrderService {
     public void removeItemFromSession(int itemId, int quantity, HttpSession session) {
         Item item = itemDao.getById(itemId);
         item.setAvailableCount(item.getAvailableCount()+quantity);
-        itemDao.update(item);
+        itemDao.updateQuantity(item);
         updateQuantity(userId, itemId, 0);
     }*/
 
