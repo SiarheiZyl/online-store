@@ -1,6 +1,7 @@
 package com.online_market.dao;
 
 import com.online_market.entity.Order;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,6 +15,8 @@ import java.util.List;
 @Repository
 public class OrderDaoImpl implements OrderDao {
 
+    final static Logger logger = Logger.getLogger(OrderDao.class);
+
     @Autowired
     SessionFactory sessionFactory;
 
@@ -24,10 +27,6 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void update(Order order) {
- /*       if(getById(order.getOrderId()) == null)
-            save(order);
-        else
-            sessionFactory.getCurrentSession().update(order);*/
         sessionFactory.getCurrentSession().saveOrUpdate(order);
     }
 

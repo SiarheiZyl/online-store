@@ -5,6 +5,7 @@ import com.online_market.entity.Item;
 import com.online_market.entity.Order;
 import com.online_market.entity.Param;
 import com.online_market.service.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,8 @@ import java.util.Map;
 
 @Controller
 public class ItemController {
+
+    final static Logger logger = Logger.getLogger(ItemController.class);
 
     @Autowired
     ItemService itemService;

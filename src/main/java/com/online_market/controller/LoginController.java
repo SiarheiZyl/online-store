@@ -2,6 +2,7 @@ package com.online_market.controller;
 
 import com.online_market.entity.User;
 import com.online_market.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +16,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/")
 public class LoginController {
 
+    final static Logger logger = Logger.getLogger(LoginController.class);
+
     @Autowired
     public UserService userService;
 
     @GetMapping("/login")
     public String loginPage(Model model){
-
+        logger.info("Logging page");
         userService.logout();
         model.addAttribute("user", new User());
 
@@ -45,5 +48,6 @@ public class LoginController {
                 model.addAttribute("STATUS_MESSAGE", "Login or password is incorrect!");
                 return "login";
             }
+
     }
 }

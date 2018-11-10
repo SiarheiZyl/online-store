@@ -7,6 +7,7 @@ import com.online_market.entity.Order;
 import com.online_market.entity.User;
 import com.online_market.entity.enums.OrderStatus;
 import com.online_market.entity.enums.PaymentStatus;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
+
+    final static Logger logger = Logger.getLogger(OrederService.class);
 
     @Autowired
     OrderDao orderDao;

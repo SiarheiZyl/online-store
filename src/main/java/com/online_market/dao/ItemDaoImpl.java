@@ -2,6 +2,7 @@ package com.online_market.dao;
 
 
 import com.online_market.entity.Item;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,6 +18,7 @@ import java.util.Map;
 @Repository
 public class ItemDaoImpl implements ItemDao {
 
+    final static Logger logger = Logger.getLogger(ItemDao.class);
 
     @Autowired
     SessionFactory sessionFactory;

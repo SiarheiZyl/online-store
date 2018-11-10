@@ -4,6 +4,7 @@ package com.online_market.controller;
 import com.online_market.entity.User;
 import com.online_market.entity.enums.Roles;
 import com.online_market.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,8 @@ import java.util.Arrays;
 
 @Controller
 public class RegistrationController {
+
+    final static Logger logger = Logger.getLogger(RegistrationController.class);
 
     @Autowired
     public UserService userService;

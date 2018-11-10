@@ -2,6 +2,7 @@ package com.online_market.dao;
 
 
 import com.online_market.entity.Address;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AddressDaoImpl implements AddressDao {
+
+    final static Logger logger = Logger.getLogger(AddressDao.class);
 
     @Autowired
     SessionFactory sessionFactory;

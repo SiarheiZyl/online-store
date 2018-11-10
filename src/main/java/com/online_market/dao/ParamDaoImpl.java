@@ -1,6 +1,7 @@
 package com.online_market.dao;
 
 import com.online_market.entity.Param;
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,8 @@ import java.util.Set;
 
 @Repository
 public class ParamDaoImpl implements ParamDao {
+
+    final static Logger logger = Logger.getLogger(ParamDao.class);
 
     @Autowired
     SessionFactory sessionFactory;

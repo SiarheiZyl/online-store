@@ -4,6 +4,7 @@ import com.online_market.entity.Address;
 import com.online_market.entity.User;
 import com.online_market.service.AddressService;
 import com.online_market.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +16,10 @@ import java.util.List;
 @RequestMapping("/")
 public class UserController {
 
+    final static Logger logger = Logger.getLogger(UserController.class);
+
     @Autowired
     public UserService userService;
-
 
     @Autowired
     public AddressService addressService;

@@ -1,6 +1,7 @@
 package com.online_market.dao;
 
 import com.online_market.entity.Category;
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import java.util.List;
 
 @Repository
 public class CategoryDaoImpl implements CategoryDao {
+
+    final static Logger logger = Logger.getLogger(CategoryDao.class);
 
     @Autowired
     SessionFactory sessionFactory;

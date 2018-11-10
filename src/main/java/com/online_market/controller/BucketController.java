@@ -8,6 +8,7 @@ import com.online_market.entity.enums.PaymentMethod;
 import com.online_market.service.ItemService;
 import com.online_market.service.OrderService;
 import com.online_market.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class BucketController {
+
+    final static Logger logger = Logger.getLogger(BucketController.class);
 
     @Autowired
     OrderService orderService;

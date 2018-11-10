@@ -5,7 +5,8 @@ import com.online_market.entity.Order;
 import com.online_market.entity.enums.*;
 import com.online_market.service.OrderService;
         import com.online_market.service.UserService;
-        import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Controller;
         import org.springframework.ui.Model;
         import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ import com.online_market.service.OrderService;
 @Controller
 @RequestMapping("/")
 public class AdminController {
+
+    final static Logger logger = Logger.getLogger(AdminController.class);
 
     @Autowired
     UserService userService;
