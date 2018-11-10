@@ -21,11 +21,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> listCategories() {
+
+        logger.info("Getting list of categories(called listCategories())");
+
         return categoryDao.listCategories();
     }
 
     @Override
     public String save(String categName) {
+
+        logger.info("Saving category(called save(String categName))");
 
         Category category = new Category();
 

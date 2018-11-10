@@ -14,8 +14,6 @@ public interface UserService {
 
     void update(User user);
 
-    void delete(int id);
-
     User validate(String username, String password);
 
     void authorize(int id);

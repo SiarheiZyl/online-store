@@ -19,11 +19,17 @@ public class ParamServiceImpl implements ParamService {
 
     @Override
     public Set<String> getAllAuthors() {
+
+        logger.info("Getting all authors(called getAllAuthors())");
+
         return paramDao.getAllAuthors();
     }
 
     @Override
     public Set<String> getAllCountries() {
+
+        logger.info("Getting all countries(called getAllCountries())");
+
         return paramDao.getAllCountries();
     }
 }

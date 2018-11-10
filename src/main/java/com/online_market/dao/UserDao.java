@@ -14,8 +14,6 @@ public interface UserDao {
 
     void update(User user);
 
-    void delete(int id);
-
     User validate(String username, String password);
 
     void register(User user);

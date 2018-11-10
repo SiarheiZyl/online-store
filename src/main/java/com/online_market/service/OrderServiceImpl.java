@@ -37,26 +37,43 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void save(Order order) {
+
+        logger.info("Saving order(called save(Order order))");
+
         orderDao.save(order);
     }
 
     @Override
     public Order getById(int id) {
+
+      logger.info("Getting order by id(called getById(int id))");
+
       return orderDao.getById(id);
     }
 
     @Override
     public void update(Order order) {
+
+        logger.info("Updating order");
+
         orderDao.update(order);
+
+        logger.info("Order was updated");
     }
 
     @Override
     public List<Order> userOrderList(int userId) {
+
+        logger.info("Getting userOrderList(called userOrderList(int userId))");
+
         return orderDao.userOrderList(userId);
     }
 
     @Override
     public Order getBucketOrder(int userId) {
+
+        logger.info("Getting bucket(called getBucketOrder(int userId))");
+
         List<Order> orders = userOrderList(userId);
 
         for (Order order : orders) {
@@ -75,6 +92,9 @@ public class OrderServiceImpl implements OrderService {
 
    @Override
     public void saveBucketToOrders(Order order, int userId) {
+
+        logger.info("Saving bucket to orders(called saveBucketToOrders(Order order, int userId))");
+
         Order order1 = getBucketOrder(userId);
 
         order1.setDeliveryMethod(order.getDeliveryMethod());
@@ -88,6 +108,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void addToBucket(int itemId, int userId) {
+
+        logger.info("Saving item to bucket(called addToBucket(int itemId, int userId))");
+
         Item item = itemDao.getById(itemId);
 
         if (item.getAvailableCount()>0) {
@@ -95,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
             Order userBucket = getBucketOrder(userId);
             List<Item> itemList = userBucket.getItems()!=null ? userBucket.getItems() : new ArrayList<>();
 
-            int quantity = 0;
+            int quantity;
 
             for (Item item1 :itemList) {
                 if(item1.getItemId() == item.getItemId()){
@@ -115,29 +138,54 @@ public class OrderServiceImpl implements OrderService {
             quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), item.getItemId()) + 1;
 
             updateQuantity(userId, item.getItemId(), quantity);
+
+         logger.info("Item was saved");
+        }
+
+        else {
+            logger.warn("Item's quantity = 0");
         }
     }
 
     @Override
     public void updateQuantity(int userId, int itemId, int quantity) {
+
+        logger.info("Updating item quantity(called updateQuantity(int userId, int itemId, int quantity))");
+
         itemDao.updateQuantityOfOrderedItem(getBucketOrder(userId).getOrderId(), itemId, quantity);
+
+        logger.info("Item's quantity was updated");
     }
 
     @Override
     public void setQuantity(int orderId, int itemId, int quantity) {
+
+        logger.info("Setting item quantity(called setQuantity(int userId, int itemId, int quantity))");
+
         itemDao.updateQuantityOfOrderedItem(orderId, itemId, quantity);
+
+        logger.info("Item's quantity was updated");
+
     }
 
-    //?
+
     @Override
     public void removeFromBucket(int itemId, int userId, int quantity) {
+
+        logger.info("Removing item from bucket(called removeFromBucket(int itemId, int userId, int quantity))");
+
         Item item = itemDao.getById(itemId);
         item.setAvailableCount(item.getAvailableCount()+quantity);
         itemDao.updateQuantity(item);
+
+        logger.info("Item was removed");
     }
 
     @Override
     public List<Order> getAllTrackedOrders() {
+
+        logger.info("Getting all tracked orders(called getAllTrackedOrders())");
+
         List<Order> orders = orderDao.getAllOrders();
 
         for (Order order : orderDao.getAllOrders()) {
@@ -150,6 +198,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllTrackedOrdersById(int userId) {
+
+        logger.info("Getting all tracked orders by id(called getAllTrackedOrdersById(int userId))");
+
         List<Order> result = new ArrayList<>();
 
         for (Order order : getAllTrackedOrders()) {
@@ -161,6 +212,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Map<Order, Map<Item, Integer>> getHistoryOfOrders(int userId) {
+
+        logger.info("Getting history of orders(called getHistoryOfOrders(int userId))");
+
         Map<Order, Map<Item, Integer>> result = new HashMap<>();
 
         List<Order> orders = getAllTrackedOrdersById(userId);
@@ -173,40 +227,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void repeatOrder(Order repeatedOrder, int orderId) {
-/*
-
-        Map<Item, Integer> items = itemService.getOrderNotNullItems(orderId);
 
 
-        updateQuantity(repeatedOrder);
-
-        orderId = repeatedOrder.getOrderId();
-
-
-
-        for (Item item : repeatedOrder.getItems()) {
-            for (Map.Entry<Item, Integer> itemEntry : items.entrySet()) {
-                if(item.getItemId()== itemEntry.getKey().getItemId()){
-                    for (int i = 0; i < itemEntry.getValue(); i++) {
-                        int availibleCount = item.getAvailableCount();
-                        if(availibleCount==0)
-                            break;
-                        else{
-                            availibleCount--;
-                            item.setAvailableCount(availibleCount);
-                            itemService.updateQuantity(item);
-                            updateQuantity(userService.getAuthirizedUserId(), orderId, itemDao.orderedItemQuantity(orderId,item.getItemId())+1);
-                        }
-                    }
-                }
-            }
-
-        }
-*/
     }
 
     @Override
     public void addItemToSession(int itemId, HttpSession session) {
+
+        logger.info("Adding item to session(called addItemToSession(int itemId, HttpSession session))");
 
         Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
         Item item1 = itemService.getById(itemId);
@@ -224,27 +252,30 @@ public class OrderServiceImpl implements OrderService {
             itemMap.put(item1, quantity);
             session.setAttribute("basket", itemMap);
         }
+
+        logger.info("Item was added to session");
     }
 
-/*    @Override
-    public void removeItemFromSession(int itemId, int quantity, HttpSession session) {
-        Item item = itemDao.getById(itemId);
-        item.setAvailableCount(item.getAvailableCount()+quantity);
-        itemDao.updateQuantity(item);
-        updateQuantity(userId, itemId, 0);
-    }*/
 
     @Override
     public void addFromSessionToBucket(Map<Item, Integer> itemMap, int userId) {
+
+        logger.info("Adding items from session to bucket(called addFromSessionToBucket(Map<Item, Integer> itemMap, int userId))");
+
         Order userBucket = getBucketOrder(userId);
         for (Map.Entry<Item, Integer> itemEntry : itemMap.entrySet()) {
           int  quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), itemEntry.getKey().getItemId()) + itemEntry.getValue();
           updateQuantity(userId,  itemEntry.getKey().getItemId(), quantity);
         }
+
+        logger.info("All items were added to bucket");
     }
 
     @Override
     public Map<User, Double> getTopUsers() {
+
+        logger.info("Getting topUsers(called getTopUsers())");
+
         Map<User, Double> map = new HashMap<>();
 
         List<User> users = userService.findAll();
@@ -267,6 +298,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Map<Item, Integer> getTopItems() {
+
+        logger.info("Getting topItems(called getTopItems())");
+
         Map<Item, Integer> map = new HashMap<>();
 
         List<Order> orders = getAllTrackedOrders();
@@ -296,6 +330,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Map<String, Double> getIncome() {
+
+        logger.info("Getting income(called getIncome())");
 
         Map<String, Double> incomeMap = new HashMap<>();
         incomeMap.put("month", 0.0);

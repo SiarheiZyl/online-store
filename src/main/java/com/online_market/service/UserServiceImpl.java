@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -30,16 +31,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user)  {
 
+        logger.info("Saving user(called save(User user))");
+
         userDao.save(user);
+
+        logger.info("User was saved");
     }
 
     @Override
     public User getById(int id) {
+
+        logger.info("Getting user by id(called getById(int id))");
+
         return userDao.getById(id);
     }
 
     @Override
     public void update(User user) {
+
+        logger.info("Updating user(called update(User user))");
 
         User user_for_update = getById(user.getId());
 
@@ -51,27 +61,32 @@ public class UserServiceImpl implements UserService {
         if(user.getRole() == null)
             user.setRole(user_for_update.getRole());
 
-
         userDao.update(user);
-    }
 
-    @Override
-    public void delete(int id) {
-        userDao.delete(id);
+        logger.info("User was updated");
     }
 
     @Override
     public User validate(String username, String password) {
+
+        logger.info("Validating user(called validate(String username, String password))");
+
         return userDao.validate(username, password);
     }
 
     @Override
     public void register(User user) {
+
+        logger.info("Registration a new user(called register(User user))");
+
         userDao.register(user);
     }
 
     @Override
     public void logout() {
+
+        logger.info("Logout");
+
         List<User> users = findAll();
         for (User user : users) {
             if(user.isAuth()){
@@ -80,11 +95,13 @@ public class UserServiceImpl implements UserService {
             }
 
         }
-
     }
 
     @Override
     public void authorize(int id) {
+
+        logger.info("Authorizing(called authorize(int id))");
+
         User user = getById(id);
         user.setAuth(true);
         update(user);
@@ -92,6 +109,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int getAuthirizedUserId() {
+
+        logger.info("Getting authirized user id(called getAuthirizedUserId())");
+
         return userDao.getAuthirizedUserId();
     }
 }

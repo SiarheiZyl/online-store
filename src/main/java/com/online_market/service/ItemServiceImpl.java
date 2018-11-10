@@ -33,21 +33,34 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> itemList() {
+
+        logger.info("Getting itemList(called itemList())");
+
         return itemDao.itemList();
     }
 
     @Override
     public Item getById(int id) {
+
+        logger.info("Getting Item by id(called getById(int id))");
+
         return itemDao.getById(id);
     }
 
     @Override
     public void update(Item item) {
+
+        logger.info("Starting updating item(called update(Item item))");
+
         itemDao.updateQuantity(item);
+
+        logger.info("Item was updated");
     }
 
     @Override
     public void addNewItem(String itemName, int avalCount, int price, String itemCateg, String author, String country, int height, int width) {
+
+        logger.info("Adding a new item(called addNewItem()) ");
 
         Param param = new Param();
 
@@ -69,15 +82,23 @@ public class ItemServiceImpl implements ItemService {
         item.setCategory(category);
 
         itemDao.save(item);
+
+        logger.info("Item was saved");
     }
 
     @Override
     public Map<Item, Integer> getOrderNotNullItems(int orderId) {
+
+        logger.info("Getting ordered items by id(called getOrderNotNullItems(int orderId))");
+
         return itemDao.getNotNullItemsInBucket(orderId);
     }
 
     @Override
     public List<Item> getFilteredItemsByAuthor(List<Item> items, String author) {
+
+        logger.info("Getting filtering items by author(called getFilteredItemsByAuthor(List<Item> items, String author))");
+
         List<Item> result = new ArrayList<>();
 
         for (Item item : items) {
@@ -89,6 +110,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getFilteredItemsByCountry(List<Item> items, String country) {
+
+        logger.info("Getting filtering items by country(called getFilteredItemsCountry(List<Item> items, String country))");
+
+
         List<Item> result = new ArrayList<>();
 
         for (Item item : items) {
@@ -100,6 +125,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getFilteredItemsByMaxWidth(List<Item> items, int maxWidth) {
+
+        logger.info("Getting filtering items by maxWidth(called getFilteredItemsMaxWidth(List<Item> items, String maxWidth))");
+
         List<Item> result = new ArrayList<>();
 
         for (Item item : items) {
@@ -111,6 +139,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getFilteredItemsByMaxHeight(List<Item> items, int maxHeight) {
+
+        logger.info("Getting filtering items by maxHeight(called getFilteredItemsMaxHeight(List<Item> items, String maxHeight))");
+
         List<Item> result = new ArrayList<>();
 
         for (Item item : items) {
@@ -122,6 +153,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getFilteredItemsByAllParams(String author, String country, int maxWidth, int maxHeight) {
+
+        logger.info("Getting filtering items by AllParams(called getFilteredItemsByAllParams())");
+
         List<Item> items = itemList();
         if(author==null || !author.equals(""))
             items = getFilteredItemsByAuthor(items, author);
@@ -138,6 +172,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getFilteredItemsByCategory(List<Item> items, String category) {
 
+        logger.info("Getting filtering items by category(called getFilteredItemsByCategory(List<Item> items, String category))");
+
         if(category.equals("ALL"))
             return items;
         List<Item> result = new ArrayList<>();
@@ -146,6 +182,7 @@ public class ItemServiceImpl implements ItemService {
             if(item.getCategory().getCategoryName().toLowerCase().equals(category.toLowerCase()))
                 result.add(item);
         }
+
         return result;
     }
 }

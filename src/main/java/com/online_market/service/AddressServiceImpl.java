@@ -20,16 +20,29 @@ public class AddressServiceImpl implements AddressService{
 
     @Override
     public void save(Address address) {
+
+        logger.info("Starting saving address(called save(Address address))");
+
         addressDao.save(address);
+
+        logger.info("Address was saved");
     }
 
     @Override
     public void update(Address address) {
+
+        logger.info("Starting updating address(called update(Address address))");
+
         addressDao.update(address);
+
+        logger.info("Address was updated");
     }
 
     @Override
     public Address getById(int id) {
+
+        logger.info("Getting address by id(called getById(int id))");
+
         return addressDao.getById(id);
     }
 }

@@ -49,15 +49,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void delete(int id) {
-
-        String s = "delete from users where id = :id";
-        Query query = sessionFactory.getCurrentSession().createSQLQuery(s);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
-
-    @Override
     public User validate(String username, String password) {
 
         String s = "select * from users where login = :login and password = :password";
