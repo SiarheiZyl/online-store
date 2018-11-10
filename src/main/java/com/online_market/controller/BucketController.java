@@ -19,6 +19,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Class for mapping all paths associated with user bucket
+ * @author Siarhei
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/")
 public class BucketController {
@@ -34,6 +40,12 @@ public class BucketController {
     @Autowired
     UserService userService;
 
+    /**
+     * Get mapping for all users
+     * @param model model
+     * @param session HttpSession
+     * @return bucket page
+     */
     @GetMapping("/bucket")
     public String getBucket(Model model, HttpSession session){
 
@@ -45,7 +57,7 @@ public class BucketController {
 
         model.addAttribute("it", new Item());
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
         if (id != 0 && userService.getById(id).isAuth()) {
             Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
             if(itemMap!=null) {
@@ -71,11 +83,37 @@ public class BucketController {
         return "bucket";
     }
 
+    /**
+     * Post mapping for adding item to bucket
+     * @param itemId itemId
+     * @param session HttpSession
+     * @return availible count of added item
+     */
+    @GetMapping("/addItemToOrderProcess")
+    @ResponseBody
+    public String addItemToOrder( @RequestParam("itId") int itemId, HttpSession session){
+
+        int id = userService.getAuthorizedUserId();
+        if(id!=0)
+            orderService.addToBucket(itemId, id);
+        else {
+            orderService.addItemToSession(itemId, session);
+        }
+
+        return itemService.getById(itemId).getAvailableCount()+"";
+    }
+
+    /**
+     * Post mapping for deleting item in bucket
+     * @param itemId itemId
+     * @param quantity quantity
+     * @param session HttpSession
+     */
     @PostMapping("/deleteProcess")
     @ResponseBody
-    public String deleteItemFromBucket(@RequestParam("itemId") int itemId, @RequestParam("quantity") int quantity, HttpSession session){
+    public void deleteItemFromBucket(@RequestParam("itemId") int itemId, @RequestParam("quantity") int quantity, HttpSession session){
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
         orderService.removeFromBucket(itemId, id, quantity);
         if(id != 0) {
             orderService.updateQuantity(id, itemId, 0);
@@ -85,33 +123,22 @@ public class BucketController {
             itemMap.remove(itemService.getById(itemId));
             session.setAttribute("basket", itemMap);
         }
-
-        return "";
     }
 
+    /**
+     * Post mapping to create an order in bucket
+     * @param order created order
+     * @return redirecting to the catalog
+     */
     @PostMapping("/orderProcess")
-    public String addItemProcess( @ModelAttribute("order") Order order){
+    public String addBucketToOrders( @ModelAttribute("order") Order order){
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
         if(order.getPaymentMethod()== null || order.getDeliveryMethod()==null)
             return "redirect:/bucket";
 
         orderService.saveBucketToOrders(order, id);
 
-        return "redirect:/items";
-    }
-
-    @GetMapping("/addItemToOrderProcess")
-    @ResponseBody
-    public String addItemToOrderProcess( @RequestParam("itId") int itemId, HttpSession session){
-
-        int id = userService.getAuthirizedUserId();
-        if(id!=0)
-            orderService.addToBucket(itemId, id);
-        else {
-            orderService.addItemToSession(itemId, session);
-        }
-
-        return itemService.getById(itemId).getAvailableCount()+"";
+        return "redirect:/catalog";
     }
 }

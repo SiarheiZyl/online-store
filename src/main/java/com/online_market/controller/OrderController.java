@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Class for mapping all paths associated with orders{@link Order}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/")
 public class OrderController {
@@ -28,11 +33,15 @@ public class OrderController {
     @Autowired
     UserService userService;
 
-
+    /**
+     * Get mapping for page with order history of authorized user
+     * @param model model
+     * @return page with order history
+     */
     @GetMapping("/orderHistory")
     public String orderHistory(Model model){
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
         if (userService.getById(id).isAuth()) {
 
 
@@ -50,9 +59,15 @@ public class OrderController {
         }
     }
 
+    /**
+     * Post mapping for repeating previous order
+     * @param orderId order id
+     * @return orderHistory page
+     */
     @PostMapping("/repeatOrderProcess/{orderId}")
-    public String repeatOrderItemProcess( @PathVariable("orderId") int orderId){
-        int id = userService.getAuthirizedUserId();
+    public String repeatOrderItemProcess(@PathVariable("orderId") int orderId){
+
+        int id = userService.getAuthorizedUserId();
 
         return "redirect:/orderHistory";
     }

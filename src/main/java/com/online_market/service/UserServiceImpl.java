@@ -10,7 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+/**
+ * Class implementing ${@link ParamService}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -23,11 +27,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     ItemDao itemDao;
 
+    /**
+     * Getting all users
+     * @return list of ${@link User}
+     */
     @Override
     public List<User> findAll() {
         return userDao.findAll();
     }
 
+    /**
+     * Saving user
+     * @param user user
+     */
     @Override
     public void save(User user)  {
 
@@ -38,6 +50,11 @@ public class UserServiceImpl implements UserService {
         logger.info("User was saved");
     }
 
+    /**
+     * Getting user by id
+     * @param id id
+     * @return user
+     */
     @Override
     public User getById(int id) {
 
@@ -46,6 +63,10 @@ public class UserServiceImpl implements UserService {
         return userDao.getById(id);
     }
 
+    /**
+     * Updating user
+     * @param user user
+     */
     @Override
     public void update(User user) {
 
@@ -66,6 +87,12 @@ public class UserServiceImpl implements UserService {
         logger.info("User was updated");
     }
 
+    /**
+     * Validating user
+     * @param username username
+     * @param password password
+     * @return null if user not found otherwise founded user
+     */
     @Override
     public User validate(String username, String password) {
 
@@ -74,6 +101,10 @@ public class UserServiceImpl implements UserService {
         return userDao.validate(username, password);
     }
 
+    /**
+     * Register user
+     * @param user user
+     */
     @Override
     public void register(User user) {
 
@@ -82,6 +113,9 @@ public class UserServiceImpl implements UserService {
         userDao.register(user);
     }
 
+    /**
+     * Logout for all users
+     */
     @Override
     public void logout() {
 
@@ -93,10 +127,13 @@ public class UserServiceImpl implements UserService {
                 user.setAuth(false);
                 update(user);
             }
-
         }
     }
 
+    /**
+     * Authorize user
+     * @param id id
+     */
     @Override
     public void authorize(int id) {
 
@@ -107,10 +144,14 @@ public class UserServiceImpl implements UserService {
         update(user);
     }
 
+    /**
+     * Getting authorized user id
+     * @return user id
+     */
     @Override
-    public int getAuthirizedUserId() {
+    public int getAuthorizedUserId() {
 
-        logger.info("Getting authirized user id(called getAuthirizedUserId())");
+        logger.info("Getting authirized user id(called getAuthorizedUserId())");
 
         return userDao.getAuthirizedUserId();
     }

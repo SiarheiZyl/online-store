@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Class for mapping all paths associated with{@link User} information
+ * @author Siarhei
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/")
 public class UserController {
@@ -31,6 +36,12 @@ public class UserController {
         return "in";
     }
 
+    /**
+     * Get mapping for user profile
+     * @param id user id
+     * @param model model
+     * @return page with user info if user authorized
+     */
     @GetMapping("/user/{id}")
     public String getById(@PathVariable("id") int id, Model model) {
 
@@ -46,6 +57,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Post mapping for updating user info
+     * @param user user
+     * @return user
+     */
     @PostMapping("/updateUser")
     @ResponseBody
     public User updateUser(@ModelAttribute("user") User user) {
@@ -56,6 +72,12 @@ public class UserController {
         return user;
     }
 
+    /**
+     * Get mapping for address page
+     * @param id user id
+     * @param model model
+     * @return address page if user autorized
+     */
     @GetMapping("/user/{id}/address")
     public String getAddress(@PathVariable("id") int id, Model model){
 
@@ -74,6 +96,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Post mapping for updating address
+     * @param id id
+     * @param address address
+     * @return address
+     */
     @PostMapping("user/{id}/addressProcess")
     @ResponseBody
     public Address updateAddress(@PathVariable("id") int id, @ModelAttribute("address") Address address) {
@@ -87,6 +115,4 @@ public class UserController {
 
         return address;
     }
-
-
 }

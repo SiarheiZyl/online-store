@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
-
+/**
+ * Class for mapping all paths associated with registration
+ * @author Siarhei
+ * @version 1.0
+ */
 @Controller
 public class RegistrationController {
 
@@ -21,6 +25,11 @@ public class RegistrationController {
     @Autowired
     public UserService userService;
 
+    /**
+     * Get mapping for register page
+     * @param model model
+     * @return registration page
+     */
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String showRegister(Model model) {
 
@@ -31,6 +40,11 @@ public class RegistrationController {
     }
 
 
+    /**
+     * Post mapping for registration new user
+     * @param user new user
+     * @return redirect to user page
+     */
     @PostMapping("/registerProcess")
     public String addUser( @ModelAttribute("user") User user) {
 

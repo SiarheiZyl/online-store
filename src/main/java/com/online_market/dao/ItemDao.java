@@ -7,7 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Dao interface for ${@link Item}
+ * @author Siarhei
+ * @version 1.0
+ */
 public interface ItemDao {
 
     List<Item> itemList();
@@ -19,8 +23,6 @@ public interface ItemDao {
     void updateQuantity(Item item);
 
     int orderedItemQuantity(int orderId, int itemId);
-
-    int orderedItemId(int orderId, int itemId);
 
     void updateQuantityOfOrderedItem(int orderId, int itemId, int quantity);
 

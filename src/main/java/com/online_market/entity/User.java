@@ -8,7 +8,13 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * Entity class for users
+ * @author Siarhei
+ * @version 1.0
+ */
 @Entity
 @Table(name = "users")
 public class User {
@@ -139,6 +145,19 @@ public class User {
 
     public void setAuth(boolean auth) {
         isAuth = auth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId() == user.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }
 

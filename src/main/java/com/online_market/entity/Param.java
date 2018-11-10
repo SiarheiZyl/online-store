@@ -2,6 +2,11 @@ package com.online_market.entity;
 
 import javax.persistence.*;
 
+/**
+ * Entity class for params
+ * @author Siarhei
+ * @version 1.0
+ */
 @Entity
 @Table(name = "params")
 public class Param {

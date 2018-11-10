@@ -11,6 +11,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Class implementing ${@link ParamDao}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Repository
 public class ParamDaoImpl implements ParamDao {
 
@@ -19,17 +24,29 @@ public class ParamDaoImpl implements ParamDao {
     @Autowired
     SessionFactory sessionFactory;
 
+    /**
+     * Saving param
+     * @param param param
+     */
     @Override
     public void save(Param param) {
         sessionFactory.getCurrentSession().save(param);
     }
 
+    /**
+     * Getting all params
+     * @return list of ${@link Param}
+     */
     @Override
     public List<Param> getAllParams() {
         Query query = sessionFactory.getCurrentSession().createQuery("select e from Param e");
         return  query.getResultList();
     }
 
+    /**
+     * Getting all authors
+     * @return list of authors
+     */
     @Override
     public Set<String> getAllAuthors() {
 
@@ -41,6 +58,10 @@ public class ParamDaoImpl implements ParamDao {
         return authors;
     }
 
+    /**
+     * Getting all countries
+     * @return list of countries
+     */
     @Override
     public Set<String> getAllCountries() {
 

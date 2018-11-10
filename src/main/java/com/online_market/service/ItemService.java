@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service interface for ${@link Item}
+ * @author Siarhei
+ * @version 1.0
+ */
 public interface ItemService {
 
     List<Item> itemList();

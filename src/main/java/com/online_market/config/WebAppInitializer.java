@@ -2,7 +2,11 @@ package com.online_market.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-
+/**
+ * Class to boot the application
+ * @author Siarhei
+ * @version 1.0
+ */
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override

@@ -11,7 +11,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
+/**
+ * Class implementing ${@link OrderDao}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Repository
 public class OrderDaoImpl implements OrderDao {
 
@@ -20,16 +24,29 @@ public class OrderDaoImpl implements OrderDao {
     @Autowired
     SessionFactory sessionFactory;
 
+    /**
+     * Saving order
+     * @param order order
+     */
     @Override
     public void save(Order order) {
         sessionFactory.getCurrentSession().persist(order);
     }
 
+    /**
+     * Updating order
+     * @param order order
+     */
     @Override
     public void update(Order order) {
         sessionFactory.getCurrentSession().saveOrUpdate(order);
     }
 
+    /**
+     * Getting order by id
+     * @param id id
+     * @return order
+     */
     @Override
     public Order getById(int id) {
 
@@ -41,7 +58,11 @@ public class OrderDaoImpl implements OrderDao {
         return order;
     }
 
-
+    /**
+     * Getting all orders of user
+     * @param userId user id
+     * @return list of ${@link Order}
+     */
     @Override
     public List<Order> userOrderList(int userId) {
 
@@ -53,6 +74,10 @@ public class OrderDaoImpl implements OrderDao {
         return list;
     }
 
+    /**
+     * Getting all orders
+     * @return list of ${@link Order}
+     */
     @Override
     public List<Order> getAllOrders() {
         String s = "select e from Order e";
@@ -60,6 +85,4 @@ public class OrderDaoImpl implements OrderDao {
 
         return query.getResultList();
     }
-
-
 }

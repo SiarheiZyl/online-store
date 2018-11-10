@@ -1,22 +1,26 @@
 package com.online_market.controller;
 
-
-import com.online_market.entity.Category;
 import com.online_market.entity.Order;
 import com.online_market.entity.enums.*;
 import com.online_market.service.CategoryService;
 import com.online_market.service.ItemService;
 import com.online_market.service.OrderService;
-        import com.online_market.service.UserService;
+import com.online_market.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.stereotype.Controller;
-        import org.springframework.ui.Model;
-        import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-        import java.util.Arrays;
-        import java.util.List;
+import java.util.Arrays;
+import java.util.List;
 
+
+/**
+ * Class for mapping all admin paths
+ * @author Siarhei
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/")
 public class AdminController {
@@ -35,10 +39,15 @@ public class AdminController {
     @Autowired
     ItemService itemService;
 
+    /**
+     * Get mapping for authorized admin
+     * @param model model
+     * @return page for editing orders
+     */
     @GetMapping("/editOrders")
     public String getEditOrdersPage(Model model) {
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
             model.addAttribute("orders", orderService.getAllTrackedOrders());
@@ -64,10 +73,15 @@ public class AdminController {
 
     }
 
+    /**
+     * Get mapping for authorized admin
+     * @param model model
+     * @return page with statistics of top items, users and income of the store
+     */
     @GetMapping("/statistics")
     public String getStatisticsPage(Model model) {
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
             model.addAttribute("id", id);
@@ -83,6 +97,13 @@ public class AdminController {
         }
     }
 
+    /**
+     * Post mapping for changing order and payment status
+     * @param orderId orderId
+     * @param orderStatus orderStatus
+     * @param paymentStatus paymentStatus
+     * @return orderStatus number
+     */
     @PostMapping("/editOrdersProcess")
     @ResponseBody
     public int editOrders(@RequestParam("orderId") int orderId, @RequestParam("orderStatus") OrderStatus orderStatus, @RequestParam("paymentStatus") PaymentStatus paymentStatus) {
@@ -101,10 +122,15 @@ public class AdminController {
         return 0;
     }
 
+    /**
+     * Get mapping for authorized admin
+     * @param model model
+     * @return page for adding new category and new items
+     */
     @GetMapping("/editCategories")
     public String getEditCategories(Model model) {
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
             model.addAttribute("id", id);
@@ -122,20 +148,36 @@ public class AdminController {
         }
     }
 
+    /**
+     * Post mapping for adding new category
+     * @param categName category name
+     * @return category name
+     */
     @PostMapping("/addNewCategoryProcess")
     @ResponseBody
-    public String  addNewCateg(@RequestParam("categName") String categName) {
+    public String addNewCateg(@RequestParam("categName") String categName) {
 
         String categoryName = categoryService.save(categName);
 
         return categoryName;
     }
 
+
+    /**
+     * Post mapping for adding new item
+     * @param itemName item name
+     * @param itemCateg category
+     * @param author author
+     * @param country country
+     * @param height height
+     * @param width width
+     * @param avalCount availible count
+     * @param price price
+     */
     @PostMapping("/addNewItemProcess")
     @ResponseBody
-    public String  addNewItem(@RequestParam("itemName") String itemName, @RequestParam("itemCateg") String itemCateg, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("avalCount") int avalCount, @RequestParam("price") int price) {
+    public void  addNewItem(@RequestParam("itemName") String itemName, @RequestParam("itemCateg") String itemCateg, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("avalCount") int avalCount, @RequestParam("price") int price) {
 
         itemService.addNewItem(itemName, avalCount, price, itemCateg, author, country, height, width);
-        return "";
     }
 }

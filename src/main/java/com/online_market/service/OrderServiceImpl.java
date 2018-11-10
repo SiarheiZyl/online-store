@@ -16,7 +16,11 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
-
+/**
+ * Class implementing ${@link OrderService}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
@@ -35,6 +39,10 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
    ItemService itemService;
 
+    /**
+     * Saving order
+     * @param order order
+     */
     @Override
     public void save(Order order) {
 
@@ -43,6 +51,11 @@ public class OrderServiceImpl implements OrderService {
         orderDao.save(order);
     }
 
+    /**
+     * Getting order by id
+     * @param id id
+     * @return order
+     */
     @Override
     public Order getById(int id) {
 
@@ -51,6 +64,10 @@ public class OrderServiceImpl implements OrderService {
       return orderDao.getById(id);
     }
 
+    /**
+     * Updating order
+     * @param order order
+     */
     @Override
     public void update(Order order) {
 
@@ -61,6 +78,11 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Order was updated");
     }
 
+    /**
+     * Getting user's order list
+     * @param userId user id
+     * @return list of ${@link Order}
+     */
     @Override
     public List<Order> userOrderList(int userId) {
 
@@ -69,6 +91,11 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.userOrderList(userId);
     }
 
+    /**
+     * Getting user bucket order
+     * @param userId user id
+     * @return bucket ${@link Order}
+     */
     @Override
     public Order getBucketOrder(int userId) {
 
@@ -90,6 +117,11 @@ public class OrderServiceImpl implements OrderService {
         return userBucket;
     }
 
+    /**
+     * Saving items from bucket to orders
+     * @param order order
+     * @param userId user id
+     */
    @Override
     public void saveBucketToOrders(Order order, int userId) {
 
@@ -106,6 +138,11 @@ public class OrderServiceImpl implements OrderService {
         update(order1);
     }
 
+    /**
+     * Adding item to bucket
+     * @param itemId item id
+     * @param userId user id
+     */
     @Override
     public void addToBucket(int itemId, int userId) {
 
@@ -125,7 +162,6 @@ public class OrderServiceImpl implements OrderService {
                     item1.setAvailableCount(item1.getAvailableCount()-1);
                 }
             }
-            //}
             if(item.getAvailableCount()!=0) {
                 item.setAvailableCount(item.getAvailableCount() - 1);
                 itemDao.updateQuantity(item);
@@ -147,6 +183,12 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * Updating quantity of ordered item
+     * @param userId user id
+     * @param itemId item id
+     * @param quantity quantity
+     */
     @Override
     public void updateQuantity(int userId, int itemId, int quantity) {
 
@@ -157,6 +199,12 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Item's quantity was updated");
     }
 
+    /**
+     * Setting item's quantity
+     * @param orderId order id
+     * @param itemId item id
+     * @param quantity quantity
+     */
     @Override
     public void setQuantity(int orderId, int itemId, int quantity) {
 
@@ -169,6 +217,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    /**
+     * Removing item from bucket
+     * @param itemId item id
+     * @param userId user id
+     * @param quantity quantity
+     */
     @Override
     public void removeFromBucket(int itemId, int userId, int quantity) {
 
@@ -181,6 +235,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Item was removed");
     }
 
+    /**
+     * Getting all tracked orders
+     * @return list of ${@link Order}
+     */
     @Override
     public List<Order> getAllTrackedOrders() {
 
@@ -196,6 +254,11 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    /**
+     * Getting all user's tracked orders
+     * @param userId user id
+     * @return list of ${@link Order}
+     */
     @Override
     public List<Order> getAllTrackedOrdersById(int userId) {
 
@@ -210,6 +273,12 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    /**
+     * Getting user's history of orders
+     * @param userId user id
+     * @return map where key is ${@link Order}
+     * and value is map where id is ${@link Item} and value is quantity
+     */
     @Override
     public Map<Order, Map<Item, Integer>> getHistoryOfOrders(int userId) {
 
@@ -227,10 +296,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void repeatOrder(Order repeatedOrder, int orderId) {
-
-
     }
 
+    /**
+     * Adding item to session(for unauthorized users)
+     * @param itemId item id
+     * @param session HttpSession
+     */
     @Override
     public void addItemToSession(int itemId, HttpSession session) {
 
@@ -257,6 +329,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    /**
+     * Adding item from session to bucket(for unauthorized users)
+     * @param itemMap map where key is ${@link Item} and value is quantity
+     * @param userId user id
+     */
     @Override
     public void addFromSessionToBucket(Map<Item, Integer> itemMap, int userId) {
 
@@ -271,6 +348,10 @@ public class OrderServiceImpl implements OrderService {
         logger.info("All items were added to bucket");
     }
 
+    /**
+     * Getting top of users
+     * @return map where key is ${@link User} and value is spent money
+     */
     @Override
     public Map<User, Double> getTopUsers() {
 
@@ -296,6 +377,10 @@ public class OrderServiceImpl implements OrderService {
         return  result;
     }
 
+    /**
+     * Getting top of items
+     * @return map where key is ${@link Item} and value is item's quantity
+     */
     @Override
     public Map<Item, Integer> getTopItems() {
 
@@ -328,6 +413,10 @@ public class OrderServiceImpl implements OrderService {
         return  result;
     }
 
+    /**
+     * Getting income
+     * @return map where key is period and value is income
+     */
     @Override
     public Map<String, Double> getIncome() {
 

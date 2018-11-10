@@ -2,7 +2,6 @@ package com.online_market.controller;
 
 
 import com.online_market.entity.Item;
-import com.online_market.entity.Order;
 import com.online_market.entity.Param;
 import com.online_market.service.*;
 import org.apache.log4j.Logger;
@@ -16,6 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for mapping all paths associated with items{@link Item}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Controller
 public class ItemController {
 
@@ -36,7 +40,12 @@ public class ItemController {
     @Autowired
     CategoryService categoryService;
 
-
+    /**
+     * Get mapping for catalog
+     * @param model model
+     * @param session HttpSession
+     * @return catalog page
+     */
     @GetMapping("/catalog")
     public String catalog(Model model , HttpSession session){
 
@@ -44,7 +53,7 @@ public class ItemController {
         model.addAttribute("itemList", itemService.itemList());
         model.addAttribute("categoryList", categoryService.listCategories());
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
 
         if (id!=0 && userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
@@ -63,6 +72,11 @@ public class ItemController {
         return "catalog";
     }
 
+    /**
+     * Get mapping for all items
+     * @param model model
+     * @return page with all items
+     */
     @GetMapping("/items")
     public String itemList2(Model model){
 
@@ -74,7 +88,7 @@ public class ItemController {
         model.addAttribute("countries", paramService.getAllCountries());
         model.addAttribute("category", "ALL");
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
         if (id!=0 && userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
@@ -86,6 +100,13 @@ public class ItemController {
         return "itemList";
     }
 
+    /**
+     * Get mapping for items filtered by params
+     * @param params params for filtering
+     * @param category item's category
+     * @param model model
+     * @return page with filtered items
+     */
     @GetMapping("/filterItems/{category}")
     public String filteredItemList2( @ModelAttribute("params") Param params,@PathVariable("category") String category, Model model){
 
@@ -101,7 +122,7 @@ public class ItemController {
         model.addAttribute("authors", paramService.getAllAuthors());
         model.addAttribute("countries", paramService.getAllCountries());
 
-        int id = userService.getAuthirizedUserId();
+        int id = userService.getAuthorizedUserId();
         if (id!=0 && userService.getById(id).isAuth()) {
 
             model.addAttribute("id", id);

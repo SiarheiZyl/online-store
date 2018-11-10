@@ -10,6 +10,11 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Entity class for orders
+ * @author Siarhei
+ * @version 1.0
+ */
 @Entity
 @Table(name="orders")
 public class Order {

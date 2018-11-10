@@ -4,6 +4,11 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Entity class for items
+ * @author Siarhei
+ * @version 1.0
+ */
 @Entity
 @Table(name = "items")
 public class Item {

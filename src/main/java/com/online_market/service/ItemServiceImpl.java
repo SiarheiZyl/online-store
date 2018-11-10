@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class implementing ${@link ItemService}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Service
 @Transactional
 public class ItemServiceImpl implements ItemService {
@@ -31,6 +36,10 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     CategoryDao categoryDao;
 
+    /**
+     * Getting all items
+     * @return list of ${@link Item}
+     */
     @Override
     public List<Item> itemList() {
 
@@ -39,6 +48,11 @@ public class ItemServiceImpl implements ItemService {
         return itemDao.itemList();
     }
 
+    /**
+     * Getting item by id
+     * @param id id
+     * @return item
+     */
     @Override
     public Item getById(int id) {
 
@@ -47,6 +61,10 @@ public class ItemServiceImpl implements ItemService {
         return itemDao.getById(id);
     }
 
+    /**
+     * Updating item
+     * @param item item
+     */
     @Override
     public void update(Item item) {
 
@@ -57,6 +75,17 @@ public class ItemServiceImpl implements ItemService {
         logger.info("Item was updated");
     }
 
+    /**
+     * Adding new item
+     * @param itemName name
+     * @param avalCount availible count
+     * @param price price
+     * @param itemCateg category
+     * @param author author
+     * @param country country
+     * @param height height
+     * @param width width
+     */
     @Override
     public void addNewItem(String itemName, int avalCount, int price, String itemCateg, String author, String country, int height, int width) {
 
@@ -86,6 +115,11 @@ public class ItemServiceImpl implements ItemService {
         logger.info("Item was saved");
     }
 
+    /**
+     * Getting ordered items
+     * @param orderId order id
+     * @return map where key is ${@link Item} and value is quantity
+     */
     @Override
     public Map<Item, Integer> getOrderNotNullItems(int orderId) {
 
@@ -94,6 +128,12 @@ public class ItemServiceImpl implements ItemService {
         return itemDao.getNotNullItemsInBucket(orderId);
     }
 
+    /**
+     * Getting filtered items by author
+     * @param items items
+     * @param author author
+     * @return list of ${@link Item}
+     */
     @Override
     public List<Item> getFilteredItemsByAuthor(List<Item> items, String author) {
 
@@ -108,6 +148,12 @@ public class ItemServiceImpl implements ItemService {
         return result;
     }
 
+    /**
+     * Getting filtered items by country
+     * @param items items
+     * @param country country
+     * @return list of ${@link Item}
+     */
     @Override
     public List<Item> getFilteredItemsByCountry(List<Item> items, String country) {
 
@@ -123,6 +169,12 @@ public class ItemServiceImpl implements ItemService {
         return result;
     }
 
+    /**
+     * Getting filtered items by maxWidth
+     * @param items items
+     * @param maxWidth maxWidth
+     * @return list of ${@link Item}
+     */
     @Override
     public List<Item> getFilteredItemsByMaxWidth(List<Item> items, int maxWidth) {
 
@@ -137,6 +189,12 @@ public class ItemServiceImpl implements ItemService {
         return result;
     }
 
+    /**
+     * Getting filtered items by maxHeight
+     * @param items items
+     * @param maxHeight maxHeight
+     * @return list of {@link Item}
+     */
     @Override
     public List<Item> getFilteredItemsByMaxHeight(List<Item> items, int maxHeight) {
 
@@ -151,6 +209,14 @@ public class ItemServiceImpl implements ItemService {
         return result;
     }
 
+    /**
+     * Getting filtered items by ${@link Param}
+     * @param author author
+     * @param country country
+     * @param maxWidth maxWidth
+     * @param maxHeight maxHeight
+     * @return list of ${@link Item}
+     */
     @Override
     public List<Item> getFilteredItemsByAllParams(String author, String country, int maxWidth, int maxHeight) {
 
@@ -169,6 +235,12 @@ public class ItemServiceImpl implements ItemService {
         return items;
     }
 
+    /**
+     * Getting filtered items by category
+     * @param items items
+     * @param category category
+     * @return list of ${@link Item}
+     */
     @Override
     public List<Item> getFilteredItemsByCategory(List<Item> items, String category) {
 

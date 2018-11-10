@@ -8,6 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
+/**
+ * Class implementing ${@link ParamService}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Service
 @Transactional
 public class ParamServiceImpl implements ParamService {
@@ -17,6 +22,10 @@ public class ParamServiceImpl implements ParamService {
     @Autowired
     public ParamDao paramDao;
 
+    /**
+     * Getting all authors
+     * @return list of authors
+     */
     @Override
     public Set<String> getAllAuthors() {
 
@@ -25,6 +34,11 @@ public class ParamServiceImpl implements ParamService {
         return paramDao.getAllAuthors();
     }
 
+
+    /**
+     * Getting all countries
+     * @return list of countries
+     */
     @Override
     public Set<String> getAllCountries() {
 

@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Service interface for ${@link Order}
+ * @author Siarhei
+ * @version 1.0
+ */
 public interface OrderService {
 
     void save(Order order);

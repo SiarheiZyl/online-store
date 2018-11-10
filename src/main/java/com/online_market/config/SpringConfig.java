@@ -18,6 +18,12 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+
+/**
+ * Class to configure the application
+ * @author Siarhei
+ * @version 1.0
+ */
 @Configuration
 @EnableTransactionManagement
 @EnableWebMvc

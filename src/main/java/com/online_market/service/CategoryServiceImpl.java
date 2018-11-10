@@ -9,7 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+/**
+ * Class implementing ${@link CategoryService}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Service
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
@@ -19,6 +23,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryDao categoryDao;
 
+    /**
+     * Getting all categories
+     * @return list of ${@link Category}
+     */
     @Override
     public List<Category> listCategories() {
 
@@ -27,6 +35,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDao.listCategories();
     }
 
+    /**
+     * Saving category
+     * @param categName category name
+     * @return lower camel category name
+     */
     @Override
     public String save(String categName) {
 

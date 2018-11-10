@@ -9,6 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Class implementing ${@link CategoryDao}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Repository
 public class CategoryDaoImpl implements CategoryDao {
 
@@ -17,6 +22,10 @@ public class CategoryDaoImpl implements CategoryDao {
     @Autowired
     SessionFactory sessionFactory;
 
+    /**
+     * Getting all categories
+     * @return list of categories
+     */
     @Override
     public List<Category> listCategories() {
         String s = "select e from Category e";
@@ -25,11 +34,20 @@ public class CategoryDaoImpl implements CategoryDao {
         return query.getResultList();
     }
 
+    /**
+     * Saving or updating category
+     * @param category category
+     */
     @Override
     public void saveOrUpdate(Category category) {
         sessionFactory.getCurrentSession().saveOrUpdate(category);
     }
 
+    /**
+     * Getting category by name
+     * @param categoryName category's name
+     * @return
+     */
     @Override
     public Category findByName(String categoryName) {
 

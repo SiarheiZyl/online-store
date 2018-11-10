@@ -4,6 +4,11 @@ import com.online_market.entity.Category;
 
 import java.util.List;
 
+/**
+ * Service interface for ${@link Category}
+ * @author Siarhei
+ * @version 1.0
+ */
 public interface CategoryService {
 
     List<Category> listCategories();

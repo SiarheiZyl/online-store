@@ -4,6 +4,11 @@ package com.online_market.entity;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Entity class for categories
+ * @author Siarhei
+ * @version 1.0
+ */
 @Entity
 @Table(name = "categories")
 public class Category {

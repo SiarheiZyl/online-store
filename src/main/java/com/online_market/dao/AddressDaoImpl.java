@@ -9,6 +9,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Class implementing ${@link AddressDao}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Repository
 public class AddressDaoImpl implements AddressDao {
 
@@ -17,11 +22,20 @@ public class AddressDaoImpl implements AddressDao {
     @Autowired
     SessionFactory sessionFactory;
 
+    /**
+     * Saving address
+     * @param address address
+     */
     @Override
     public void save(Address address) {
         sessionFactory.getCurrentSession().persist(address);
     }
 
+
+    /**
+     * Updating address
+     * @param address address
+     */
     @Override
     public void update(Address address) {
         if(getById(address.getAddressId()) == null)
@@ -30,6 +44,11 @@ public class AddressDaoImpl implements AddressDao {
             sessionFactory.getCurrentSession().update(address);
     }
 
+    /**
+     * Getting address by id
+     * @param id id
+     * @return address
+     */
     @Override
     public Address getById(int id) {
 

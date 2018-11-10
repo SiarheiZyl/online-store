@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+/**
+ * Class implementing ${@link AddressService}
+ * @author Siarhei
+ * @version 1.0
+ */
 @Service
 @Transactional
 public class AddressServiceImpl implements AddressService{
@@ -18,6 +22,10 @@ public class AddressServiceImpl implements AddressService{
     @Autowired
     AddressDao addressDao;
 
+    /**
+     * Saving address
+     * @param address address
+     */
     @Override
     public void save(Address address) {
 
@@ -28,6 +36,10 @@ public class AddressServiceImpl implements AddressService{
         logger.info("Address was saved");
     }
 
+    /**
+     * Updating address
+     * @param address address
+     */
     @Override
     public void update(Address address) {
 
@@ -38,6 +50,11 @@ public class AddressServiceImpl implements AddressService{
         logger.info("Address was updated");
     }
 
+    /**
+     * Getting address by id
+     * @param id address id
+     * @return address
+     */
     @Override
     public Address getById(int id) {
 

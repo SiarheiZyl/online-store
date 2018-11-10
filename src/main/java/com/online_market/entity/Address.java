@@ -2,6 +2,11 @@ package com.online_market.entity;
 
 import javax.persistence.*;
 
+/**
+ * Entity class for addresses
+ * @author Siarhei
+ * @version 1.0
+ */
 @Entity
 @Table(name="addresses")
 public class Address {
