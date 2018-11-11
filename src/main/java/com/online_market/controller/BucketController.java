@@ -141,6 +141,6 @@ public class BucketController {
 
         orderService.saveBucketToOrders(order, id);
 
-        return "redirect:/catalog";
+        return "redirect:/bucket";
     }
 }

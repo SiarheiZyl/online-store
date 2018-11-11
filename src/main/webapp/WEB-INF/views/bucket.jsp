@@ -15,7 +15,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-<script src=/resources/js/bucket.js type="text/javascript"></script>
+<script>
+    function removeItem(itemId, quantity, price){
+        $.ajax({
+            type:'POST',//тип запроса
+            data:{itemId: itemId,
+                  quantity: quantity},//параметры запроса
+            url:"/deleteProcess" ,//url адрес обработчика
+            success: function (res) {
+
+                $("#totalPrice").html("Total price:"+"$<b id=\"sum\">"+(Number($("#sum").text())-Number(price))+"<b>");
+                $("#row"+itemId).remove();
+            }//возвращаемый результат от сервера
+        });
+    }
+</script>
 <jsp:include page="navbar.jsp"/>
 <div class="card-body">
     <c:set var="sum" value="${0}"/>
@@ -73,17 +87,12 @@
                 </div>
                 <div class="float-right float-bottom" style="margin: 10px">
 
-                    <form:button id="order" name="order" class="btn btn-primary pull-right vbottom" >Order</form:button>
+                    <form:button id="orderbut" name="order" class="btn btn-primary pull-right vbottom"  >Order</form:button>
                     <div class="float-right" style="margin: 5px">
                         <form:hidden path="amount" value="${sum}"/>
                     </div>
                 </div>
             </form:form>
-        </c:if>
-        <c:if test="${id>0==false}">
-            <div class="float-left"  style="margin-left: 40px;margin-top: 5px;font-size: 13pt">
-                <i>To make an order you need to<a href="login" > sign in </a>or <a href="register">register</a></i>
-            </div>
         </c:if>
         <div class="float-right" id="totalPrice" style="margin: 5px">
             Total price: $<b id="sum">${sum}</b>

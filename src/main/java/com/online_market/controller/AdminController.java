@@ -69,8 +69,6 @@ public class AdminController {
         } else {
             return "redirect:/login";
         }
-
-
     }
 
     /**
