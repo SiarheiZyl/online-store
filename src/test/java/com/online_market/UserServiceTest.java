@@ -7,9 +7,7 @@ import com.online_market.entity.enums.Roles;
 import com.online_market.service.UserService;
 import com.online_market.service.UserServiceImpl;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 import org.junit.Before;
@@ -17,8 +15,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +39,6 @@ public class UserServiceTest {
 
         MockitoAnnotations.initMocks(this);
     }
-
-
-
 
     @Test
     public void testFindAllUsers_ListOfUsers(){
