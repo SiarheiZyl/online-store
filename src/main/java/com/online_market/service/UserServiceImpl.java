@@ -37,20 +37,6 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Saving user
-     * @param user user
-     */
-    @Override
-    public void save(User user)  {
-
-        logger.info("Saving user(called save(User user))");
-
-        userDao.save(user);
-
-        logger.info("User was saved");
-    }
-
-    /**
      * Getting user by id
      * @param id id
      * @return user
@@ -76,8 +62,7 @@ public class UserServiceImpl implements UserService {
 
         if(user.getAddress() == null)
             user.setAddress(user_for_update.getAddress());
-
-        if(user.getPassword().equals(""))
+        if(user.getPassword() == null || user.getPassword().equals(""))
             user.setPassword(user_for_update.getPassword());
         if(user.getRole() == null)
             user.setRole(user_for_update.getRole());

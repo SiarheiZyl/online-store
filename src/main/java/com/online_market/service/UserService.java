@@ -13,8 +13,6 @@ public interface UserService {
 
     List<User> findAll();
 
-    void save(User user) throws Exception;
-
     User getById(int id);
 
     void update(User user);

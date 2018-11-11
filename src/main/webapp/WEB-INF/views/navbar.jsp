@@ -17,7 +17,7 @@
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/user/${id}" >
-                            <span class="fa fa-user " style="font-size:24px" ></span>
+                            <span class="fa fa-user " title="Profile" style="font-size:24px" ></span>
                         </a>
                     </li>
 
@@ -29,28 +29,28 @@
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/editCategories" >
-                            <span class="fas fa-edit" style="font-size:24px" ></span>
+                            <span class="fas fa-edit" title="Edit categories" style="font-size:24px" ></span>
                         </a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/statistics" >
-                            <span class="fas fa-chart-bar" style="font-size:24px" ></span>
+                            <span class="fas fa-chart-bar" title="Statistics" style="font-size:24px" ></span>
                         </a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/user/${id}" >
-                            <span class="fas fa-user" style="font-size:24px" ></span>
+                            <span class="fas fa-user" title="Profile" style="font-size:24px" ></span>
                         </a>
                     </li>
                 </c:if>
                 <li class="nav-item active">
                     <a class="nav-link" href="/bucket" >
-                        <span class="fa fa-shopping-basket"style="font-size:24px" ></span>
+                        <span class="fa fa-shopping-basket" title="Basket" style="font-size:24px" ></span>
                     </a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/login" >
-                        <span ${ id>0 ? 'class="fas fa-sign-out-alt"' : 'class="fas fa-sign-in-alt"'}style="font-size:24px" ></span>
+                        <span ${ id>0 ? 'class="fas fa-sign-out-alt" title = "Sign out"' : 'class="fas fa-sign-in-alt" title = "Sign in"'}style="font-size:24px" ></span>
                     </a>
                 </li>
             </ul>
