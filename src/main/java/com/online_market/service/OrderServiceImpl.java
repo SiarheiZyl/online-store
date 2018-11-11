@@ -2,6 +2,7 @@ package com.online_market.service;
 
 import com.online_market.dao.ItemDao;
 import com.online_market.dao.OrderDao;
+import com.online_market.dao.UserDao;
 import com.online_market.entity.Item;
 import com.online_market.entity.Order;
 import com.online_market.entity.User;
@@ -34,10 +35,13 @@ public class OrderServiceImpl implements OrderService {
     ItemDao itemDao;
 
     @Autowired
+    UserDao userDao;
+
+    @Autowired
     UserService userService;
 
     @Autowired
-   ItemService itemService;
+    ItemService itemService;
 
     /**
      * Saving order
@@ -111,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
         Order userBucket = new Order();
         List<Item> items = itemDao.itemList();
         userBucket.setItems(items);
-        userBucket.setUser(userService.getById(userId));
+        userBucket.setUser(userDao.getById(userId));
         update(userBucket);
 
         return userBucket;
@@ -167,7 +171,7 @@ public class OrderServiceImpl implements OrderService {
                 itemDao.updateQuantity(item);
             }
 
-            userBucket.setUser(userService.getById(userId));
+            userBucket.setUser(userDao.getById(userId));
             userBucket.setItems(itemList);
             update(userBucket);
 
@@ -246,12 +250,14 @@ public class OrderServiceImpl implements OrderService {
 
         List<Order> orders = orderDao.getAllOrders();
 
-        for (Order order : orderDao.getAllOrders()) {
-            if(order.getDeliveryMethod()==null && order.getPaymentMethod()==null)
-                orders.remove(order);
+        List<Order> list = new ArrayList<>();
+
+        for (Order order : orders) {
+            if(order.getDeliveryMethod()!=null && order.getPaymentMethod()!=null)
+                list.add(order);
         }
 
-        return orders;
+        return list;
     }
 
     /**
@@ -266,7 +272,9 @@ public class OrderServiceImpl implements OrderService {
 
         List<Order> result = new ArrayList<>();
 
-        for (Order order : getAllTrackedOrders()) {
+        List<Order> orders = getAllTrackedOrders();
+
+        for (Order order : orders) {
             if(order.getUser().getId() == userId && order.getDeliveryMethod()!=null && order.getPaymentMethod()!=null)
                 result.add(order);
         }
@@ -309,7 +317,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Adding item to session(called addItemToSession(int itemId, HttpSession session))");
 
         Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
-        Item item1 = itemService.getById(itemId);
+        Item item1 = itemDao.getById(itemId);
         int quantity = 1;
         if(item1.getAvailableCount()!=0) {
 
@@ -319,7 +327,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
             item1.setAvailableCount(item1.getAvailableCount()-1);
-            itemService.update(item1);
+            itemDao.updateQuantity(item1);
 
             itemMap.put(item1, quantity);
             session.setAttribute("basket", itemMap);
