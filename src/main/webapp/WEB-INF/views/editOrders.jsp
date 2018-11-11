@@ -26,40 +26,11 @@
             z-index: 3;
         }
     </style>
-    <script>
-        function changeStatus(orderId){
-            $.ajax({
-                type:'POST',
-                data:{orderId: orderId,
-                    orderStatus: $("#orderStatus"+orderId).val(),
-                    paymentStatus: $("#paymentStatus"+orderId).val() },
-                url:"/editOrdersProcess" ,
-                success: function (res) {
-                    $("#orderStatusLabel"+orderId).removeClass();
-                    if(res == 0)
-                        $("#orderStatusLabel"+orderId).addClass("badge badge-warning");
-                    if(res == 1)
-                        $("#orderStatusLabel"+orderId).addClass("badge badge-info");
-                    if(res == 2)
-                        $("#orderStatusLabel"+orderId).addClass("badge badge-primary");
-                    if(res == 3)
-                        $("#orderStatusLabel"+orderId).addClass("badge badge-success");
-                    $("#orderStatusLabel"+orderId).html($("#orderStatus"+orderId).val());
 
-                    $("#paymentStatusLabel"+orderId).removeClass();
-                    if($("#paymentStatus"+orderId).text()=="WAITING")
-                        $("#paymentStatusLabel"+orderId).addClass("badge badge-info")
-                    else
-                        $("#paymentStatusLabel"+orderId).addClass("badge badge-success");
-                    $("#paymentStatusLabel"+orderId).html($("#paymentStatus"+orderId).val());
-                }
-            });
-        }
-    </script>
 </head>
 <body>
+<script src=/resources/js/editOrders.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
-
 <div class="panel panel-default panel-order " style="margin-left: 5%; width: 90%">
     <h1 class="my-4"><i>Orders</i></h1>
     <div class="panel-body   " >

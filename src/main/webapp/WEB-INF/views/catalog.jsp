@@ -21,26 +21,11 @@
             z-index: 3;
         }
     </style>
-
-    <script language="JavaScript" type="text/javascript">
-
-        function addItem(itemId){
-            $.ajax({
-                type:'GET',//тип запроса
-                data:{itId: itemId},//параметры запроса
-                url:"/addItemToOrderProcess" ,//url адрес обработчика
-                success: function (res) {
-                    $("#availible"+itemId).html("Availible count: "+res);
-                }//возвращаемый результат от сервера
-            });
-        }
-    </script>
 </head>
 <body>
-
+<script src=/resources/js/catalog.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 <div class="container">
-
     <div class="row">
         <div class="col-lg-3">
             <h1 class="my-4"><i>Art Shop</i></h1>
@@ -50,11 +35,9 @@
                         <a href="/filterItems/${category.categoryName}" class="list-group-item">${category.categoryName}</a>
                     </c:forEach >
                 </div>
-
         </div>
 
         <div class="col-lg-9" style="margin-top: 5%">
-
             <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel" data-interval="2000">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>

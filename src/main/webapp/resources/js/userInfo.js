@@ -9,8 +9,11 @@ $(function() {
         $('input').next().remove();
 
         $.post({
-            url : 'addressProcess',
-            data : $('form[name=addressForm]').serialize()
+            url : '/updateUser',
+            data : $('form[name=infoForm]').serialize(),
+            success: function (res) {
+                $("#password").attr("placeholder", "New password").val("").focus().blur();
+            }
         })
     });
 });

@@ -10,27 +10,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            /*  Submit form using Ajax */
-            $('button[type=submit]').click(function(e) {
-
-                //Prevent default submission of form
-                e.preventDefault();
-
-                //Remove all errors
-                $('input').next().remove();
-
-                $.post({
-                    url : 'addressProcess',
-                    data : $('form[name=addressForm]').serialize()
-                })
-            });
-        });
-    </script>
 </head>
 <body>
-
+<script src=/resources/js/address.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 <div class="row justify-content-center">
     <div class="col-md-6">
