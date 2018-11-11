@@ -317,7 +317,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Adding item to session(called addItemToSession(int itemId, HttpSession session))");
 
         Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
-        Item item1 = itemDao.getById(itemId);
+        Item item1 = itemService.getById(itemId);
         int quantity = 1;
         if(item1.getAvailableCount()!=0) {
 

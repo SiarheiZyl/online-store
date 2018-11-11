@@ -59,6 +59,8 @@ public class BucketController {
 
         int id = userService.getAuthorizedUserId();
         if (id != 0 && userService.getById(id).isAuth()) {
+            Order bucket = orderService.getBucketOrder(id);
+
             Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
             if(itemMap!=null) {
                 orderService.addFromSessionToBucket(itemMap, id);

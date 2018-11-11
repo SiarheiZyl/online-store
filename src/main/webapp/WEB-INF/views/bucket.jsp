@@ -94,6 +94,11 @@
                 </div>
             </form:form>
         </c:if>
+        <c:if test="${id>0==false}">
+            <div class="float-left"  style="margin-left: 40px;margin-top: 5px;font-size: 13pt">
+                <i>To make an order you need to<a href="login" > sign in </a>or <a href="register">register</a></i>
+            </div>
+        </c:if>
         <div class="float-right" id="totalPrice" style="margin: 5px">
             Total price: $<b id="sum">${sum}</b>
         </div>
