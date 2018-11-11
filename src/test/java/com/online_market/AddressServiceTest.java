@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for testing ${@link com.online_market.service.AddressService}
+ * Class for testing ${@link com.online_market.service.AddressServiceImpl}
  * @author Siarhei
  * @version 1.0
  */

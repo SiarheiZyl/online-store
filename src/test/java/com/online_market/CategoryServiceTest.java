@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for testing ${@link com.online_market.service.CategoryService}
+ * Class for testing ${@link com.online_market.service.CategoryServiceImpl}
  * @author Siarhei
  * @version 1.0
  */

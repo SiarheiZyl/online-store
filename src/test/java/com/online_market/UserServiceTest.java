@@ -21,7 +21,7 @@ import java.util.List;
 
 
 /**
- * Class for testing {@link UserService}
+ * Class for testing {@link UserServiceImpl}
  * @author Siarhei
  * @version 1.0
  *
