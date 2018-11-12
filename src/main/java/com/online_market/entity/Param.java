@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Entity class for params
+ *
  * @author Siarhei
  * @version 1.0
  */

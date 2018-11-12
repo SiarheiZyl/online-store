@@ -12,6 +12,7 @@ import java.util.Objects;
 
 /**
  * Entity class for users
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -47,7 +48,7 @@ public class User {
     private Roles role = Roles.USER;
 
     @ManyToOne
-    @JoinColumn(name="addr_id")
+    @JoinColumn(name = "addr_id")
     private Address address;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")

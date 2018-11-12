@@ -11,6 +11,7 @@ import java.util.Set;
 
 /**
  * Service interface for ${@link Order}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -40,13 +41,13 @@ public interface OrderService {
 
     void setQuantity(int orderId, int itemId, int quantity);
 
-    Map <Order, Map<Item, Integer>> getHistoryOfOrders(int userId);
+    Map<Order, Map<Item, Integer>> getHistoryOfOrders(int userId);
 
     void repeatOrder(Order repeatedOrder, int orderId);
 
     void addItemToSession(int itemId, HttpSession session);
 
-    void addFromSessionToBucket(Map <Item, Integer> itemMap, int userId);
+    void addFromSessionToBucket(Map<Item, Integer> itemMap, int userId);
 
     Map<User, Double> getTopUsers();
 

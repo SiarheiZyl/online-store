@@ -10,6 +10,7 @@ import java.util.Set;
 
 /**
  * Class implementing ${@link ParamService}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -24,6 +25,7 @@ public class ParamServiceImpl implements ParamService {
 
     /**
      * Getting all authors
+     *
      * @return list of authors
      */
     @Override
@@ -37,6 +39,7 @@ public class ParamServiceImpl implements ParamService {
 
     /**
      * Getting all countries
+     *
      * @return list of countries
      */
     @Override

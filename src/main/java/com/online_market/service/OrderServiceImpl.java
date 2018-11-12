@@ -19,6 +19,7 @@ import java.util.*;
 
 /**
  * Class implementing ${@link OrderService}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -45,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Saving order
+     *
      * @param order order
      */
     @Override
@@ -57,19 +59,21 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Getting order by id
+     *
      * @param id id
      * @return order
      */
     @Override
     public Order getById(int id) {
 
-      logger.info("Getting order by id(called getById(int id))");
+        logger.info("Getting order by id(called getById(int id))");
 
-      return orderDao.getById(id);
+        return orderDao.getById(id);
     }
 
     /**
      * Updating order
+     *
      * @param order order
      */
     @Override
@@ -84,6 +88,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Getting user's order list
+     *
      * @param userId user id
      * @return list of ${@link Order}
      */
@@ -97,6 +102,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Getting user bucket order
+     *
      * @param userId user id
      * @return bucket ${@link Order}
      */
@@ -108,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = userOrderList(userId);
 
         for (Order order : orders) {
-            if(order.getDeliveryMethod()==null && order.getPaymentMethod()==null)
+            if (order.getDeliveryMethod() == null && order.getPaymentMethod() == null)
                 return order;
         }
 
@@ -123,10 +129,11 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Saving items from bucket to orders
-     * @param order order
+     *
+     * @param order  order
      * @param userId user id
      */
-   @Override
+    @Override
     public void saveBucketToOrders(Order order, int userId) {
 
         logger.info("Saving bucket to orders(called saveBucketToOrders(Order order, int userId))");
@@ -137,13 +144,14 @@ public class OrderServiceImpl implements OrderService {
         order1.setPaymentMethod(order.getPaymentMethod());
         java.util.Date date1 = new java.util.Date();
         order1.setDate(new Date(date1.getTime()));
-        order1.setAmount(order.getAmount());
+    //    order1.setAmount(order.getAmount());
 
         update(order1);
     }
 
     /**
      * Adding item to bucket
+     *
      * @param itemId item id
      * @param userId user id
      */
@@ -154,43 +162,45 @@ public class OrderServiceImpl implements OrderService {
 
         Item item = itemDao.getById(itemId);
 
-        if (item.getAvailableCount()>0) {
+        if (item.getAvailableCount() > 0) {
 
             Order userBucket = getBucketOrder(userId);
-            List<Item> itemList = userBucket.getItems()!=null ? userBucket.getItems() : new ArrayList<>();
+            List<Item> itemList = userBucket.getItems() != null ? userBucket.getItems() : new ArrayList<>();
 
             int quantity;
 
-            for (Item item1 :itemList) {
-                if(item1.getItemId() == item.getItemId()){
-                    item1.setAvailableCount(item1.getAvailableCount()-1);
+            for (Item item1 : itemList) {
+                if (item1.getItemId() == item.getItemId()) {
+                    item1.setAvailableCount(item1.getAvailableCount() - 1);
                 }
             }
-            if(item.getAvailableCount()!=0) {
+            if (item.getAvailableCount() != 0) {
                 item.setAvailableCount(item.getAvailableCount() - 1);
                 itemDao.updateQuantity(item);
             }
 
             userBucket.setUser(userDao.getById(userId));
             userBucket.setItems(itemList);
+
+            userBucket.setAmount(userBucket.getAmount()+item.getPrice());
+
             update(userBucket);
 
             quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), item.getItemId()) + 1;
 
             updateQuantity(userId, item.getItemId(), quantity);
 
-         logger.info("Item was saved");
-        }
-
-        else {
+            logger.info("Item was saved");
+        } else {
             logger.warn("Item's quantity = 0");
         }
     }
 
     /**
      * Updating quantity of ordered item
-     * @param userId user id
-     * @param itemId item id
+     *
+     * @param userId   user id
+     * @param itemId   item id
      * @param quantity quantity
      */
     @Override
@@ -205,8 +215,9 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Setting item's quantity
-     * @param orderId order id
-     * @param itemId item id
+     *
+     * @param orderId  order id
+     * @param itemId   item id
      * @param quantity quantity
      */
     @Override
@@ -223,8 +234,9 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Removing item from bucket
-     * @param itemId item id
-     * @param userId user id
+     *
+     * @param itemId   item id
+     * @param userId   user id
      * @param quantity quantity
      */
     @Override
@@ -233,14 +245,19 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Removing item from bucket(called removeFromBucket(int itemId, int userId, int quantity))");
 
         Item item = itemDao.getById(itemId);
-        item.setAvailableCount(item.getAvailableCount()+quantity);
+        item.setAvailableCount(item.getAvailableCount() + quantity);
         itemDao.updateQuantity(item);
+
+        Order bucket = getBucketOrder(userId);
+        bucket.setAmount(bucket.getAmount()-(quantity*item.getPrice()));
+        update(bucket);
 
         logger.info("Item was removed");
     }
 
     /**
      * Getting all tracked orders
+     *
      * @return list of ${@link Order}
      */
     @Override
@@ -253,7 +270,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> list = new ArrayList<>();
 
         for (Order order : orders) {
-            if(order.getDeliveryMethod()!=null && order.getPaymentMethod()!=null)
+            if (order.getDeliveryMethod() != null && order.getPaymentMethod() != null)
                 list.add(order);
         }
 
@@ -262,6 +279,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Getting all user's tracked orders
+     *
      * @param userId user id
      * @return list of ${@link Order}
      */
@@ -275,7 +293,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = getAllTrackedOrders();
 
         for (Order order : orders) {
-            if(order.getUser().getId() == userId && order.getDeliveryMethod()!=null && order.getPaymentMethod()!=null)
+            if (order.getUser().getId() == userId && order.getDeliveryMethod() != null && order.getPaymentMethod() != null)
                 result.add(order);
         }
         return result;
@@ -283,6 +301,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Getting user's history of orders
+     *
      * @param userId user id
      * @return map where key is ${@link Order}
      * and value is map where id is ${@link Item} and value is quantity
@@ -299,7 +318,7 @@ public class OrderServiceImpl implements OrderService {
             Map<Item, Integer> map = itemService.getOrderNotNullItems(order.getOrderId());
             result.put(order, map);
         }
-      return result;
+        return result;
     }
 
     @Override
@@ -308,7 +327,8 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Adding item to session(for unauthorized users)
-     * @param itemId item id
+     *
+     * @param itemId  item id
      * @param session HttpSession
      */
     @Override
@@ -319,14 +339,14 @@ public class OrderServiceImpl implements OrderService {
         Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
         Item item1 = itemService.getById(itemId);
         int quantity = 1;
-        if(item1.getAvailableCount()!=0) {
+        if (item1.getAvailableCount() != 0) {
 
-        if(itemMap.containsKey(item1)) {
-            quantity = itemMap.get(item1) + 1;
-            itemMap.remove(item1);
-        }
+            if (itemMap.containsKey(item1)) {
+                quantity = itemMap.get(item1) + 1;
+                itemMap.remove(item1);
+            }
 
-            item1.setAvailableCount(item1.getAvailableCount()-1);
+            item1.setAvailableCount(item1.getAvailableCount() - 1);
             itemDao.updateQuantity(item1);
 
             itemMap.put(item1, quantity);
@@ -339,8 +359,9 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Adding item from session to bucket(for unauthorized users)
+     *
      * @param itemMap map where key is ${@link Item} and value is quantity
-     * @param userId user id
+     * @param userId  user id
      */
     @Override
     public void addFromSessionToBucket(Map<Item, Integer> itemMap, int userId) {
@@ -348,16 +369,22 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Adding items from session to bucket(called addFromSessionToBucket(Map<Item, Integer> itemMap, int userId))");
 
         Order userBucket = getBucketOrder(userId);
+        int amount = 0;
         for (Map.Entry<Item, Integer> itemEntry : itemMap.entrySet()) {
-          int  quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), itemEntry.getKey().getItemId()) + itemEntry.getValue();
-          updateQuantity(userId,  itemEntry.getKey().getItemId(), quantity);
+            int quantity = itemDao.orderedItemQuantity(userBucket.getOrderId(), itemEntry.getKey().getItemId()) + itemEntry.getValue();
+            updateQuantity(userId, itemEntry.getKey().getItemId(), quantity);
+            amount += itemEntry.getValue() * itemEntry.getKey().getPrice();
         }
+
+        userBucket.setAmount(userBucket.getAmount()+amount);
+        update(userBucket);
 
         logger.info("All items were added to bucket");
     }
 
     /**
      * Getting top of users
+     *
      * @return map where key is ${@link User} and value is spent money
      */
     @Override
@@ -368,13 +395,13 @@ public class OrderServiceImpl implements OrderService {
         Map<User, Double> map = new HashMap<>();
 
         List<User> users = userService.findAll();
-        for (User user :users) {
+        for (User user : users) {
             double sum = 0.0;
             for (Order order : getAllTrackedOrdersById(user.getId())) {
                 sum += order.getAmount();
             }
-            if(sum > 0.0)
-            map.put(user, sum);
+            if (sum > 0.0)
+                map.put(user, sum);
         }
 
         Map<User, Double> result = new LinkedHashMap<>();
@@ -382,11 +409,12 @@ public class OrderServiceImpl implements OrderService {
                 .sorted(Map.Entry.<User, Double>comparingByValue().reversed()).limit(10)
                 .forEachOrdered(x -> result.put(x.getKey(), x.getValue()));
 
-        return  result;
+        return result;
     }
 
     /**
      * Getting top of items
+     *
      * @return map where key is ${@link Item} and value is item's quantity
      */
     @Override
@@ -401,12 +429,10 @@ public class OrderServiceImpl implements OrderService {
         for (Order order : orders) {
             Map<Item, Integer> itemMap = itemService.getOrderNotNullItems(order.getOrderId());
             for (Map.Entry<Item, Integer> itemEntry : itemMap.entrySet()) {
-                if(map.containsKey(itemEntry.getKey())){
+                if (map.containsKey(itemEntry.getKey())) {
                     int quantity = map.get(itemEntry.getKey());
                     map.put(itemEntry.getKey(), quantity + itemEntry.getValue());
-                }
-
-                else{
+                } else {
                     map.put(itemEntry.getKey(), itemEntry.getValue());
                 }
             }
@@ -418,11 +444,12 @@ public class OrderServiceImpl implements OrderService {
                 .sorted(Map.Entry.<Item, Integer>comparingByValue().reversed()).limit(10)
                 .forEachOrdered(x -> result.put(x.getKey(), x.getValue()));
 
-        return  result;
+        return result;
     }
 
     /**
      * Getting income
+     *
      * @return map where key is period and value is income
      */
     @Override
@@ -441,8 +468,8 @@ public class OrderServiceImpl implements OrderService {
             LocalDate previousWeek = now.minusWeeks(1);
             LocalDate previousMonth = now.minusMonths(1);
 
-            if (order.getPaymentStatus()==PaymentStatus.PAID) {
-                if(order.getDate().toLocalDate().isAfter(previousDay)){
+            if (order.getPaymentStatus() == PaymentStatus.PAID) {
+                if (order.getDate().toLocalDate().isAfter(previousDay)) {
                     double incomeDay = incomeMap.get("day") + order.getAmount();
                     double incomeWeek = incomeMap.get("week") + order.getAmount();
                     double incomeMonth = incomeMap.get("month") + order.getAmount();
@@ -450,17 +477,13 @@ public class OrderServiceImpl implements OrderService {
                     incomeMap.put("day", incomeDay);
                     incomeMap.put("week", incomeWeek);
                     incomeMap.put("month", incomeMonth);
-                }
-
-                else if(order.getDate().toLocalDate().isAfter(previousWeek)){
+                } else if (order.getDate().toLocalDate().isAfter(previousWeek)) {
                     double incomeWeek = incomeMap.get("week") + order.getAmount();
                     double incomeMonth = incomeMap.get("month") + order.getAmount();
 
                     incomeMap.put("week", incomeWeek);
                     incomeMap.put("month", incomeMonth);
-                }
-
-                else if(order.getDate().toLocalDate().isAfter(previousMonth)){
+                } else if (order.getDate().toLocalDate().isAfter(previousMonth)) {
                     double incomeMonth = incomeMap.get("month") + order.getAmount();
 
                     incomeMap.put("month", incomeMonth);
@@ -468,6 +491,6 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-    return incomeMap;
+        return incomeMap;
     }
 }

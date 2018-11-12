@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Class implementing ${@link UserDao}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -24,6 +25,7 @@ public class UserDaoImpl implements UserDao {
 
     /**
      * Saving user
+     *
      * @param user user
      */
     @Override
@@ -33,22 +35,24 @@ public class UserDaoImpl implements UserDao {
 
     /**
      * Getting user by id
+     *
      * @param id user id
      * @return user ${@link User}
      */
     @Override
     public User getById(int id) {
 
-         Session session = sessionFactory.openSession();
-         User user = session.get(User.class, id);
-         Hibernate.initialize(user);
-         session.close();
+        Session session = sessionFactory.openSession();
+        User user = session.get(User.class, id);
+        Hibernate.initialize(user);
+        session.close();
 
-         return user;
+        return user;
     }
 
     /**
      * Getting all users
+     *
      * @return list of ${@link User}
      */
     @Override
@@ -63,6 +67,7 @@ public class UserDaoImpl implements UserDao {
 
     /**
      * Updating user
+     *
      * @param user user
      */
     @Override
@@ -72,6 +77,7 @@ public class UserDaoImpl implements UserDao {
 
     /**
      * Validating user
+     *
      * @param username username
      * @param password password
      * @return null if there is no user in DB otherwise ${@link User}
@@ -85,11 +91,12 @@ public class UserDaoImpl implements UserDao {
         query.setParameter("password", password);
         List list = query.list();
 
-        return list.size()>0 ? (User)list.get(0) : null;
+        return list.size() > 0 ? (User) list.get(0) : null;
     }
 
     /**
      * Registration of user
+     *
      * @param user user
      */
     @Override
@@ -101,6 +108,7 @@ public class UserDaoImpl implements UserDao {
 
     /**
      * Getting id of authorized user
+     *
      * @return
      */
     @Override
@@ -108,8 +116,8 @@ public class UserDaoImpl implements UserDao {
 
         String s = "select e from User e where e.isAuth = true ";
         Query query = sessionFactory.getCurrentSession().createQuery(s);
-        List<User> list  = query.list();
+        List<User> list = query.list();
 
-        return list.size()>0 ? list.get(0).getId() : 0;
+        return list.size() > 0 ? list.get(0).getId() : 0;
     }
 }

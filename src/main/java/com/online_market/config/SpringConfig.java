@@ -21,6 +21,7 @@ import java.util.Properties;
 
 /**
  * Class to configure the application
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -42,13 +43,13 @@ public class SpringConfig {
     }
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/vebinar?useSll=false");
-        dataSource.setUsername( "root" );
-        dataSource.setPassword( "Qazwsxedc1" );
+        dataSource.setUsername("root");
+        dataSource.setPassword("Qazwsxedc1");
 
         return dataSource;
     }

@@ -74,9 +74,6 @@
                 <div class="float-right float-bottom" style="margin-top: 20px">
 
                     <form:button id="orderbut" name="order" class="btn btn-primary pull-right vbottom"  >Order</form:button>
-                    <div class="float-right" style="margin: 5px">
-                        <form:hidden path="amount" value="${sum}"/>
-                    </div>
                 </div>
             </form:form>
         </c:if>

@@ -4,6 +4,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 /**
  * Class to boot the application
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -17,12 +18,12 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected Class<?>[] getServletConfigClasses() {
 
-        return new Class[] {SpringConfig.class, WebConfig.class};
+        return new Class[]{SpringConfig.class, WebConfig.class};
     }
 
     @Override
     protected String[] getServletMappings() {
 
-        return new String[] {"/"};
+        return new String[]{"/"};
     }
 }

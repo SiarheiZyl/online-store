@@ -17,6 +17,7 @@ import java.util.Map;
 
 /**
  * Class implementing ${@link ItemDao}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -30,6 +31,7 @@ public class ItemDaoImpl implements ItemDao {
 
     /**
      * Getting itemlist
+     *
      * @return list of ${@link Item}
      */
     @Override
@@ -44,6 +46,7 @@ public class ItemDaoImpl implements ItemDao {
 
     /**
      * Getting item by id
+     *
      * @param id id
      * @return item ${@link Item}
      */
@@ -59,6 +62,7 @@ public class ItemDaoImpl implements ItemDao {
 
     /**
      * Saving an item
+     *
      * @param item item
      */
     @Override
@@ -68,6 +72,7 @@ public class ItemDaoImpl implements ItemDao {
 
     /**
      * Updating quantity of item
+     *
      * @param item item
      */
     @Override
@@ -87,8 +92,9 @@ public class ItemDaoImpl implements ItemDao {
 
     /**
      * Getting quantity of ordered item
+     *
      * @param orderId order id
-     * @param itemId item id
+     * @param itemId  item id
      * @return quantity
      */
     @Override
@@ -99,18 +105,19 @@ public class ItemDaoImpl implements ItemDao {
         query.setParameter("item", itemId);
         List list = query.list();
 
-        return list.size()==0 ? 0 : (Integer)list.get(0);
+        return list.size() == 0 ? 0 : (Integer) list.get(0);
     }
 
     /**
      * Updating quantity of ordered item
-     * @param orderId order id
-     * @param itemId item id
+     *
+     * @param orderId  order id
+     * @param itemId   item id
      * @param quantity quantity
      */
     @Override
     public void updateQuantityOfOrderedItem(int orderId, int itemId, int quantity) {
-        int q = quantity ;
+        int q = quantity;
         String s = "update ordered_items SET quantity = :quantity where orders = :orders AND item = :item";
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createSQLQuery(s);
@@ -122,6 +129,7 @@ public class ItemDaoImpl implements ItemDao {
 
     /**
      * Getting items from bucket where quantity > 0
+     *
      * @param orderId order id
      * @return map where key is ${@link Item} and value is item's quantity
      */
@@ -137,7 +145,7 @@ public class ItemDaoImpl implements ItemDao {
 
         for (Item item : itemList()) {
             for (int i : itemsId) {
-                if (i==item.getItemId())
+                if (i == item.getItemId())
                     itemList.add(item);
             }
         }

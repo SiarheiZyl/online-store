@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Entity class for categories
+ *
  * @author Siarhei
  * @version 1.0
  */

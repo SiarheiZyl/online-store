@@ -18,6 +18,7 @@ import java.util.Map;
 
 /**
  * Class implementing ${@link ItemService}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -38,6 +39,7 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Getting all items
+     *
      * @return list of ${@link Item}
      */
     @Override
@@ -50,6 +52,7 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Getting item by id
+     *
      * @param id id
      * @return item
      */
@@ -63,6 +66,7 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Updating item
+     *
      * @param item item
      */
     @Override
@@ -77,14 +81,15 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Adding new item
-     * @param itemName name
+     *
+     * @param itemName  name
      * @param avalCount availible count
-     * @param price price
+     * @param price     price
      * @param itemCateg category
-     * @param author author
-     * @param country country
-     * @param height height
-     * @param width width
+     * @param author    author
+     * @param country   country
+     * @param height    height
+     * @param width     width
      */
     @Override
     public void addNewItem(String itemName, int avalCount, int price, String itemCateg, String author, String country, int height, int width) {
@@ -106,7 +111,7 @@ public class ItemServiceImpl implements ItemService {
 
         item.setItemName(itemName);
         item.setAvailableCount(avalCount);
-        item.setPrice((double)price);
+        item.setPrice((double) price);
         item.setParams(param);
         item.setCategory(category);
 
@@ -117,6 +122,7 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Getting ordered items
+     *
      * @param orderId order id
      * @return map where key is ${@link Item} and value is quantity
      */
@@ -130,7 +136,8 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Getting filtered items by author
-     * @param items items
+     *
+     * @param items  items
      * @param author author
      * @return list of ${@link Item}
      */
@@ -142,7 +149,7 @@ public class ItemServiceImpl implements ItemService {
         List<Item> result = new ArrayList<>();
 
         for (Item item : items) {
-            if(item.getParams().getAuthor().equals(author))
+            if (item.getParams().getAuthor().equals(author))
                 result.add(item);
         }
         return result;
@@ -150,7 +157,8 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Getting filtered items by country
-     * @param items items
+     *
+     * @param items   items
      * @param country country
      * @return list of ${@link Item}
      */
@@ -163,7 +171,7 @@ public class ItemServiceImpl implements ItemService {
         List<Item> result = new ArrayList<>();
 
         for (Item item : items) {
-            if(item.getParams().getCountry().equals(country))
+            if (item.getParams().getCountry().equals(country))
                 result.add(item);
         }
         return result;
@@ -171,7 +179,8 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Getting filtered items by maxWidth
-     * @param items items
+     *
+     * @param items    items
      * @param maxWidth maxWidth
      * @return list of ${@link Item}
      */
@@ -183,7 +192,7 @@ public class ItemServiceImpl implements ItemService {
         List<Item> result = new ArrayList<>();
 
         for (Item item : items) {
-            if(item.getParams().getWidth()<=maxWidth)
+            if (item.getParams().getWidth() <= maxWidth)
                 result.add(item);
         }
         return result;
@@ -191,7 +200,8 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Getting filtered items by maxHeight
-     * @param items items
+     *
+     * @param items     items
      * @param maxHeight maxHeight
      * @return list of {@link Item}
      */
@@ -203,7 +213,7 @@ public class ItemServiceImpl implements ItemService {
         List<Item> result = new ArrayList<>();
 
         for (Item item : items) {
-            if(item.getParams().getHeight()<=maxHeight)
+            if (item.getParams().getHeight() <= maxHeight)
                 result.add(item);
         }
         return result;
@@ -211,9 +221,10 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Getting filtered items by ${@link Param}
-     * @param author author
-     * @param country country
-     * @param maxWidth maxWidth
+     *
+     * @param author    author
+     * @param country   country
+     * @param maxWidth  maxWidth
      * @param maxHeight maxHeight
      * @return list of ${@link Item}
      */
@@ -223,13 +234,13 @@ public class ItemServiceImpl implements ItemService {
         logger.info("Getting filtering items by AllParams(called getFilteredItemsByAllParams())");
 
         List<Item> items = itemList();
-        if(author==null || !author.equals(""))
+        if (author == null || !author.equals(""))
             items = getFilteredItemsByAuthor(items, author);
-        if(country==null || !country.equals(""))
+        if (country == null || !country.equals(""))
             items = getFilteredItemsByCountry(items, country);
-        if(maxWidth>0)
+        if (maxWidth > 0)
             items = getFilteredItemsByMaxWidth(items, maxWidth);
-        if(maxHeight>0)
+        if (maxHeight > 0)
             items = getFilteredItemsByMaxHeight(items, maxHeight);
 
         return items;
@@ -237,7 +248,8 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * Getting filtered items by category
-     * @param items items
+     *
+     * @param items    items
      * @param category category
      * @return list of ${@link Item}
      */
@@ -246,12 +258,12 @@ public class ItemServiceImpl implements ItemService {
 
         logger.info("Getting filtering items by category(called getFilteredItemsByCategory(List<Item> items, String category))");
 
-        if(category.equals("ALL"))
+        if (category.equals("ALL"))
             return items;
         List<Item> result = new ArrayList<>();
 
         for (Item item : items) {
-            if(item.getCategory().getCategoryName().toLowerCase().equals(category.toLowerCase()))
+            if (item.getCategory().getCategoryName().toLowerCase().equals(category.toLowerCase()))
                 result.add(item);
         }
 

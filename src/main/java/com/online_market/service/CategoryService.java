@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Service interface for ${@link Category}
+ *
  * @author Siarhei
  * @version 1.0
  */

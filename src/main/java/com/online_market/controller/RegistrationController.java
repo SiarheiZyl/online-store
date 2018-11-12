@@ -18,6 +18,7 @@ import java.util.Map;
 
 /**
  * Class for mapping all paths associated with registration
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -34,6 +35,7 @@ public class RegistrationController {
 
     /**
      * Get mapping for register page
+     *
      * @param model model
      * @return registration page
      */
@@ -49,6 +51,7 @@ public class RegistrationController {
 
     /**
      * Post mapping for registration new user
+     *
      * @param user new user
      * @return redirect to user page
      */
@@ -57,6 +60,6 @@ public class RegistrationController {
 
         userService.register(user);
 
-        return "redirect:/user/"+user.getId();
+        return "redirect:/user/" + user.getId();
     }
 }

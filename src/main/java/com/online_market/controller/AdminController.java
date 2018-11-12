@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Class for mapping all admin paths
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -41,6 +42,7 @@ public class AdminController {
 
     /**
      * Get mapping for authorized admin
+     *
      * @param model model
      * @return page for editing orders
      */
@@ -59,7 +61,6 @@ public class AdminController {
             List<PaymentStatus> list3 = Arrays.asList(PaymentStatus.values());
             List<OrderStatus> list4 = Arrays.asList(OrderStatus.values());
 
-
             model.addAttribute("paymentList", list);
             model.addAttribute("deliveryList", list2);
             model.addAttribute("paymentStatusList", list3);
@@ -73,6 +74,7 @@ public class AdminController {
 
     /**
      * Get mapping for authorized admin
+     *
      * @param model model
      * @return page with statistics of top items, users and income of the store
      */
@@ -97,8 +99,9 @@ public class AdminController {
 
     /**
      * Post mapping for changing order and payment status
-     * @param orderId orderId
-     * @param orderStatus orderStatus
+     *
+     * @param orderId       orderId
+     * @param orderStatus   orderStatus
      * @param paymentStatus paymentStatus
      * @return orderStatus number
      */
@@ -122,6 +125,7 @@ public class AdminController {
 
     /**
      * Get mapping for authorized admin
+     *
      * @param model model
      * @return page for adding new category and new items
      */
@@ -148,6 +152,7 @@ public class AdminController {
 
     /**
      * Post mapping for adding new category
+     *
      * @param categName category name
      * @return category name
      */
@@ -163,18 +168,19 @@ public class AdminController {
 
     /**
      * Post mapping for adding new item
-     * @param itemName item name
+     *
+     * @param itemName  item name
      * @param itemCateg category
-     * @param author author
-     * @param country country
-     * @param height height
-     * @param width width
+     * @param author    author
+     * @param country   country
+     * @param height    height
+     * @param width     width
      * @param avalCount availible count
-     * @param price price
+     * @param price     price
      */
     @PostMapping("/addNewItemProcess")
     @ResponseBody
-    public void  addNewItem(@RequestParam("itemName") String itemName, @RequestParam("itemCateg") String itemCateg, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("avalCount") int avalCount, @RequestParam("price") int price) {
+    public void addNewItem(@RequestParam("itemName") String itemName, @RequestParam("itemCateg") String itemCateg, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("avalCount") int avalCount, @RequestParam("price") int price) {
 
         itemService.addNewItem(itemName, avalCount, price, itemCateg, author, country, height, width);
     }

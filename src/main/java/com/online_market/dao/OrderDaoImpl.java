@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Class implementing ${@link OrderDao}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -26,6 +27,7 @@ public class OrderDaoImpl implements OrderDao {
 
     /**
      * Saving order
+     *
      * @param order order
      */
     @Override
@@ -35,6 +37,7 @@ public class OrderDaoImpl implements OrderDao {
 
     /**
      * Updating order
+     *
      * @param order order
      */
     @Override
@@ -44,6 +47,7 @@ public class OrderDaoImpl implements OrderDao {
 
     /**
      * Getting order by id
+     *
      * @param id id
      * @return order
      */
@@ -60,6 +64,7 @@ public class OrderDaoImpl implements OrderDao {
 
     /**
      * Getting all orders of user
+     *
      * @param userId user id
      * @return list of ${@link Order}
      */
@@ -76,6 +81,7 @@ public class OrderDaoImpl implements OrderDao {
 
     /**
      * Getting all orders
+     *
      * @return list of ${@link Order}
      */
     @Override

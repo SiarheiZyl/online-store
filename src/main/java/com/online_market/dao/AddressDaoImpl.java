@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * Class implementing ${@link AddressDao}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -24,6 +25,7 @@ public class AddressDaoImpl implements AddressDao {
 
     /**
      * Saving address
+     *
      * @param address address
      */
     @Override
@@ -34,11 +36,12 @@ public class AddressDaoImpl implements AddressDao {
 
     /**
      * Updating address
+     *
      * @param address address
      */
     @Override
     public void update(Address address) {
-        if(getById(address.getAddressId()) == null)
+        if (getById(address.getAddressId()) == null)
             save(address);
         else
             sessionFactory.getCurrentSession().update(address);
@@ -46,6 +49,7 @@ public class AddressDaoImpl implements AddressDao {
 
     /**
      * Getting address by id
+     *
      * @param id id
      * @return address
      */

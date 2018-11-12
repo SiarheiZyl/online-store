@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * Service interface for ${@link Item}
+ *
  * @author Siarhei
  * @version 1.0
  */

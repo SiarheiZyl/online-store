@@ -13,6 +13,7 @@ import java.util.Set;
 
 /**
  * Class implementing ${@link ParamDao}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -26,6 +27,7 @@ public class ParamDaoImpl implements ParamDao {
 
     /**
      * Saving param
+     *
      * @param param param
      */
     @Override
@@ -35,16 +37,18 @@ public class ParamDaoImpl implements ParamDao {
 
     /**
      * Getting all params
+     *
      * @return list of ${@link Param}
      */
     @Override
     public List<Param> getAllParams() {
         Query query = sessionFactory.getCurrentSession().createQuery("select e from Param e");
-        return  query.getResultList();
+        return query.getResultList();
     }
 
     /**
      * Getting all authors
+     *
      * @return list of authors
      */
     @Override
@@ -60,6 +64,7 @@ public class ParamDaoImpl implements ParamDao {
 
     /**
      * Getting all countries
+     *
      * @return list of countries
      */
     @Override

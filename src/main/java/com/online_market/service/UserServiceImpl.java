@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Class implementing ${@link ParamService}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Getting all users
+     *
      * @return list of ${@link User}
      */
     @Override
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Getting user by id
+     *
      * @param id id
      * @return user
      */
@@ -51,6 +54,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Updating user
+     *
      * @param user user
      */
     @Override
@@ -60,11 +64,11 @@ public class UserServiceImpl implements UserService {
 
         User user_for_update = getById(user.getId());
 
-        if(user.getAddress() == null)
+        if (user.getAddress() == null)
             user.setAddress(user_for_update.getAddress());
-        if(user.getPassword() == null || user.getPassword().equals(""))
+        if (user.getPassword() == null || user.getPassword().equals(""))
             user.setPassword(user_for_update.getPassword());
-        if(user.getRole() == null)
+        if (user.getRole() == null)
             user.setRole(user_for_update.getRole());
 
         userDao.update(user);
@@ -74,6 +78,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Validating user
+     *
      * @param username username
      * @param password password
      * @return null if user not found otherwise founded user
@@ -88,6 +93,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Register user
+     *
      * @param user user
      */
     @Override
@@ -108,7 +114,7 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = findAll();
         for (User user : users) {
-            if(user.isAuth()){
+            if (user.isAuth()) {
                 user.setAuth(false);
                 update(user);
             }
@@ -117,6 +123,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Authorize user
+     *
      * @param id id
      */
     @Override
@@ -131,6 +138,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Getting authorized user id
+     *
      * @return user id
      */
     @Override

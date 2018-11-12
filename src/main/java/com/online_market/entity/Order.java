@@ -12,11 +12,12 @@ import java.util.Objects;
 
 /**
  * Entity class for orders
+ *
  * @author Siarhei
  * @version 1.0
  */
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,18 +43,18 @@ public class Order {
     @Column(name = "date")
     private Date date;
 
-    @Column(name= "amount")
+    @Column(name = "amount")
     private double amount;
 
     @ManyToOne
-    @JoinColumn(name="ordering_user")
+    @JoinColumn(name = "ordering_user")
     private User user;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "ordered_items",
-            joinColumns = { @JoinColumn(name = "orders") },
-            inverseJoinColumns = { @JoinColumn(name = "item") }
+            joinColumns = {@JoinColumn(name = "orders")},
+            inverseJoinColumns = {@JoinColumn(name = "item")}
     )
     private List<Item> items;
 

@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Class for mapping all paths associated with{@link User} information
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -38,7 +39,8 @@ public class UserController {
 
     /**
      * Get mapping for user profile
-     * @param id user id
+     *
+     * @param id    user id
      * @param model model
      * @return page with user info if user authorized
      */
@@ -51,14 +53,14 @@ public class UserController {
             model.addAttribute("id", id);
 
             return "userInfo";
-        }
-        else {
+        } else {
             return "redirect:/";
         }
     }
 
     /**
      * Post mapping for updating user info
+     *
      * @param user user
      * @return user
      */
@@ -74,12 +76,13 @@ public class UserController {
 
     /**
      * Get mapping for address page
-     * @param id user id
+     *
+     * @param id    user id
      * @param model model
      * @return address page if user autorized
      */
     @GetMapping("/user/{id}/address")
-    public String getAddress(@PathVariable("id") int id, Model model){
+    public String getAddress(@PathVariable("id") int id, Model model) {
 
         if (userService.getById(id).isAuth()) {
             Address address = userService.getById(id).getAddress() == null ? new Address() : userService.getById(id).getAddress();
@@ -89,16 +92,15 @@ public class UserController {
             model.addAttribute("id", id);
 
             return "address";
-        }
-
-        else{
+        } else {
             return "redirect:/";
         }
     }
 
     /**
      * Post mapping for updating address
-     * @param id id
+     *
+     * @param id      id
      * @param address address
      * @return address
      */

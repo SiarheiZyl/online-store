@@ -4,6 +4,7 @@ import com.online_market.entity.Address;
 
 /**
  * Dao interface for ${@link Address}
+ *
  * @author Siarhei
  * @version 1.0
  */

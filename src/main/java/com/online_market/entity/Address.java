@@ -4,11 +4,12 @@ import javax.persistence.*;
 
 /**
  * Entity class for addresses
+ *
  * @author Siarhei
  * @version 1.0
  */
 @Entity
-@Table(name="addresses")
+@Table(name = "addresses")
 public class Address {
 
     @Id

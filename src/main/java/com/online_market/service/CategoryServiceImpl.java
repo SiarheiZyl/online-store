@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Class implementing ${@link CategoryService}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -25,6 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * Getting all categories
+     *
      * @return list of ${@link Category}
      */
     @Override
@@ -37,6 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * Saving category
+     *
      * @param categName category name
      * @return lower camel category name
      */
@@ -48,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = new Category();
 
         categName = categName.trim();
-        String categoryName = categName.toUpperCase().toCharArray()[0] + categName.toLowerCase().substring(1,categName.length());
+        String categoryName = categName.toUpperCase().toCharArray()[0] + categName.toLowerCase().substring(1, categName.length());
         category.setCategoryName(categoryName);
 
         categoryDao.saveOrUpdate(category);

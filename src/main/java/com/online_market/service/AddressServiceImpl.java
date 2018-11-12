@@ -10,12 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Class implementing ${@link AddressService}
+ *
  * @author Siarhei
  * @version 1.0
  */
 @Service
 @Transactional
-public class AddressServiceImpl implements AddressService{
+public class AddressServiceImpl implements AddressService {
 
     final static Logger logger = Logger.getLogger(AddressService.class);
 
@@ -24,6 +25,7 @@ public class AddressServiceImpl implements AddressService{
 
     /**
      * Saving address
+     *
      * @param address address
      */
     @Override
@@ -38,6 +40,7 @@ public class AddressServiceImpl implements AddressService{
 
     /**
      * Updating address
+     *
      * @param address address
      */
     @Override
@@ -52,6 +55,7 @@ public class AddressServiceImpl implements AddressService{
 
     /**
      * Getting address by id
+     *
      * @param id address id
      * @return address
      */

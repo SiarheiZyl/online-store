@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Class for mapping all paths associated with orders{@link Order}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -35,11 +36,12 @@ public class OrderController {
 
     /**
      * Get mapping for page with order history of authorized user
+     *
      * @param model model
      * @return page with order history
      */
     @GetMapping("/orderHistory")
-    public String orderHistory(Model model){
+    public String orderHistory(Model model) {
 
         int id = userService.getAuthorizedUserId();
         if (userService.getById(id).isAuth()) {
@@ -52,20 +54,19 @@ public class OrderController {
             model.addAttribute("user", userService.getById(id));
 
             return "orderHistory";
-        }
-
-        else{
+        } else {
             return "redirect:/";
         }
     }
 
     /**
      * Post mapping for repeating previous order
+     *
      * @param orderId order id
      * @return orderHistory page
      */
     @PostMapping("/repeatOrderProcess/{orderId}")
-    public String repeatOrderItemProcess(@PathVariable("orderId") int orderId){
+    public String repeatOrderItemProcess(@PathVariable("orderId") int orderId) {
 
         int id = userService.getAuthorizedUserId();
 

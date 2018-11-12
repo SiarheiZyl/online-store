@@ -6,6 +6,7 @@ import java.util.Objects;
 
 /**
  * Entity class for items
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -31,14 +32,14 @@ public class Item {
     private int availableCount;
 
     @Transient
-    private String picture = IMAGES_LOCATION+itemId+".jpg" ;
+    private String picture = IMAGES_LOCATION + itemId + ".jpg";
 
     @ManyToOne
-    @JoinColumn(name="item_category")
+    @JoinColumn(name = "item_category")
     private Category category;
 
     @OneToOne
-    @JoinColumn(name="params")
+    @JoinColumn(name = "params")
     private Param params;
 
 //    @ManyToMany(fetch = FetchType.EAGER)

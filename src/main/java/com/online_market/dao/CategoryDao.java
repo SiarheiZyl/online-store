@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Dao interface for ${@link Category}
+ *
  * @author Siarhei
  * @version 1.0
  */

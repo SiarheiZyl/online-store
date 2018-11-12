@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Class implementing ${@link CategoryDao}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -24,6 +25,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
     /**
      * Getting all categories
+     *
      * @return list of categories
      */
     @Override
@@ -36,6 +38,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
     /**
      * Saving or updating category
+     *
      * @param category category
      */
     @Override
@@ -45,6 +48,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
     /**
      * Getting category by name
+     *
      * @param categoryName category's name
      * @return
      */
@@ -56,6 +60,6 @@ public class CategoryDaoImpl implements CategoryDao {
         query.setParameter("categoty_name", categoryName);
         List list = query.list();
 
-        return list.size()>0 ? (Category) list.get(0) : null;
+        return list.size() > 0 ? (Category) list.get(0) : null;
     }
 }

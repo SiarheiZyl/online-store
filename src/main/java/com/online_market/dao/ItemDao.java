@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * Dao interface for ${@link Item}
+ *
  * @author Siarhei
  * @version 1.0
  */

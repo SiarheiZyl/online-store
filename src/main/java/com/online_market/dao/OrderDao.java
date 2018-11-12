@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Dao interface for ${@link Order}
+ *
  * @author Siarhei
  * @version 1.0
  */

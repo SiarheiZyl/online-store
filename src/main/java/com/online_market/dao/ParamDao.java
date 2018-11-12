@@ -7,6 +7,7 @@ import java.util.Set;
 
 /**
  * Dao interface for ${@link Param}
+ *
  * @author Siarhei
  * @version 1.0
  */

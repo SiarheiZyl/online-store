@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * Class to boot the application
+ *
  * @author Siarhei
  * @version 1.0
  */

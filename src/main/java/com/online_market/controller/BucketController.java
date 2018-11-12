@@ -22,6 +22,7 @@ import java.util.Map;
 
 /**
  * Class for mapping all paths associated with user bucket
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -42,12 +43,13 @@ public class BucketController {
 
     /**
      * Get mapping for all users
-     * @param model model
+     *
+     * @param model   model
      * @param session HttpSession
      * @return bucket page
      */
     @GetMapping("/bucket")
-    public String getBucket(Model model, HttpSession session){
+    public String getBucket(Model model, HttpSession session) {
 
         List<PaymentMethod> list = Arrays.asList(PaymentMethod.values());
         List<DeliveryMethod> list2 = Arrays.asList(DeliveryMethod.values());
@@ -62,7 +64,7 @@ public class BucketController {
             Order bucket = orderService.getBucketOrder(id);
 
             Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
-            if(itemMap!=null) {
+            if (itemMap != null) {
                 orderService.addFromSessionToBucket(itemMap, id);
                 session.invalidate();
             }
@@ -75,9 +77,7 @@ public class BucketController {
             model.addAttribute("user", userService.getById(id));
 
             model.addAttribute("itemMap", itemService.getOrderNotNullItems(order.getOrderId()));
-        }
-
-        else{
+        } else {
             model.addAttribute("order", new Order());
             model.addAttribute("itemMap", (Map<Item, Integer>) session.getAttribute("basket"));
         }
@@ -87,40 +87,41 @@ public class BucketController {
 
     /**
      * Post mapping for adding item to bucket
-     * @param itemId itemId
+     *
+     * @param itemId  itemId
      * @param session HttpSession
      * @return availible count of added item
      */
     @GetMapping("/addItemToOrderProcess")
     @ResponseBody
-    public String addItemToOrder( @RequestParam("itId") int itemId, HttpSession session){
+    public String addItemToOrder(@RequestParam("itId") int itemId, HttpSession session) {
 
         int id = userService.getAuthorizedUserId();
-        if(id!=0)
+        if (id != 0)
             orderService.addToBucket(itemId, id);
         else {
             orderService.addItemToSession(itemId, session);
         }
 
-        return itemService.getById(itemId).getAvailableCount()+"";
+        return itemService.getById(itemId).getAvailableCount() + "";
     }
 
     /**
      * Post mapping for deleting item in bucket
-     * @param itemId itemId
+     *
+     * @param itemId   itemId
      * @param quantity quantity
-     * @param session HttpSession
+     * @param session  HttpSession
      */
     @PostMapping("/deleteProcess")
     @ResponseBody
-    public void deleteItemFromBucket(@RequestParam("itemId") int itemId, @RequestParam("quantity") int quantity, HttpSession session){
+    public void deleteItemFromBucket(@RequestParam("itemId") int itemId, @RequestParam("quantity") int quantity, HttpSession session) {
 
         int id = userService.getAuthorizedUserId();
         orderService.removeFromBucket(itemId, id, quantity);
-        if(id != 0) {
+        if (id != 0) {
             orderService.updateQuantity(id, itemId, 0);
-        }
-        else {
+        } else {
             Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
             itemMap.remove(itemService.getById(itemId));
             session.setAttribute("basket", itemMap);
@@ -129,14 +130,15 @@ public class BucketController {
 
     /**
      * Post mapping to create an order in bucket
+     *
      * @param order created order
      * @return redirecting to the catalog
      */
     @PostMapping("/orderProcess")
-    public String addBucketToOrders( @ModelAttribute("order") Order order){
+    public String addBucketToOrders(@ModelAttribute("order") Order order) {
 
         int id = userService.getAuthorizedUserId();
-        if(order.getPaymentMethod()== null || order.getDeliveryMethod()==null)
+        if (order.getPaymentMethod() == null || order.getDeliveryMethod() == null)
             return "redirect:/bucket";
 
         orderService.saveBucketToOrders(order, id);
