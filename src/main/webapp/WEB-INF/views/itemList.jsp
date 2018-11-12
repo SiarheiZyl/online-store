@@ -18,24 +18,11 @@
             z-index: 3;
         }
     </style>
-    <script>
-function addItem(itemId){
-                $.ajax({
-                    type:'GET',
-                    data:{itId: itemId},
-                    url:"/addItemToOrderProcess" ,
-                    success: function (res) {
-                        $("#availible"+itemId).html("Availible count: "+res);
-                    }
-                });
-}
-    </script>
 </head>
 <body>
-
+<script src=/resources/js/itemList.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 <div class="container">
-
     <div class="row">
         <div class="col-lg-2">
             <h1 class="my-4"><i>Filtering</i></h1>
@@ -60,19 +47,15 @@ function addItem(itemId){
                 <form:input path="height" name="height" type="number" id="height"  class="form-control"/>
                 </div>
                 <div class="form-group">
-                    <form:button id="filter" class="btn btn-primary btn-block">Filter</form:button>
+                    <form:button id="filter" class="btn btn-dark btn-block">Filter</form:button>
                 </div>
             </div>
             </form:form>
         </div>
 
         <div class="col-lg-10" style="margin-top: 5%">
-
             <div class="row">
-
                 <table>
-
-
                     <c:forEach items="${itemList}" var="item" varStatus="rowCounter">
 
                         <c:if test="${rowCounter.count % 3 == 1}">

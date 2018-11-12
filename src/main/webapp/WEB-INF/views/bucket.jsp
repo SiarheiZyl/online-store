@@ -15,21 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-<script>
-    function removeItem(itemId, quantity, price){
-        $.ajax({
-            type:'POST',//тип запроса
-            data:{itemId: itemId,
-                  quantity: quantity},//параметры запроса
-            url:"/deleteProcess" ,//url адрес обработчика
-            success: function (res) {
-
-                $("#totalPrice").html("Total price:"+"$<b id=\"sum\">"+(Number($("#sum").text())-Number(price))+"<b>");
-                $("#row"+itemId).remove();
-            }//возвращаемый результат от сервера
-        });
-    }
-</script>
+<script src=/resources/js/bucket.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 <div class="card-body">
     <c:set var="sum" value="${0}"/>
@@ -85,7 +71,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="float-right float-bottom" style="margin: 10px">
+                <div class="float-right float-bottom" style="margin-top: 20px">
 
                     <form:button id="orderbut" name="order" class="btn btn-primary pull-right vbottom"  >Order</form:button>
                     <div class="float-right" style="margin: 5px">
@@ -94,11 +80,16 @@
                 </div>
             </form:form>
         </c:if>
-        <div class="float-right" id="totalPrice" style="margin: 5px">
+        <div class="float-right" id="totalPrice" style="margin: 10px">
             Total price: $<b id="sum">${sum}</b>
         </div>
-    </c:if>
+        <c:if test="${id>0==false}">
 
+        <div class="float-left"  style="margin-top: 5px; margin-left: 38px">
+            <i>To make an order you need to</i><a href="/login" > sign in </a>or <a href="register">register</a>
+        </div>
+        </c:if>
+    </c:if>
 </div>
 </body>
 </html>

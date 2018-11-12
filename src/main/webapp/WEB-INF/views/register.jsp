@@ -59,9 +59,6 @@
             <div class="border-top card-body text-center">Have an account? <a href="login">Log In</a></div>
         </div>
     </div>
-
 </div>
-
-
 </body>
 </html>

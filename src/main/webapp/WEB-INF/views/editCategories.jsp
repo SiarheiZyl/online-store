@@ -26,7 +26,6 @@
 <script src=/resources/js/editCategories.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 <div class="panel panel-default panel-order " >
-
     <div class="panel-body" >
         <div class="row" style="margin-left: 10%; margin-top: 2%; margin-right: 10%;">
             <div class="col-md-6">
@@ -97,7 +96,6 @@
                 <button id="addItem" class="btn btn-outline-dark btn-sm pull-bottom" onclick="addItem()">Add item</button>
             </div>
         </div>
-
     </div>
 </div>
 </body>

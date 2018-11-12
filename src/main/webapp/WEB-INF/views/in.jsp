@@ -20,7 +20,7 @@
 <div align="center" style="font-size: 20pt; margin-top: 10%">
 <a  href="login">Login</a>
 <a href="register">Registration</a>
-<a href="/catalog">Art store</a>
+<a href="/catalog">Art shop</a>
 </div>
 </body>
 </html>

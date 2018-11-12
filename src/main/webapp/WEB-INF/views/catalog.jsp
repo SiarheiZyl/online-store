@@ -66,7 +66,6 @@
             </div>
 
             <div class="row">
-
                 <table>
                     <c:forEach items="${itemList}" var="item" varStatus="rowCounter">
 
@@ -93,8 +92,6 @@
                         </c:if>
                     </c:forEach >
                 </table>
-
-
             </div>
             <!-- /.row -->
         </div>
