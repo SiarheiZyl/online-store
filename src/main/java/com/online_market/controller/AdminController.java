@@ -46,13 +46,19 @@ public class AdminController {
      * @param model model
      * @return page for editing orders
      */
-    @GetMapping("/editOrders")
-    public String getEditOrdersPage(Model model) {
+    @GetMapping("/editOrders/{pageId}")
+    public String getEditOrdersPage(@PathVariable int pageId, Model model) {
 
         int id = userService.getAuthorizedUserId();
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
-            model.addAttribute("orders", orderService.getAllTrackedOrders());
+
+            model.addAttribute("pageSize", orderService.sizeOfTrackedOrders()/10+1);
+            model.addAttribute("pageId", pageId);
+
+            model.addAttribute("orders", orderService.getOrdersPerPage(pageId, 10));
+
+
             model.addAttribute("id", id);
             model.addAttribute("user", userService.getById(id));
 

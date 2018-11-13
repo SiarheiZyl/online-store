@@ -144,7 +144,6 @@ public class OrderServiceImpl implements OrderService {
         order1.setPaymentMethod(order.getPaymentMethod());
         java.util.Date date1 = new java.util.Date();
         order1.setDate(new Date(date1.getTime()));
-    //    order1.setAmount(order.getAmount());
 
         update(order1);
     }
@@ -182,7 +181,7 @@ public class OrderServiceImpl implements OrderService {
             userBucket.setUser(userDao.getById(userId));
             userBucket.setItems(itemList);
 
-            userBucket.setAmount(userBucket.getAmount()+item.getPrice());
+            userBucket.setAmount(userBucket.getAmount() + item.getPrice());
 
             update(userBucket);
 
@@ -249,7 +248,7 @@ public class OrderServiceImpl implements OrderService {
         itemDao.updateQuantity(item);
 
         Order bucket = getBucketOrder(userId);
-        bucket.setAmount(bucket.getAmount()-(quantity*item.getPrice()));
+        bucket.setAmount(bucket.getAmount() - (quantity * item.getPrice()));
         update(bucket);
 
         logger.info("Item was removed");
@@ -299,6 +298,23 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    @Override
+    public long sizeOfTrackedOrders() {
+        return orderDao.sizeOfTrackedOrders();
+    }
+
+    /**
+     * Getting orders for pagination
+     *
+     * @param pageId pageId
+     * @param total  total
+     * @return list of ${@link Order}
+     */
+    @Override
+    public List<Order> getOrdersPerPage(int pageId, int total) {
+        return orderDao.getOrdersPerPage(pageId, total);
+    }
+
     /**
      * Getting user's history of orders
      *
@@ -315,7 +331,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<Order> orders = getAllTrackedOrdersById(userId);
         for (Order order : orders) {
-            Map<Item, Integer> map = itemService.getOrderNotNullItems(order.getOrderId());
+            Map<Item, Integer> map = itemDao.getNotNullItemsInBucket(order.getOrderId());
             result.put(order, map);
         }
         return result;
@@ -337,7 +353,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Adding item to session(called addItemToSession(int itemId, HttpSession session))");
 
         Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
-        Item item1 = itemService.getById(itemId);
+        Item item1 = itemDao.getById(itemId);
         int quantity = 1;
         if (item1.getAvailableCount() != 0) {
 
@@ -376,7 +392,7 @@ public class OrderServiceImpl implements OrderService {
             amount += itemEntry.getValue() * itemEntry.getKey().getPrice();
         }
 
-        userBucket.setAmount(userBucket.getAmount()+amount);
+        userBucket.setAmount(userBucket.getAmount() + amount);
         update(userBucket);
 
         logger.info("All items were added to bucket");
@@ -394,7 +410,7 @@ public class OrderServiceImpl implements OrderService {
 
         Map<User, Double> map = new HashMap<>();
 
-        List<User> users = userService.findAll();
+        List<User> users = userDao.findAll();
         for (User user : users) {
             double sum = 0.0;
             for (Order order : getAllTrackedOrdersById(user.getId())) {
@@ -427,7 +443,7 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = getAllTrackedOrders();
 
         for (Order order : orders) {
-            Map<Item, Integer> itemMap = itemService.getOrderNotNullItems(order.getOrderId());
+            Map<Item, Integer> itemMap = itemDao.getNotNullItemsInBucket(order.getOrderId());
             for (Map.Entry<Item, Integer> itemEntry : itemMap.entrySet()) {
                 if (map.containsKey(itemEntry.getKey())) {
                     int quantity = map.get(itemEntry.getKey());

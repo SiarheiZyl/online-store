@@ -37,6 +37,10 @@ public interface OrderService {
 
     List<Order> getAllTrackedOrdersById(int userId);
 
+    long sizeOfTrackedOrders();
+
+    List<Order> getOrdersPerPage(int orderId, int total);
+
     void updateQuantity(int userId, int itemId, int quantity);
 
     void setQuantity(int orderId, int itemId, int quantity);

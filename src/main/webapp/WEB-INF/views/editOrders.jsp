@@ -87,6 +87,15 @@
     </div>
 </c:forEach>
     </div>
+    <nav aria-label="Page navigation" style="margin-top: 10px">
+    <ul class="pagination justify-content-center">
+        <li ${pageId==1 ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link" href="/editOrders/${i-1}">Previous</a></li>
+    <c:forEach var = "i" begin = "1" end = "${pageSize}">
+        <li ${i==pageId ? 'class="page-item active"' : 'class="page-item"'}><a class="page-link" href="/editOrders/${i}">${i}</a></li>
+    </c:forEach>
+        <li ${pageId==pageSize ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link" href="/editOrders/${i+1}">Next</a></li>
+    </ul>
+    </nav>
 </div>
 </body>
 </html>

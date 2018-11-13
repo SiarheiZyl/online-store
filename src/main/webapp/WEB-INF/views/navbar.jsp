@@ -25,7 +25,7 @@
                 <c:if test="${user.role==Roles.ADMIN}">
 
                     <li class="nav-item active">
-                        <a class="nav-link" href="/editOrders" >Edit orders</a>
+                        <a class="nav-link" href="/editOrders/1" >Edit orders</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/editCategories" >

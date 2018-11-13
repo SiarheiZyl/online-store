@@ -23,5 +23,10 @@ public interface OrderDao {
 
     List<Order> getAllOrders();
 
+    long sizeOfTrackedOrders();
+
+    List<Order> getOrdersPerPage(int pageId, int total);
+
+
 
 }
