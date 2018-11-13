@@ -22,53 +22,12 @@ import java.util.Map;
  * @version 1.0
  */
 @Repository
-public class ItemDaoImpl implements ItemDao {
+public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
 
     final static Logger logger = Logger.getLogger(ItemDao.class);
 
     @Autowired
     SessionFactory sessionFactory;
-
-    /**
-     * Getting itemlist
-     *
-     * @return list of ${@link Item}
-     */
-    @Override
-    public List<Item> itemList() {
-
-        String s = "select e from Item e";
-        Query query = sessionFactory.getCurrentSession().createQuery(s);
-
-        return query.getResultList();
-    }
-
-
-    /**
-     * Getting item by id
-     *
-     * @param id id
-     * @return item ${@link Item}
-     */
-    @Override
-    public Item getById(int id) {
-        Session session = sessionFactory.openSession();
-        Item item = session.get(Item.class, id);
-        Hibernate.initialize(item);
-        session.close();
-
-        return item;
-    }
-
-    /**
-     * Saving an item
-     *
-     * @param item item
-     */
-    @Override
-    public void save(Item item) {
-        sessionFactory.getCurrentSession().save(item);
-    }
 
     /**
      * Updating quantity of item
@@ -143,7 +102,7 @@ public class ItemDaoImpl implements ItemDao {
 
         Map<Item, Integer> items = new HashMap<>();
 
-        for (Item item : itemList()) {
+        for (Item item : getAll("Item")) {
             for (int i : itemsId) {
                 if (i == item.getItemId())
                     itemList.add(item);

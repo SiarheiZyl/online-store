@@ -46,9 +46,9 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void update(Address address) {
 
-        logger.info("Starting updating address(called update(Address address))");
+        logger.info("Starting updating address(called saveOrUpdate(Address address))");
 
-        addressDao.update(address);
+        addressDao.saveOrUpdate(address);
 
         logger.info("Address was updated");
     }
@@ -64,6 +64,6 @@ public class AddressServiceImpl implements AddressService {
 
         logger.info("Getting address by id(called getById(int id))");
 
-        return addressDao.getById(id);
+        return addressDao.getById(Address.class,id);
     }
 }

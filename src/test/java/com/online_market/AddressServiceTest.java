@@ -59,7 +59,7 @@ public class AddressServiceTest {
         Address expected = new Address();
         expected.setAddressId(id);
         //mock
-        when(addressDaoMock.getById(id)).thenReturn(expected);
+        when(addressDaoMock.getById(Address.class,id)).thenReturn(expected);
 
         //call
         Address actual = addressService.getById(id);
@@ -76,7 +76,7 @@ public class AddressServiceTest {
         int id = 1;
         Address expected = null;
         //mock
-        when(addressDaoMock.getById(id)).thenReturn(expected);
+        when(addressDaoMock.getById(Address.class,id)).thenReturn(expected);
 
         //call
         Address actual = addressService.getById(id);

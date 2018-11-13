@@ -45,9 +45,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> itemList() {
 
-        logger.info("Getting itemList(called itemList())");
+        logger.info("Getting getAll(called getAll())");
 
-        return itemDao.itemList();
+        return itemDao.getAll("Item");
     }
 
     /**
@@ -61,7 +61,7 @@ public class ItemServiceImpl implements ItemService {
 
         logger.info("Getting Item by id(called getById(int id))");
 
-        return itemDao.getById(id);
+        return itemDao.getById(Item.class,id);
     }
 
     /**
@@ -72,7 +72,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void update(Item item) {
 
-        logger.info("Starting updating item(called update(Item item))");
+        logger.info("Starting updating item(called saveOrUpdate(Item item))");
 
         itemDao.updateQuantity(item);
 

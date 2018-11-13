@@ -66,7 +66,7 @@ public class OrderServiceTest {
         expected.setOrderId(orderId);
 
         //mock
-        when(orderDaoMock.getById(orderId)).thenReturn(expected);
+        when(orderDaoMock.getById(Order.class,orderId)).thenReturn(expected);
 
         //actual
         Order actual = orderService.getById(orderId);
@@ -80,7 +80,7 @@ public class OrderServiceTest {
 
         orderService.update(new Order());
 
-        verify(orderDaoMock).update(any(Order.class));
+        verify(orderDaoMock).saveOrUpdate(any(Order.class));
     }
 
     @Test
@@ -135,13 +135,13 @@ public class OrderServiceTest {
 
         int userId = 1;
 
-        when(userDaoMock.getById(userId)).thenReturn(new User());
+        when(userDaoMock.getById(User.class,userId)).thenReturn(new User());
 
         orderService.saveBucketToOrders(new Order(), userId);
 
-        verify(itemDaoMock).itemList();
+        verify(itemDaoMock).getAll("Item");
 
-        verify(userDaoMock).getById(userId);
+        verify(userDaoMock).getById(User.class,userId);
 
         verify(orderDaoMock).userOrderList(userId);
     }
@@ -161,15 +161,15 @@ public class OrderServiceTest {
         item.setItemId(itemId);
         item.setAvailableCount(avalCount);
 
-        when(userDaoMock.getById(userId)).thenReturn(user);
+        when(userDaoMock.getById(User.class,userId)).thenReturn(user);
 
-        when(itemDaoMock.getById(itemId)).thenReturn(item);
+        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(item);
 
         orderService.addToBucket(itemId, userId);
 
         verify(itemDaoMock).updateQuantity(item);
 
-        verify(userDaoMock, times(3)).getById(userId);
+        verify(userDaoMock, times(3)).getById(User.class,userId);
     }
 
     @Test
@@ -193,9 +193,9 @@ public class OrderServiceTest {
         List<Order> list = new ArrayList<>();
         list.add(order);
 
-        when(userDaoMock.getById(userId)).thenReturn(user);
+        when(userDaoMock.getById(User.class,userId)).thenReturn(user);
 
-        when(itemDaoMock.getById(itemId)).thenReturn(item);
+        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(item);
 
         when(orderDaoMock.userOrderList(userId)).thenReturn(list);
 
@@ -221,7 +221,7 @@ public class OrderServiceTest {
         List<Order> list = new ArrayList<>();
         list.add(order);
 
-        when(itemDaoMock.getById(itemId)).thenReturn(item);
+        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(item);
 
         orderService.setQuantity(orderId, itemId, quantity);
 
@@ -240,7 +240,7 @@ public class OrderServiceTest {
         item.setItemId(itemId);
 
 
-        when(itemDaoMock.getById(itemId)).thenReturn(item);
+        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(item);
 
         orderService.removeFromBucket(itemId, userId, quantity);
 
@@ -292,7 +292,7 @@ public class OrderServiceTest {
         expected.add(order3);
 
         //mock
-        when(orderDaoMock.getAllOrders()).thenReturn(orders);
+        when(orderDaoMock.getAll("Order")).thenReturn(orders);
 
         //actual
         List<Order> actual = orderService.getAllTrackedOrders();
@@ -353,7 +353,7 @@ public class OrderServiceTest {
         expected.add(order2);
 
         //mock
-        when(orderDaoMock.getAllOrders()).thenReturn(orders);
+        when(orderDaoMock.getAll("Order")).thenReturn(orders);
 
         //actual
         List<Order> actual = orderService.getAllTrackedOrdersById(userId);

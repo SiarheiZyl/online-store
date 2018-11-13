@@ -19,49 +19,12 @@ import java.util.List;
  * @version 1.0
  */
 @Repository
-public class OrderDaoImpl implements OrderDao {
+public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
 
     final static Logger logger = Logger.getLogger(OrderDao.class);
 
     @Autowired
     SessionFactory sessionFactory;
-
-    /**
-     * Saving order
-     *
-     * @param order order
-     */
-    @Override
-    public void save(Order order) {
-        sessionFactory.getCurrentSession().persist(order);
-    }
-
-    /**
-     * Updating order
-     *
-     * @param order order
-     */
-    @Override
-    public void update(Order order) {
-        sessionFactory.getCurrentSession().saveOrUpdate(order);
-    }
-
-    /**
-     * Getting order by id
-     *
-     * @param id id
-     * @return order
-     */
-    @Override
-    public Order getById(int id) {
-
-        Session session = sessionFactory.openSession();
-        Order order = session.get(Order.class, id);
-        Hibernate.initialize(order);
-        session.close();
-
-        return order;
-    }
 
     /**
      * Getting all orders of user
@@ -78,19 +41,6 @@ public class OrderDaoImpl implements OrderDao {
         List list = query.list();
 
         return list;
-    }
-
-    /**
-     * Getting all orders
-     *
-     * @return list of ${@link Order}
-     */
-    @Override
-    public List<Order> getAllOrders() {
-        String s = "select e from Order e";
-        Query query = sessionFactory.getCurrentSession().createQuery(s);
-
-        return query.getResultList();
     }
 
     /**

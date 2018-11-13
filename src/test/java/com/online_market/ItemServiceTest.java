@@ -57,7 +57,7 @@ public class ItemServiceTest {
         expected.add(new Item());
 
         //mock
-        when(itemDaoMock.itemList()).thenReturn(expected);
+        when(itemDaoMock.getAll("Item")).thenReturn(expected);
 
         //actual
         List<Item> actual = itemService.itemList();
@@ -75,7 +75,7 @@ public class ItemServiceTest {
         expected.setItemId(itemId);
 
         //mock
-        when(itemDaoMock.getById(itemId)).thenReturn(expected);
+        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(expected);
 
         //actual
         Item actual = itemService.getById(itemId);
@@ -381,7 +381,7 @@ public class ItemServiceTest {
         expected.add(item1);
         expected.add(item6);
 
-        when(itemDaoMock.itemList()).thenReturn(list);
+        when(itemDaoMock.getAll("Item")).thenReturn(list);
 
         //actual
         String author = "Right";

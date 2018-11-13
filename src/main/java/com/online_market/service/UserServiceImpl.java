@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> findAll() {
-        return userDao.findAll();
+        return userDao.getAll("User");
     }
 
     /**
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
         logger.info("Getting user by id(called getById(int id))");
 
-        return userDao.getById(id);
+        return userDao.getById(User.class,id);
     }
 
     /**
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user) {
 
-        logger.info("Updating user(called update(User user))");
+        logger.info("Updating user(called saveOrUpdate(User user))");
 
         User user_for_update = getById(user.getId());
 

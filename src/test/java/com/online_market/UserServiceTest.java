@@ -48,7 +48,7 @@ public class UserServiceTest {
         expected.add(new User());
         expected.add(new User());
         //mock
-        when(userDaoMock.findAll()).thenReturn(expected);
+        when(userDaoMock.getAll("User")).thenReturn(expected);
 
         //call
         List<User> actual = userService.findAll();
@@ -65,7 +65,7 @@ public class UserServiceTest {
         User expected = new User();
         expected.setId(id);
         //mock
-        when(userDaoMock.getById(id)).thenReturn(expected);
+        when(userDaoMock.getById(User.class,id)).thenReturn(expected);
 
         //call
         User actual = userService.getById(id);
@@ -82,7 +82,7 @@ public class UserServiceTest {
         int id = 1;
         User expected = null;
         //mock
-        when(userDaoMock.getById(id)).thenReturn(expected);
+        when(userDaoMock.getById(User.class,id)).thenReturn(expected);
 
         //call
         User actual = userService.getById(id);
@@ -102,7 +102,7 @@ public class UserServiceTest {
         expected.setPassword("1");
         expected.setRole(Roles.ADMIN);
         //mock
-        when(userDaoMock.getById(id)).thenReturn(expected);
+        when(userDaoMock.getById(User.class,id)).thenReturn(expected);
 
         User user = new User();
         user.setId(8);
@@ -110,7 +110,7 @@ public class UserServiceTest {
 
         verify(userDaoMock).update(any(User.class));
 
-        verify(userDaoMock).getById(anyInt());
+        verify(userDaoMock).getById(User.class,8);
     }
 
     @Test
@@ -176,8 +176,8 @@ public class UserServiceTest {
         expected.add(user2);
 
         //mock
-        when(userDaoMock.findAll()).thenReturn(expected);
-        when(userDaoMock.getById(anyInt())).thenReturn(new User());
+        when(userDaoMock.getAll("User")).thenReturn(expected);
+        when(userDaoMock.getById(User.class,1)).thenReturn(user1);
 
         //actual
         user1.setAuth(true);
@@ -196,7 +196,7 @@ public class UserServiceTest {
         User user = new User();
         user.setId(1);
         user.setAuth(false);
-        when(userDaoMock.getById(user.getId())).thenReturn(user);
+        when(userDaoMock.getById(User.class,user.getId())).thenReturn(user);
 
         //actual
 

@@ -10,11 +10,7 @@ import java.util.List;
  * @author Siarhei
  * @version 1.0
  */
-public interface CategoryDao {
-
-    List<Category> listCategories();
-
-    void saveOrUpdate(Category category);
+public interface CategoryDao extends GenericDao<Category> {
 
     Category findByName(String categoryName);
 }

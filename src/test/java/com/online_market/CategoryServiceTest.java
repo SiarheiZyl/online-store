@@ -44,7 +44,7 @@ public class CategoryServiceTest {
 
 
         //mock
-        when(categoryDaoMock.listCategories()).thenReturn(expected);
+        when(categoryDaoMock.getAll("Category")).thenReturn(expected);
 
         //actual
         List<Category> actual = categoryService.listCategories();
@@ -61,7 +61,7 @@ public class CategoryServiceTest {
 
 
         //mock
-        when(categoryDaoMock.listCategories()).thenReturn(expected);
+        when(categoryDaoMock.getAll("Category")).thenReturn(expected);
 
         //actual
         List<Category> actual = categoryService.listCategories();

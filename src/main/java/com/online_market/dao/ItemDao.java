@@ -13,13 +13,7 @@ import java.util.Map;
  * @author Siarhei
  * @version 1.0
  */
-public interface ItemDao {
-
-    List<Item> itemList();
-
-    Item getById(int id);
-
-    void save(Item item);
+public interface ItemDao extends GenericDao<Item> {
 
     void updateQuantity(Item item);
 

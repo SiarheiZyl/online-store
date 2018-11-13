@@ -34,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         logger.info("Getting list of categories(called listCategories())");
 
-        return categoryDao.listCategories();
+        return categoryDao.getAll("Category");
     }
 
     /**

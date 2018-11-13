@@ -11,15 +11,15 @@ import java.util.List;
  * @author Siarhei
  * @version 1.0
  */
-public interface UserDao {
+public interface UserDao extends GenericDao<User>{
 
-    void save(User user);
+/*    void save(User user);
 
     User getById(int id);
 
     List<User> findAll();
 
-    void update(User user);
+    void saveOrUpdate(User user);*/
 
     User validate(String username, String password);
 

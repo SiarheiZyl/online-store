@@ -11,17 +11,9 @@ import java.util.List;
  * @author Siarhei
  * @version 1.0
  */
-public interface OrderDao {
-
-    void save(Order order);
-
-    void update(Order order);
-
-    Order getById(int id);
+public interface OrderDao extends GenericDao<Order> {
 
     List<Order> userOrderList(int userId);
-
-    List<Order> getAllOrders();
 
     long sizeOfTrackedOrders();
 

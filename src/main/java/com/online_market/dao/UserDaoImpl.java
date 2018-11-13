@@ -16,29 +16,34 @@ import java.util.List;
  * @version 1.0
  */
 @Repository
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 
     final static Logger logger = Logger.getLogger(UserDao.class);
 
     @Autowired
     SessionFactory sessionFactory;
+/*
 
-    /**
+    */
+/**
      * Saving user
      *
      * @param user user
-     */
+     *//*
+
     @Override
     public void save(User user) {
         sessionFactory.getCurrentSession().persist(user);
     }
 
-    /**
+    */
+/**
      * Getting user by id
      *
      * @param id user id
      * @return user ${@link User}
-     */
+     *//*
+
     @Override
     public User getById(int id) {
 
@@ -50,11 +55,13 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-    /**
+    */
+/**
      * Getting all users
      *
      * @return list of ${@link User}
-     */
+     *//*
+
     @Override
     public List<User> findAll() {
 
@@ -65,15 +72,18 @@ public class UserDaoImpl implements UserDao {
 
     }
 
-    /**
+    */
+/**
      * Updating user
      *
      * @param user user
-     */
+     *//*
+
     @Override
-    public void update(User user) {
-        sessionFactory.getCurrentSession().update(user);
+    public void saveOrUpdate(User user) {
+        sessionFactory.getCurrentSession().saveOrUpdate(user);
     }
+*/
 
     /**
      * Validating user

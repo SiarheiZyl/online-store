@@ -16,35 +16,12 @@ import java.util.List;
  * @version 1.0
  */
 @Repository
-public class CategoryDaoImpl implements CategoryDao {
+public class CategoryDaoImpl extends GenericDaoImpl<Category> implements CategoryDao {
 
     final static Logger logger = Logger.getLogger(CategoryDao.class);
 
     @Autowired
     SessionFactory sessionFactory;
-
-    /**
-     * Getting all categories
-     *
-     * @return list of categories
-     */
-    @Override
-    public List<Category> listCategories() {
-        String s = "select e from Category e";
-        Query query = sessionFactory.getCurrentSession().createQuery(s);
-
-        return query.getResultList();
-    }
-
-    /**
-     * Saving or updating category
-     *
-     * @param category category
-     */
-    @Override
-    public void saveOrUpdate(Category category) {
-        sessionFactory.getCurrentSession().saveOrUpdate(category);
-    }
 
     /**
      * Getting category by name

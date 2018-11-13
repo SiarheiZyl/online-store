@@ -8,11 +8,6 @@ import com.online_market.entity.Address;
  * @author Siarhei
  * @version 1.0
  */
-public interface AddressDao {
+public interface AddressDao extends GenericDao<Address> {
 
-    void save(Address address);
-
-    void update(Address address);
-
-    Address getById(int id);
 }
