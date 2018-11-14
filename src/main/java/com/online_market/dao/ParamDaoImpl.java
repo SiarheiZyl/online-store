@@ -18,7 +18,7 @@ import java.util.Set;
  * @version 1.0
  */
 @Repository
-public class ParamDaoImpl implements ParamDao {
+public class ParamDaoImpl extends GenericDaoImpl<Param> implements ParamDao {
 
     final static Logger logger = Logger.getLogger(ParamDao.class);
 

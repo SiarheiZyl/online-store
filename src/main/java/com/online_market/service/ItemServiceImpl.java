@@ -61,7 +61,44 @@ public class ItemServiceImpl implements ItemService {
 
         logger.info("Getting Item by id(called getById(int id))");
 
-        return itemDao.getById(Item.class,id);
+        return itemDao.getById(Item.class, id);
+    }
+
+
+    /**
+     * Updating existing item
+     *
+     * @param itemId         item's id
+     * @param itemName       item's name
+     * @param category       category
+     * @param author         author
+     * @param country        country
+     * @param height         height
+     * @param width          width
+     * @param availableCount available count
+     * @param price          price
+     */
+    @Override
+    public void update(int itemId, String itemName, String category, String author, String country, int height, int width, int availableCount, int price) {
+
+        Item item = itemDao.getById(Item.class, itemId);
+        Category category1 = categoryDao.findByName(category);
+
+        item.setCategory(category1);
+
+        Param param = paramDao.getById(Param.class, item.getParams().getParamId());
+
+        param.setAuthor(author);
+        param.setCountry(country);
+        param.setHeight(height);
+        param.setWidth(width);
+
+        paramDao.update(param);
+
+        item.setAvailableCount(availableCount);
+        item.setPrice(price);
+
+        itemDao.update(item);
     }
 
     /**
@@ -70,7 +107,7 @@ public class ItemServiceImpl implements ItemService {
      * @param item item
      */
     @Override
-    public void update(Item item) {
+    public void updateQuantity(Item item) {
 
         logger.info("Starting updating item(called saveOrUpdate(Item item))");
 

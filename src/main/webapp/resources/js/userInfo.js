@@ -12,6 +12,7 @@ $(function() {
             url : '/updateUser',
             data : $('form[name=infoForm]').serialize(),
             success: function (res) {
+                alert("Your info was updated");
                 $("#password").attr("placeholder", "New password").val("").focus().blur();
             }
         })

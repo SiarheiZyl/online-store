@@ -1,5 +1,6 @@
 package com.online_market.controller;
 
+import com.online_market.entity.Item;
 import com.online_market.entity.Order;
 import com.online_market.entity.enums.*;
 import com.online_market.service.CategoryService;
@@ -53,7 +54,7 @@ public class AdminController {
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
 
-            model.addAttribute("pageSize", orderService.sizeOfTrackedOrders()/10+1);
+            model.addAttribute("pageSize", orderService.sizeOfTrackedOrders() / 10 + 1);
             model.addAttribute("pageId", pageId);
 
             model.addAttribute("orders", orderService.getOrdersPerPage(pageId, 10));
@@ -101,6 +102,51 @@ public class AdminController {
         } else {
             return "redirect:/login";
         }
+    }
+
+    /**
+     * Get mapping for editing item
+     *
+     * @param itemId item id
+     * @param model  model
+     * @return
+     */
+    @GetMapping("/editItem/{itemId}")
+    public String getEditItemPage(@PathVariable int itemId, Model model) {
+
+        int id = userService.getAuthorizedUserId();
+
+        if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
+            model.addAttribute("id", id);
+            model.addAttribute("user", userService.getById(id));
+
+            model.addAttribute("item", itemService.getById(itemId));
+            model.addAttribute("listCategories", categoryService.listCategories());
+
+            return "editItem";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+
+    /**
+     * Post mapping for adding new item
+     *
+     * @param itemName       item name
+     * @param category       category
+     * @param author         author
+     * @param country        country
+     * @param height         height
+     * @param width          width
+     * @param availableCount availible count
+     * @param price          price
+     */
+    @PostMapping("/editItemProcess")
+    @ResponseBody
+    public void updateItem(@RequestParam("itemId") int itemId, @RequestParam("itemName") String itemName, @RequestParam("category") String category, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("availableCount") int availableCount, @RequestParam("price") int price) {
+
+        itemService.update(itemId, itemName, category, author, country, height, width, availableCount, price);
     }
 
     /**

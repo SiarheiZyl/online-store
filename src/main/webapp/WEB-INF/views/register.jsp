@@ -19,53 +19,67 @@
                 <h4 class="card-title mt-2">Sign up</h4>
             </header>
             <article class="card-body">
-<form:form id="regForm" modelAttribute="user" action="registerProcess" method="post" var="Placeholder" >
-    <div class="form-row">
-        <div class="col form-group">
-            <label>First name </label>
-            <form:input path="firstName" name="firstName" id="firstName" class="form-control" data-validation="text" required="required" data-validation-error-msg="You did not enter first name" />
-        </div> <!-- form-group end.// -->
-        <div class="col form-group">
-            <label>Last name</label>
-            <form:input path="lastName" name="lastName" id="lastName" class="form-control" data-validation="text" required="required" data-validation-error-msg="You did not enter last name"/>
-        </div> <!-- form-group end.// -->
-    </div>
+                <form:form id="regForm" modelAttribute="user" action="registerProcess" method="post" var="Placeholder">
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label>First name </label>
+                            <form:input path="firstName" name="firstName" id="firstName" class="form-control"
+                                        data-validation="text" required="required"
+                                        data-validation-error-msg="You did not enter first name"/>
+                        </div> <!-- form-group end.// -->
+                        <div class="col form-group">
+                            <label>Last name</label>
+                            <form:input path="lastName" name="lastName" id="lastName" class="form-control"
+                                        data-validation="text" required="required"
+                                        data-validation-error-msg="You did not enter last name"/>
+                        </div> <!-- form-group end.// -->
+                    </div>
 
-    <div class="form-group">
-        <label>Username</label>
-        <form:input path="login" name="login" id="username" class="form-control" data-validation="text" required="required" data-validation-error-msg="You did not enter username" minlength="5"/>
-    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <form:input path="login" name="login" id="username" class="form-control" data-validation="text"
+                                    required="required" data-validation-error-msg="You did not enter username"
+                                    minlength="5"/>
+                    </div>
 
-    <div class="form-group">
-        <label>Email address</label>
-        <form:input path="email" name="email" id="email" type="email" pattern =" /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/" data-validation="email" required="required"  data-validation-error-msg="You did not enter a valid e-mail" class="form-control"/>
-        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <form:input path="email" name="email" id="email" type="email"
+                                    pattern=" /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/"
+                                    data-validation="email" required="required"
+                                    data-validation-error-msg="You did not enter a valid e-mail" class="form-control"/>
+                        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
 
-    <div class="form-group">
-        <label>Birthdate</label>
-        <form:input path="birthdate" type="date" name="birthdate" id="birthdate" class="form-control" data-validation="date" required="required" />
-    </div>
+                    <div class="form-group">
+                        <label>Birthdate</label>
+                        <form:input path="birthdate" type="date" name="birthdate" id="birthdate" class="form-control"
+                                    data-validation="date" required="required"/>
+                    </div>
 
-    <div class="form-group">
-        <label>Create password</label>
-        <form:password path="password" name="password" id="password" class="form-control" required="required"  minlength="4"/>
-    </div>
+                    <div class="form-group">
+                        <label>Create password</label>
+                        <form:password path="password" name="password" id="password" class="form-control"
+                                       required="required" minlength="4"/>
+                    </div>
 
-    <div class="form-group">
-        <form:button id="register" name="register" class="btn btn-primary btn-block">Register</form:button>
-    </div>
-    <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br> Terms of use and Privacy Policy.</small>
-</form:form>
+                    <div class="form-group">
+                        <form:button id="register" name="register"
+                                     class="btn btn-primary btn-block">Register</form:button>
+                    </div>
+                    <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br>
+                        Terms of use and Privacy Policy.
+                    </small>
+                </form:form>
                 <script>
 
                     $.validate({
-                        borderColorOnError : '#c80e0e',
-                        addValidClassOnAll : true,
+                        borderColorOnError: '#c80e0e',
+                        addValidClassOnAll: true,
                         lang: 'en',
-                        validateOnBlur : false, // disable validation when input looses focus
-                        errorMessagePosition : 'top', // Instead of 'inline' which is default
-                        scrollToTopOnError : false // Set this property to true on longer forms
+                        validateOnBlur: false, // disable validation when input looses focus
+                        errorMessagePosition: 'top', // Instead of 'inline' which is default
+                        scrollToTopOnError: false // Set this property to true on longer forms
                     });
 
 

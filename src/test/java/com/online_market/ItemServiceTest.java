@@ -87,7 +87,7 @@ public class ItemServiceTest {
     @Test
     public void testUpdateItem_void(){
 
-        itemService.update(new Item());
+        itemService.updateQuantity(new Item());
 
         verify(itemDaoMock).updateQuantity(any(Item.class));
     }

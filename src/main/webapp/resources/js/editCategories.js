@@ -1,29 +1,34 @@
-function addCategory(){
+function addCategory() {
     $.ajax({
-        type:'POST',//тип запроса
-        data:{categName: $("#categName").val()},//параметры запроса
-        url:"/addNewCategoryProcess" ,//url адрес обработчика
+        type: 'POST',//тип запроса
+        data: {categName: $("#categName").val()},//параметры запроса
+        url: "/addNewCategoryProcess",//url адрес обработчика
         success: function (res) {
-            $('#itemCateg').append("<option value="+res +">"+res+"</option>");
+            alert("New category was successfully added!");
+            $('#itemCateg').append("<option value=" + res + ">" + res + "</option>");
             $('#categName').val('');
             $('#categName').attr("placeholder", "New category");
+
         }//возвращаемый результат от сервера
     });
 }
 
-function addItem(){
+function addItem() {
     $.ajax({
-        type:'POST',//тип запроса
-        data:{itemName: $("#item").val(),
+        type: 'POST',//тип запроса
+        data: {
+            itemName: $("#item").val(),
             itemCateg: $("#itemCateg").val(),
             author: $("#author").val(),
             country: $("#country").val(),
             height: $("#height").val(),
             width: $("#width").val(),
             avalCount: $("#avalCount").val(),
-            price: $("#price").val()},//параметры запроса
-        url:"/addNewItemProcess" ,//url адрес обработчика
+            price: $("#price").val()
+        },//параметры запроса
+        url: "/addNewItemProcess",//url адрес обработчика
         success: function (res) {
+            alert("New category was successfully added!");
             $('#item').val('');
             $('#author').val('');
             $('#country').val('');
@@ -31,6 +36,7 @@ function addItem(){
             $('#width').val('');
             $('#avalCount').val('');
             $('#price').val('');
+
         }
     });
 }

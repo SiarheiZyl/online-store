@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page import="com.online_market.entity.enums.Roles" %>
 <html>
 <head>
     <title>Catalog</title>
@@ -83,7 +84,19 @@
                                         </p>
                                     </div>
                                     <div class="card-footer">
+                                        <c:if test="${user.role==Roles.ADMIN}">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                            <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block">Buy</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="/editItem/${item.itemId}" class="btn btn-outline-dark btn-block">Edit</a>
+                                            </div>
+                                        </div>
+                                        </c:if>
+                                        <c:if test="${user.role!=Roles.ADMIN}">
                                         <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block">Buy</button>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>

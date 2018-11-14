@@ -27,7 +27,7 @@
             <article class="card-body">
     <form action="/updateUser" method="post" name="infoForm">
     <div>
-        <input type="hidden" path="id" name="id" id="id" value="${user.id}" />
+        <input type="hidden"  name="id" id="id" value="${user.id}" />
     </div>
 
     <div class="form-row">

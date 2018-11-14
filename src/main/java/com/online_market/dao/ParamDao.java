@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Siarhei
  * @version 1.0
  */
-public interface ParamDao {
+public interface ParamDao extends GenericDao<Param> {
 
     void save(Param param);
 
