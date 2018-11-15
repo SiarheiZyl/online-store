@@ -43,7 +43,6 @@ public class RegistrationController {
     public String showRegister(Model model) {
 
         model.addAttribute("user", new User());
-        model.addAttribute("roles", Arrays.asList(Roles.values()));
 
         return "register";
     }

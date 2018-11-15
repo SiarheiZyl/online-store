@@ -13,7 +13,7 @@
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault" style="align-items: right">
             <ul class="nav navbar-nav nav-flex-icons ml-auto">
-                <c:if test="${user.role==Roles.USER}">
+                <c:if test="${role==Roles.USER}">
                     <li class="nav-item active">
                         <a class="nav-link" href="/orderHistory">Order history</a>
                     </li>
@@ -24,7 +24,7 @@
                     </li>
 
                 </c:if>
-                <c:if test="${user.role==Roles.ADMIN}">
+                <c:if test="${role==Roles.ADMIN}">
 
                     <li class="nav-item active">
                         <a class="nav-link" href="/editOrders/1">Edit orders</a>

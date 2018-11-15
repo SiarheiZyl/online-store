@@ -80,7 +80,7 @@
                 </div>
             </div>
                 <div class="col-md-12">
-                  <small><i>Order made by ${order.user.login} on ${order.date}</i></small>
+                  <small><i>Order made by ${login} on ${order.date}</i></small>
                 </div>
             </div>
         </div>

@@ -87,7 +87,7 @@ public class UserController {
         if (userService.getById(id).isAuth()) {
             Address address = userService.getById(id).getAddress() == null ? new Address() : userService.getById(id).getAddress();
 
-            model.addAttribute("user", userService.getById(id));
+            model.addAttribute("role", userService.getById(id).getRole());
             model.addAttribute("address", address);
             model.addAttribute("id", id);
 

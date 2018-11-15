@@ -247,9 +247,11 @@ public class OrderServiceImpl implements OrderService {
         item.setAvailableCount(item.getAvailableCount() + quantity);
         itemDao.updateQuantity(item);
 
-        Order bucket = getBucketOrder(userId);
-        bucket.setAmount(bucket.getAmount() - (quantity * item.getPrice()));
-        update(bucket);
+        if (userId != 0) {
+            Order bucket = getBucketOrder(userId);
+            bucket.setAmount(bucket.getAmount() - (quantity * item.getPrice()));
+            update(bucket);
+        }
 
         logger.info("Item was removed");
     }

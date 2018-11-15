@@ -84,7 +84,7 @@
                                         </p>
                                     </div>
                                     <div class="card-footer">
-                                        <c:if test="${user.role==Roles.ADMIN}">
+                                        <c:if test="${role==Roles.ADMIN}">
                                         <div class="row">
                                             <div class="col-md-6">
                                             <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block">Buy</button>
@@ -94,7 +94,7 @@
                                             </div>
                                         </div>
                                         </c:if>
-                                        <c:if test="${user.role!=Roles.ADMIN}">
+                                        <c:if test="${role!=Roles.ADMIN}">
                                         <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block">Buy</button>
                                         </c:if>
                                     </div>

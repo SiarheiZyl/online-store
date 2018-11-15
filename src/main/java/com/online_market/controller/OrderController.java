@@ -51,7 +51,7 @@ public class OrderController {
 
             model.addAttribute("ord", new Order());
             model.addAttribute("id", id);
-            model.addAttribute("user", userService.getById(id));
+            model.addAttribute("role", userService.getById(id).getRole());
 
             return "orderHistory";
         } else {

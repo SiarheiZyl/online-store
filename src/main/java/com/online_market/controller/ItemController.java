@@ -57,10 +57,7 @@ public class ItemController {
 
         if (id!=0 && userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
-            model.addAttribute("user", userService.getById(id));
-
-            //fix: userBucket
-            //Order bucket = orderService.getBucketOrder(id);
+            model.addAttribute("role", userService.getById(id).getRole());
         }
 
         else{
@@ -91,10 +88,7 @@ public class ItemController {
         int id = userService.getAuthorizedUserId();
         if (id!=0 && userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
-            model.addAttribute("user", userService.getById(id));
-
-            //fix: userBucket
-            //Order bucket = orderService.getBucketOrder(id);
+            model.addAttribute("role", userService.getById(id).getRole());
         }
 
         return "itemList";
@@ -126,10 +120,7 @@ public class ItemController {
         if (id!=0 && userService.getById(id).isAuth()) {
 
             model.addAttribute("id", id);
-            model.addAttribute("user", userService.getById(id));
-
-            //fix: userBucket
-            //Order bucket = orderService.getBucketOrder(id);
+            model.addAttribute("role", userService.getById(id).getRole());
         }
 
         return "itemList";

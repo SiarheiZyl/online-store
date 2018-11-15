@@ -54,14 +54,16 @@ public class AdminController {
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
 
-            model.addAttribute("pageSize", orderService.sizeOfTrackedOrders() / 10 + 1);
+            int pageSize = 10;
+            model.addAttribute("pageSize", orderService.sizeOfTrackedOrders() / pageSize + 1);
             model.addAttribute("pageId", pageId);
 
-            model.addAttribute("orders", orderService.getOrdersPerPage(pageId, 10));
+            model.addAttribute("orders", orderService.getOrdersPerPage(pageId, pageSize));
 
 
             model.addAttribute("id", id);
-            model.addAttribute("user", userService.getById(id));
+            model.addAttribute("login", userService.getById(id).getLogin());
+            model.addAttribute("role", userService.getById(id).getRole());
 
             List<PaymentMethod> list = Arrays.asList(PaymentMethod.values());
             List<DeliveryMethod> list2 = Arrays.asList(DeliveryMethod.values());
@@ -92,7 +94,7 @@ public class AdminController {
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
             model.addAttribute("id", id);
-            model.addAttribute("user", userService.getById(id));
+            model.addAttribute("role", userService.getById(id).getRole());
 
             model.addAttribute("topUsers", orderService.getTopUsers());
             model.addAttribute("topItems", orderService.getTopItems());
@@ -118,7 +120,7 @@ public class AdminController {
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
             model.addAttribute("id", id);
-            model.addAttribute("user", userService.getById(id));
+            model.addAttribute("role", userService.getById(id).getRole());
 
             model.addAttribute("item", itemService.getById(itemId));
             model.addAttribute("listCategories", categoryService.listCategories());
@@ -188,7 +190,7 @@ public class AdminController {
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
             model.addAttribute("id", id);
-            model.addAttribute("user", userService.getById(id));
+            model.addAttribute("role", userService.getById(id).getRole());
 
             model.addAttribute("topUsers", orderService.getTopUsers());
             model.addAttribute("topItems", orderService.getTopItems());

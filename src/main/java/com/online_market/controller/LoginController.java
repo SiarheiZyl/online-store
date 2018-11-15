@@ -35,6 +35,7 @@ public class LoginController {
      */
     @GetMapping("/login")
     public String loginPage(Model model) {
+
         logger.info("Logging page");
         userService.logout();
         model.addAttribute("user", new User());

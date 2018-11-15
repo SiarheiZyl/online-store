@@ -74,12 +74,12 @@ public class BucketController {
             model.addAttribute("order", order);
 
             model.addAttribute("id", id);
-            model.addAttribute("user", userService.getById(id));
+            model.addAttribute("role", userService.getById(id).getRole());
 
             model.addAttribute("itemMap", itemService.getOrderNotNullItems(order.getOrderId()));
         } else {
             model.addAttribute("order", new Order());
-            model.addAttribute("itemMap", (Map<Item, Integer>) session.getAttribute("basket"));
+            model.addAttribute("itemMap", session.getAttribute("basket"));
         }
 
         return "bucket";
@@ -118,10 +118,14 @@ public class BucketController {
     public void deleteItemFromBucket(@RequestParam("itemId") int itemId, @RequestParam("quantity") int quantity, HttpSession session) {
 
         int id = userService.getAuthorizedUserId();
+
         orderService.removeFromBucket(itemId, id, quantity);
         if (id != 0) {
             orderService.updateQuantity(id, itemId, 0);
         } else {
+
+
+
             Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
             itemMap.remove(itemService.getById(itemId));
             session.setAttribute("basket", itemMap);
