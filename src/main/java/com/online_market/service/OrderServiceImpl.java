@@ -300,9 +300,25 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+
+    /**
+     * Quantity of tracked orders
+     *
+     * @return quantity
+     */
     @Override
     public long sizeOfTrackedOrders() {
         return orderDao.sizeOfTrackedOrders();
+    }
+
+    /**
+     * Quantity of tracked orders filtered by date
+     *
+     * @return quantity
+     */
+    @Override
+    public long sizeOfTrackedOrdersFilteredByDate(java.util.Date from, java.util.Date to) {
+        return orderDao.sizeOfTrackedOrdersFilteredByDate(from, to);
     }
 
     /**
@@ -315,6 +331,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getOrdersPerPage(int pageId, int total) {
         return orderDao.getOrdersPerPage(pageId, total);
+    }
+
+
+    /**
+     * Filtering orders by date
+     *
+     * @param pageId page id
+     * @param pageSize page size
+     * @param fromDate from
+     * @param toDate to
+     * @return list of ${@link Order}
+     */
+    @Override
+    public List<Order> getOrdersPerPageFilteredFromToDate(int pageId, int pageSize, java.util.Date fromDate, java.util.Date toDate) {
+        return orderDao.getOrdersPerPageFilteredFromToDate(pageId, pageSize, fromDate, toDate);
     }
 
     /**

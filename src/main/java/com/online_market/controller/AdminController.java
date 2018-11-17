@@ -9,11 +9,14 @@ import com.online_market.service.OrderService;
 import com.online_market.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -48,17 +51,32 @@ public class AdminController {
      * @return page for editing orders
      */
     @GetMapping("/editOrders/{pageId}")
-    public String getEditOrdersPage(@PathVariable int pageId, Model model) {
+    public String getEditOrdersPage(@PathVariable int pageId, Model model, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate) {
 
         int id = userService.getAuthorizedUserId();
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
 
             int pageSize = 10;
-            model.addAttribute("pageSize", orderService.sizeOfTrackedOrders() / pageSize + 1);
+
             model.addAttribute("pageId", pageId);
 
-            model.addAttribute("orders", orderService.getOrdersPerPage(pageId, pageSize));
+            if(fromDate==null && toDate ==null) {
+                model.addAttribute("orders", orderService.getOrdersPerPage(pageId, pageSize));
+                model.addAttribute("pageSize", orderService.sizeOfTrackedOrders() / pageSize + 1);
+                model.addAttribute("fromDate", null);
+                model.addAttribute("toDate", null);
+            }
+            else {
+                model.addAttribute("pageSize", orderService.sizeOfTrackedOrdersFilteredByDate(fromDate, toDate) / pageSize + 1);
+                model.addAttribute("orders", orderService.getOrdersPerPageFilteredFromToDate(pageId, pageSize, fromDate, toDate));
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                model.addAttribute("fromDate", format.format(fromDate));
+                model.addAttribute("toDate", format.format(toDate));
+            }
+
+
 
 
             model.addAttribute("id", id);
@@ -203,6 +221,14 @@ public class AdminController {
             return "redirect:/login";
         }
     }
+
+/*    @PostMapping("/filterOrdersProcess")
+    @ResponseBody
+    public String filterOrders(@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam("toDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate) {
+
+
+        return "";
+    }*/
 
     /**
      * Post mapping for adding new category

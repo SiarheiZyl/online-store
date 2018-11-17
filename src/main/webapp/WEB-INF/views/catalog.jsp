@@ -75,7 +75,7 @@
                         </c:if>
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card" style="height: 530px;">
-                                    <img class="card-img-top img-fluid img-thumbnail" width="300" height="200" src=/resources/images/${item.itemId}.jpg style="cursor:zoom-in;" >
+                                    <img class="card-img-top img-fluid img-thumbnail" width="300" height="200" src="${item.picture}" style="cursor:zoom-in;" >
                                     <div class="card-body ">
                                         <h4 class="card-title"><strong>${item.itemName}</strong></h4>
                                         <h5><strong><i>$${item.price}</i></strong></h5>

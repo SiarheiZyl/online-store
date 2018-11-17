@@ -3,6 +3,7 @@ package com.online_market.dao;
 import com.online_market.entity.Order;
 import com.online_market.entity.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,8 +18,10 @@ public interface OrderDao extends GenericDao<Order> {
 
     long sizeOfTrackedOrders();
 
+    long sizeOfTrackedOrdersFilteredByDate(Date from, Date to);
+
     List<Order> getOrdersPerPage(int pageId, int total);
 
-
+    List<Order> getOrdersPerPageFilteredFromToDate(int pageId, int pageSize, Date fromDate, Date toDate);
 
 }

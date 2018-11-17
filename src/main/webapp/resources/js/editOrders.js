@@ -26,3 +26,13 @@ function changeStatus(orderId){
         }
     });
 }
+
+function  filterDate() {
+
+    $.ajax({
+        type:'GET',
+        data:{fromDate: $("#fromDate").val(),
+            toDate: $("#toDate").val()},
+        url:"/editOrders/1"
+    });
+}

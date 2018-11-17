@@ -23,7 +23,7 @@
         <c:set var="sum" value="${sum + item.key.price*item.value}"/>
             <div class="row" id="row${item.key.itemId}">
                 <div class="col-12 col-sm-12 col-md-2 text-center">
-                    <img class="img-responsive img-thumbnail" src=/resources/images/${item.key.itemId}.jpg  width="120" height="80">
+                    <img class="img-responsive img-thumbnail" src=${item.key.picture}  width="120" height="80">
                 </div>
                 <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
                     <h4 class="product-name"><strong>${item.key.itemName}</strong></h4>

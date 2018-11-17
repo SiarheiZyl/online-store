@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,6 +60,24 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
     }
 
     /**
+     * Size of list of tracked orders filtered by date
+     *
+     * @param from from date
+     * @param to to date
+     * @return size
+     */
+    public long sizeOfTrackedOrdersFilteredByDate(Date from, Date to){
+
+        java.sql.Date fromDate = new java.sql.Date(from.getTime());
+        java.sql.Date toDate = new java.sql.Date(to.getTime());
+
+        Query countQuery = sessionFactory.getCurrentSession().createQuery("Select count (f.id) from Order f where f.paymentMethod is not null and f.deliveryMethod is not null and f.date BETWEEN :stDate AND :edDate").setParameter("stDate", fromDate).setParameter("edDate", toDate);
+        Long countResults = (Long) countQuery.uniqueResult();
+
+        return countResults;
+    }
+
+    /**
      * Getting orders for pagination
      *
      * @param pageId pageId
@@ -83,6 +102,33 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
         }
         List<Order> list = selectQuery.list();
         Collections.reverse(list);
+
+        return list;
+    }
+
+
+    /**
+     * Getting orders for pagination filtered by date
+     *
+     * @param pageId page id
+     * @param pageSize page size
+     * @param fromDate from
+     * @param toDate to
+     * @return @return list of ${@link Order}
+     */
+    @Override
+    public List<Order> getOrdersPerPageFilteredFromToDate(int pageId, int pageSize, Date fromDate, Date toDate) {
+
+        java.sql.Date from = new java.sql.Date(fromDate.getTime());
+        java.sql.Date to = new java.sql.Date(toDate.getTime());
+
+        Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Order as order where order.paymentMethod is not null and order.deliveryMethod is not null and order.date BETWEEN :stDate AND :edDate").setParameter("stDate", from).setParameter("edDate", to);
+
+        selectQuery.setFirstResult((pageId-1)*pageSize);
+        selectQuery.setMaxResults(pageSize);
+
+        List<Order> list = selectQuery.list();
+
 
         return list;
     }

@@ -67,7 +67,7 @@
                 <c:forEach var="item" items="${topItems}">
                     <div class="row" style="margin-top: 10px">
                         <div class="col-md-2">
-                            <img src=/resources/images/${item.key.itemId}.jpg class="media-object img-thumbnail">
+                            <img  src="${item.key.picture}" class="media-object img-thumbnail">
                         </div>
                         <div class="col-md-6">
                             <strong><i>${item.key.itemName}</i></strong><br>

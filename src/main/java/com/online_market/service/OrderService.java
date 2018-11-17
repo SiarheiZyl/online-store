@@ -5,6 +5,7 @@ import com.online_market.entity.Order;
 import com.online_market.entity.User;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +40,11 @@ public interface OrderService {
 
     long sizeOfTrackedOrders();
 
-    List<Order> getOrdersPerPage(int orderId, int total);
+    long sizeOfTrackedOrdersFilteredByDate(Date from, Date to);
+
+    List<Order> getOrdersPerPage(int pageId, int total);
+
+    List<Order> getOrdersPerPageFilteredFromToDate(int pageId, int pageSize, Date fromDate, Date toDate);
 
     void updateQuantity(int userId, int itemId, int quantity);
 

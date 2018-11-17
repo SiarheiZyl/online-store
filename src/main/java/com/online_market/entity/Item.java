@@ -31,7 +31,7 @@ public class Item {
     @Column(name = "available_count")
     private int availableCount;
 
-    @Transient
+    @Column(name = "image")
     private String picture = IMAGES_LOCATION + itemId + ".jpg";
 
     @ManyToOne
@@ -42,13 +42,6 @@ public class Item {
     @JoinColumn(name = "params")
     private Param params;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "item_params",
-//            joinColumns = { @JoinColumn(name = "item") },
-//            inverseJoinColumns = { @JoinColumn(name = "param") }
-//    )
-//    private List<Param> params;
 
     public Item() {
     }
