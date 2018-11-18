@@ -311,7 +311,7 @@ public class ItemServiceImpl implements ItemService {
     /**
      * Getting items per page
      *
-     * @param pageId page id
+     * @param pageId   page id
      * @param pageSize page size
      * @return list of ${@link Item}
      */

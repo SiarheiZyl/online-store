@@ -51,7 +51,7 @@ public class AdminController {
      * @return page for editing orders
      */
     @GetMapping("/editOrders/{pageId}")
-    public String getEditOrdersPage(@PathVariable int pageId, Model model, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate) {
+    public String getEditOrdersPage(@PathVariable int pageId, Model model, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
 
         int id = userService.getAuthorizedUserId();
 
@@ -59,16 +59,27 @@ public class AdminController {
 
             int pageSize = 10;
 
+            long totalPages;
+
             model.addAttribute("pageId", pageId);
 
-            if(fromDate==null && toDate ==null) {
+            if (fromDate == null && toDate == null) {
+
+                totalPages = orderService.sizeOfTrackedOrders() / pageSize + 1;
+
+                if (pageId > pageSize)
+                    return "pageNotFound";
+
                 model.addAttribute("orders", orderService.getOrdersPerPage(pageId, pageSize));
-                model.addAttribute("pageSize", orderService.sizeOfTrackedOrders() / pageSize + 1);
                 model.addAttribute("fromDate", null);
                 model.addAttribute("toDate", null);
-            }
-            else {
-                model.addAttribute("pageSize", orderService.sizeOfTrackedOrdersFilteredByDate(fromDate, toDate) / pageSize + 1);
+            } else {
+
+                totalPages = orderService.sizeOfTrackedOrdersFilteredByDate(fromDate, toDate) / pageSize + 1;
+
+                if (pageId > pageSize)
+                    return "pageNotFound";
+
                 model.addAttribute("orders", orderService.getOrdersPerPageFilteredFromToDate(pageId, pageSize, fromDate, toDate));
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -78,6 +89,7 @@ public class AdminController {
 
 
 
+            model.addAttribute("pageSize", totalPages);
 
             model.addAttribute("id", id);
             model.addAttribute("login", userService.getById(id).getLogin());

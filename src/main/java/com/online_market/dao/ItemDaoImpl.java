@@ -117,16 +117,16 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
     /**
      * Getting items per page
      *
-     * @param pageId page id
+     * @param pageId   page id
      * @param pageSize page size
      * @return list of ${@link Item}
      */
-    public List<Item> itemListPerPage(int pageId, int pageSize){
+    public List<Item> itemListPerPage(int pageId, int pageSize) {
 
 
         Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Item");
 
-        selectQuery.setFirstResult((pageId-1)*pageSize);
+        selectQuery.setFirstResult((pageId - 1) * pageSize);
         selectQuery.setMaxResults(pageSize);
 
         List<Item> list = selectQuery.list();
