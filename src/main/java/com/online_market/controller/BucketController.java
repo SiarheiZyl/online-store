@@ -33,13 +33,13 @@ public class BucketController {
     final static Logger logger = Logger.getLogger(BucketController.class);
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     /**
      * Get mapping for all users
@@ -63,11 +63,6 @@ public class BucketController {
         if (id != 0 && userService.getById(id).isAuth()) {
             Order bucket = orderService.getBucketOrder(id);
 
-            Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
-            if (itemMap != null) {
-                orderService.addFromSessionToBucket(itemMap, id);
-                session.invalidate();
-            }
 
             Order order = orderService.getBucketOrder(id) == null ? new Order() : orderService.getBucketOrder(id);
 
@@ -77,9 +72,11 @@ public class BucketController {
             model.addAttribute("role", userService.getById(id).getRole());
 
             model.addAttribute("itemMap", itemService.getOrderNotNullItems(order.getOrderId()));
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
         } else {
             model.addAttribute("order", new Order());
             model.addAttribute("itemMap", session.getAttribute("basket"));
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize((Map<Item, Integer>) session.getAttribute("basket")));
         }
 
         return "bucket";
@@ -123,8 +120,6 @@ public class BucketController {
         if (id != 0) {
             orderService.updateQuantity(id, itemId, 0);
         } else {
-
-
 
             Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
             itemMap.remove(itemService.getById(itemId));

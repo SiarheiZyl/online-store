@@ -30,19 +30,19 @@ public class OrderServiceImpl implements OrderService {
     final static Logger logger = Logger.getLogger(OrderService.class);
 
     @Autowired
-    OrderDao orderDao;
+    private OrderDao orderDao;
 
     @Autowired
-    ItemDao itemDao;
+    private ItemDao itemDao;
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
 
     /**
      * Saving order

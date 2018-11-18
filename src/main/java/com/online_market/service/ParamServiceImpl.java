@@ -21,7 +21,7 @@ public class ParamServiceImpl implements ParamService {
     final static Logger logger = Logger.getLogger(ParamService.class);
 
     @Autowired
-    public ParamDao paramDao;
+    private ParamDao paramDao;
 
     /**
      * Getting all authors

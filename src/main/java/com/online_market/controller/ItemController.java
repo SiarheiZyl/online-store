@@ -27,19 +27,19 @@ public class ItemController {
     final static Logger logger = Logger.getLogger(ItemController.class);
 
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    ParamService paramService;
+    private ParamService paramService;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     /**
      * Get mapping for catalog
@@ -57,12 +57,21 @@ public class ItemController {
         int id = userService.getAuthorizedUserId();
 
         if (id != 0 && userService.getById(id).isAuth()) {
+
+            Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
+            if (itemMap != null) {
+                orderService.addFromSessionToBucket(itemMap, id);
+                session.invalidate();
+            }
+
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
         } else {
             Map<Item, Integer> itemMap = new HashMap<>();
             if (session.getAttribute("basket") == null)
                 session.setAttribute("basket", itemMap);
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize((Map<Item, Integer>) session.getAttribute("basket")));
         }
 
         int totalPages = itemService.itemList().size() / pageSize + 1;
@@ -88,7 +97,7 @@ public class ItemController {
      * @return page with all items
      */
     @GetMapping("/items")
-    public String itemList2(Model model) {
+    public String itemList2(Model model, HttpSession session) {
 
         model.addAttribute("it", new Item());
         model.addAttribute("itemList", itemService.itemList());
@@ -102,6 +111,9 @@ public class ItemController {
         if (id != 0 && userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+        } else {
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize((Map<Item, Integer>) session.getAttribute("basket")));
         }
 
         return "itemList";
@@ -116,7 +128,7 @@ public class ItemController {
      * @return page with filtered items
      */
     @GetMapping("/filterItems/{category}")
-    public String filteredItemList2(@ModelAttribute("params") Param params, @PathVariable("category") String category, Model model) {
+    public String filteredItemList2(@ModelAttribute("params") Param params, @PathVariable("category") String category, Model model, HttpSession session) {
 
         model.addAttribute("item", new Item());
         List<Item> itemList;
@@ -133,8 +145,11 @@ public class ItemController {
         int id = userService.getAuthorizedUserId();
         if (id != 0 && userService.getById(id).isAuth()) {
 
-            model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
+            model.addAttribute("id", id);
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+        } else {
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize((Map<Item, Integer>) session.getAttribute("basket")));
         }
 
         return "itemList";

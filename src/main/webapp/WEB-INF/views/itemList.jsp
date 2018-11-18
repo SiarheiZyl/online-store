@@ -27,7 +27,19 @@
     </style>
 </head>
 <body>
-<script src=/resources/js/itemList.js type="text/javascript"></script>
+<script type="text/javascript">
+    function addItem(itemId){
+        $.ajax({
+            type:'GET',
+            data:{itId: itemId},
+            url:"/addItemToOrderProcess" ,
+            success: function (res) {
+                $("#availible"+itemId).html("Availible count: "+res);
+                $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+            }
+        });
+    }
+</script>
 <jsp:include page="navbar.jsp"/>
 <div class="container">
     <div class="row">

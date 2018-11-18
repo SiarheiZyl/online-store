@@ -23,10 +23,10 @@ public class UserServiceImpl implements UserService {
     final static Logger logger = Logger.getLogger(UserService.class);
 
     @Autowired
-    public UserDao userDao;
+    private UserDao userDao;
 
     @Autowired
-    ItemDao itemDao;
+    private ItemDao itemDao;
 
     /**
      * Getting all users

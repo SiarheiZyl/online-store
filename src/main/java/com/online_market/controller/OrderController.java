@@ -26,13 +26,13 @@ public class OrderController {
     final static Logger logger = Logger.getLogger(OrderController.class);
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     /**
      * Get mapping for page with order history of authorized user
@@ -52,6 +52,7 @@ public class OrderController {
             model.addAttribute("ord", new Order());
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
             return "orderHistory";
         } else {

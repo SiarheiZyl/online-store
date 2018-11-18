@@ -3,6 +3,8 @@ package com.online_market.controller;
 import com.online_market.entity.Address;
 import com.online_market.entity.User;
 import com.online_market.service.AddressService;
+import com.online_market.service.ItemService;
+import com.online_market.service.OrderService;
 import com.online_market.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,16 @@ public class UserController {
     final static Logger logger = Logger.getLogger(UserController.class);
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
 
     @Autowired
-    public AddressService addressService;
+    private AddressService addressService;
+
+    @Autowired
+    private ItemService itemService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/")
     public String index() {
@@ -48,9 +56,11 @@ public class UserController {
     public String getById(@PathVariable("id") int id, Model model) {
 
         if (userService.getById(id).isAuth()) {
+            model.addAttribute("role", userService.getById(id).getRole());
             model.addAttribute("user", userService.getById(id));
             model.addAttribute("placeHolderForPassword", "New password");
             model.addAttribute("id", id);
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
             return "userInfo";
         } else {
@@ -90,6 +100,8 @@ public class UserController {
             model.addAttribute("role", userService.getById(id).getRole());
             model.addAttribute("address", address);
             model.addAttribute("id", id);
+
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
             return "address";
         } else {

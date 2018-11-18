@@ -39,4 +39,6 @@ public interface ItemService {
     List<Item> getFilteredItemsByCategory(List<Item> items, String category);
 
     List<Item> itemListPerPage(int pageId, int pageSize);
+
+    int getOrderSize(Map<Item, Integer> items);
 }

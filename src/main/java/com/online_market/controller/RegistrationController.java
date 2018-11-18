@@ -28,10 +28,10 @@ public class RegistrationController {
     final static Logger logger = Logger.getLogger(RegistrationController.class);
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
 
     @Autowired
-    public OrderService orderService;
+    private OrderService orderService;
 
     /**
      * Get mapping for register page

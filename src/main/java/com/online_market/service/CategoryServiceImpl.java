@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     final static Logger logger = Logger.getLogger(CategoryService.class);
 
     @Autowired
-    CategoryDao categoryDao;
+    private CategoryDao categoryDao;
 
     /**
      * Getting all categories

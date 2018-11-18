@@ -25,7 +25,7 @@ public class LoginController {
     final static Logger logger = Logger.getLogger(LoginController.class);
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
 
     /**
      * Get mapping for logim page

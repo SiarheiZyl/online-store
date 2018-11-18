@@ -29,13 +29,13 @@ public class ItemServiceImpl implements ItemService {
     final static Logger logger = Logger.getLogger(ItemService.class);
 
     @Autowired
-    ItemDao itemDao;
+    private ItemDao itemDao;
 
     @Autowired
-    ParamDao paramDao;
+    private ParamDao paramDao;
 
     @Autowired
-    CategoryDao categoryDao;
+    private CategoryDao categoryDao;
 
     /**
      * Getting all items
@@ -318,5 +318,24 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> itemListPerPage(int pageId, int pageSize) {
         return itemDao.itemListPerPage(pageId, pageSize);
+    }
+
+
+    /**
+     * Getting summary quantity of items in Order
+     *
+     * @param items items in order with quantity
+     * @return quantity
+     */
+    @Override
+    public int getOrderSize(Map<Item, Integer> items) {
+
+        int sum = 0;
+
+        for (Integer integer : items.values()) {
+            sum += integer;
+        }
+
+        return sum;
     }
 }

@@ -48,6 +48,9 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/bucket">
                         <span class="fa fa-shopping-basket" title="Basket" style="font-size:24px"></span>
+
+                        <span class='badge badge-warning ' id='lblCartCount' style="font-size: 12px;background: #ff0000;color: #fff;padding: 0 5px;vertical-align: top;margin-left: -10px;border-radius:15px;${numberOfItemsInBucket==0? 'display: none': 'display:'}">${numberOfItemsInBucket}</span>
+
                     </a>
                 </li>
                 <li class="nav-item active">

@@ -24,7 +24,19 @@
     </style>
 </head>
 <body>
-<script src=/resources/js/catalog.js type="text/javascript"></script>
+<script  type="text/javascript">
+    function addItem(itemId){
+        $.ajax({
+            type:'GET',//тип запроса
+            data:{itId: itemId},//параметры запроса
+            url:"/addItemToOrderProcess" ,//url адрес обработчика
+            success: function (res) {
+                $("#availible"+itemId).html("Availible count: "+res);
+                $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+            }//возвращаемый результат от сервера
+        });
+    }
+</script>
 <jsp:include page="navbar.jsp"/>
 <div class="container">
     <div class="row">

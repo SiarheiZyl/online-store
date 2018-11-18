@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -33,16 +34,16 @@ public class AdminController {
     final static Logger logger = Logger.getLogger(AdminController.class);
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
 
     /**
      * Get mapping for authorized admin
@@ -56,6 +57,8 @@ public class AdminController {
         int id = userService.getAuthorizedUserId();
 
         if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
+
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
             int pageSize = 10;
 
@@ -88,7 +91,6 @@ public class AdminController {
             }
 
 
-
             model.addAttribute("pageSize", totalPages);
 
             model.addAttribute("id", id);
@@ -104,6 +106,8 @@ public class AdminController {
             model.addAttribute("deliveryList", list2);
             model.addAttribute("paymentStatusList", list3);
             model.addAttribute("orderStatusList", list4);
+
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
             return "editOrders";
         } else {
@@ -130,6 +134,8 @@ public class AdminController {
             model.addAttribute("topItems", orderService.getTopItems());
             model.addAttribute("incomeMap", orderService.getIncome());
 
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
             return "statisticsForAdmin";
         } else {
             return "redirect:/login";
@@ -154,6 +160,8 @@ public class AdminController {
 
             model.addAttribute("item", itemService.getById(itemId));
             model.addAttribute("listCategories", categoryService.listCategories());
+
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
             return "editItem";
         } else {
@@ -233,14 +241,6 @@ public class AdminController {
             return "redirect:/login";
         }
     }
-
-/*    @PostMapping("/filterOrdersProcess")
-    @ResponseBody
-    public String filterOrders(@RequestParam("fromDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam("toDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate) {
-
-
-        return "";
-    }*/
 
     /**
      * Post mapping for adding new category

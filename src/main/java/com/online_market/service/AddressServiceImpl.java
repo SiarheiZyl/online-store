@@ -21,7 +21,7 @@ public class AddressServiceImpl implements AddressService {
     final static Logger logger = Logger.getLogger(AddressService.class);
 
     @Autowired
-    AddressDao addressDao;
+    private AddressDao addressDao;
 
     /**
      * Saving address
