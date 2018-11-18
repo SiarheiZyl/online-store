@@ -1,7 +1,6 @@
 package com.online_market.dao;
 
 import com.online_market.entity.Order;
-import com.online_market.entity.User;
 
 import java.util.Date;
 import java.util.List;

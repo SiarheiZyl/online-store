@@ -62,7 +62,7 @@ public class LoginController {
 
         if (loginUser != null) {
             userService.authorize(loginUser.getId());
-            return "redirect:/catalog";
+            return "redirect:/catalog/1";
         } else {
             model.addAttribute("STATUS_MESSAGE", "Login or password is incorrect!");
             return "login";

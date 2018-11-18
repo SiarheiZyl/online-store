@@ -112,5 +112,21 @@
     <!-- /.row -->
 </div>
 <!-- /.container -->
+
+<ul class="pagination justify-content-center">
+    <li ${pageId==1 ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link"
+                                                                             href="/catalog/${pageId-1}">Previous</a>
+    </li>
+    <c:forEach var="i" begin="1" end="${pageSize}">
+        <li ${i==pageId ? 'class="page-item active"' : 'class="page-item"'}><a class="page-link"
+                                                                               href="/catalog/${i}">${i}</a>
+        </li>
+    </c:forEach>
+    <li ${pageId==pageSize ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link"
+                                                                                    href="/catalog/${pageId+1}">Next</a>
+    </li>
+</ul>
+
+
 </body>
 </html>

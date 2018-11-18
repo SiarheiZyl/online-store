@@ -46,11 +46,17 @@ public class ItemController {
      * @param session HttpSession
      * @return catalog page
      */
-    @GetMapping("/catalog")
-    public String catalog(Model model , HttpSession session){
+    @GetMapping("/catalog/{pageId}")
+    public String catalog(@PathVariable("pageId") int pageId, Model model , HttpSession session){
+
+
+        int pageSize = 12;
+
+        model.addAttribute("pageId", pageId);
+        model.addAttribute("pageSize", itemService.itemList().size()/pageSize + 1);
 
         model.addAttribute("item", new Item());
-        model.addAttribute("itemList", itemService.itemList());
+        model.addAttribute("itemList", itemService.itemListPerPage(pageId, pageSize));
         model.addAttribute("categoryList", categoryService.listCategories());
 
         int id = userService.getAuthorizedUserId();

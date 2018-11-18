@@ -306,4 +306,17 @@ public class ItemServiceImpl implements ItemService {
 
         return result;
     }
+
+
+    /**
+     * Getting items per page
+     *
+     * @param pageId page id
+     * @param pageSize page size
+     * @return list of ${@link Item}
+     */
+    @Override
+    public List<Item> itemListPerPage(int pageId, int pageSize) {
+        return itemDao.itemListPerPage(pageId, pageSize);
+    }
 }

@@ -37,4 +37,6 @@ public interface ItemService {
     List<Item> getFilteredItemsByAllParams(String author, String country, int maxWidth, int maxHeight);
 
     List<Item> getFilteredItemsByCategory(List<Item> items, String category);
+
+    List<Item> itemListPerPage(int pageId, int pageSize);
 }

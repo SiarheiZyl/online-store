@@ -2,6 +2,7 @@ package com.online_market.dao;
 
 
 import com.online_market.entity.Item;
+import com.online_market.entity.Order;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -10,10 +11,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class implementing ${@link ItemDao}
@@ -116,4 +114,23 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
         return items;
     }
 
+    /**
+     * Getting items per page
+     *
+     * @param pageId page id
+     * @param pageSize page size
+     * @return list of ${@link Item}
+     */
+    public List<Item> itemListPerPage(int pageId, int pageSize){
+
+
+        Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Item");
+
+        selectQuery.setFirstResult((pageId-1)*pageSize);
+        selectQuery.setMaxResults(pageSize);
+
+        List<Item> list = selectQuery.list();
+
+        return list;
+    }
 }
