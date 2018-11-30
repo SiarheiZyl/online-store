@@ -83,8 +83,9 @@
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card" style="height: 530px;">
                                 <img class="card-img-top img-fluid img-thumbnail" width="300" height="200"
-                                     src="${item.picture}" style="cursor:zoom-in;">
+                                     src="/image/${item.itemId}" alt="${item.itemName}" style="cursor:zoom-in;">
                                 <div class="card-body ">
+                                    <a href="/item/${item.itemId}" style="color: black;" >
                                     <h4 class="card-title"><strong>${item.itemName}</strong></h4>
                                     <h5><strong><i>$${item.price}</i></strong></h5>
                                     <p class="card-text-bottom">
@@ -92,6 +93,7 @@
                                         <label id="availible${item.itemId}">Availible
                                             count: ${item.availableCount}</label>
                                     </p>
+                                    </a>
                                 </div>
                                 <div class="card-footer">
                                     <c:if test="${role==Roles.ADMIN}">
@@ -102,7 +104,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-md-6">
-                                                <a href="/editItem/${item.itemId}"
+                                                <a href="/item/${item.itemId}"
                                                    class="btn btn-outline-dark btn-block">Edit</a>
                                             </div>
                                         </div>

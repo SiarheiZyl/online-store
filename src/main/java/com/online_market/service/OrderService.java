@@ -63,4 +63,8 @@ public interface OrderService {
     Map<Item, Integer> getTopItems();
 
     Map<String, Double> getIncome();
+
+    void sendUpdateMessageToJms();
+
+    void updateTopItems();
 }

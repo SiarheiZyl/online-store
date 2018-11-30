@@ -18,7 +18,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected Class<?>[] getServletConfigClasses() {
 
-        return new Class[]{SpringConfig.class, WebConfig.class};
+        return new Class[]{SpringConfig.class, WebConfig.class, JMSConfig.class};
     }
 
     @Override

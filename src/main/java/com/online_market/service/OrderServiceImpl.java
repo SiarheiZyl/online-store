@@ -9,9 +9,11 @@ import com.online_market.entity.User;
 import com.online_market.entity.enums.PaymentStatus;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jms.TextMessage;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -39,10 +41,9 @@ public class OrderServiceImpl implements OrderService {
     private UserDao userDao;
 
     @Autowired
-    private UserService userService;
+    private JmsTemplate jmsTemplate;
 
-    @Autowired
-    private ItemService itemService;
+    List<Item> topItems = new ArrayList<>(10);
 
     /**
      * Saving order
@@ -541,5 +542,35 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return incomeMap;
+    }
+
+    @Override
+    public void sendUpdateMessageToJms() {
+
+        jmsTemplate.send("advertising.stand", session -> {
+            TextMessage msg = session.createTextMessage();
+            msg.setText("Items are up to date");
+            return msg;
+        });
+    }
+
+    @Override
+    public void updateTopItems() {
+
+        if (topItems.isEmpty()) {
+            topItems = new ArrayList<>(getTopItems().keySet());
+            sendUpdateMessageToJms();
+        } else {
+            List<Item> newestTop = new ArrayList<>(getTopItems().keySet());
+
+            for (int i = 0; i < 10; i++) {
+                if (topItems.get(i).getItemId() != newestTop.get(i).getItemId()) {
+                    topItems = newestTop;
+                    sendUpdateMessageToJms();
+                    break;
+                }
+            }
+
+        }
     }
 }

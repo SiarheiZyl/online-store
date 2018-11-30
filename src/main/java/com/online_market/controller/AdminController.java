@@ -143,34 +143,6 @@ public class AdminController {
     }
 
     /**
-     * Get mapping for editing item
-     *
-     * @param itemId item id
-     * @param model  model
-     * @return
-     */
-    @GetMapping("/editItem/{itemId}")
-    public String getEditItemPage(@PathVariable int itemId, Model model) {
-
-        int id = userService.getAuthorizedUserId();
-
-        if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN) {
-            model.addAttribute("id", id);
-            model.addAttribute("role", userService.getById(id).getRole());
-
-            model.addAttribute("item", itemService.getById(itemId));
-            model.addAttribute("listCategories", categoryService.listCategories());
-
-            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
-
-            return "editItem";
-        } else {
-            return "redirect:/login";
-        }
-    }
-
-
-    /**
      * Post mapping for adding new item
      *
      * @param itemName       item name
@@ -206,6 +178,8 @@ public class AdminController {
         order1.setPaymentStatus(paymentStatus);
 
         orderService.update(order1);
+        orderService.updateTopItems();
+
         OrderStatus[] orderStatuses = OrderStatus.values();
         for (int i = 0; i < orderStatuses.length; i++) {
             if (order1.getOrderStatus() == orderStatuses[i])

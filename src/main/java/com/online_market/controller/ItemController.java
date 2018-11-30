@@ -4,13 +4,18 @@ package com.online_market.controller;
 import com.online_market.entity.Item;
 import com.online_market.entity.Param;
 import com.online_market.service.*;
+import com.online_market.utils.ImageUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,5 +158,54 @@ public class ItemController {
         }
 
         return "itemList";
+    }
+
+    @RequestMapping(value = "/image/{itemId}")
+    public @ResponseBody byte[] getImage(@PathVariable(value = "itemId") String itemId) throws IOException {
+
+        File serverFile = new File(ImageUtil.getImagesDirectoryAbsolutePath() + itemId);
+
+        return Files.readAllBytes(serverFile.toPath());
+    }
+
+    /**
+     * Get mapping for editing item
+     *
+     * @param itemId item id
+     * @param model  model
+     * @return item's page
+     */
+    @GetMapping("/item/{itemId}")
+    public String getEditItemPage(@PathVariable int itemId, Model model) {
+
+        int id = userService.getAuthorizedUserId();
+        model.addAttribute("id", id);
+
+        if (id != 0) {
+            model.addAttribute("role", userService.getById(id).getRole());
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+        }
+
+        model.addAttribute("item", itemService.getById(itemId));
+        model.addAttribute("listCategories", categoryService.listCategories());
+
+        return "editItem";
+    }
+
+    @GetMapping("/test")
+    public String getTest(Model model){
+
+        return "test";
+    }
+
+    @PostMapping("/test/upload")
+    public String uploadTest(@RequestParam("name") String name,
+                             @RequestParam("file") MultipartFile image){
+
+        if (!image.isEmpty()) {
+            ImageUtil.createImagesDirectoryIfNeeded();
+            ImageUtil.uploadImage(name, image);
+        }
+        return "test";
     }
 }
