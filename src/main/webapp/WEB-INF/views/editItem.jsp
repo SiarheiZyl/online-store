@@ -82,12 +82,14 @@ function addItem(itemId){
                         <img id="upload-image" class="card-img-top img-fluid img-thumbnail" src="/image/${item.itemId}" alt="${item.itemName}">
                     </div>
 
-                    <div class="custom-file" id="customFile" lang="es">
+                   <c:if test="${role == Roles.ADMIN}">
+                       <div class="custom-file" id="customFile" lang="es">
                         <input type="file"  class="custom-file-input"  id="imageFile" onchange="readURL(this);" accept="image/jpeg, image/png, image/gif" name="image">
                         <label class="custom-file-label" for="imageFile">
                             Select file...
                         </label>
                     </div>
+                   </c:if>
 
                     <div class="form-row">
                         <div class="col form-group">
@@ -186,7 +188,7 @@ function addItem(itemId){
                         </c:if>
 
                         <c:if test="${role!=Roles.ADMIN}">
-                            <button id="buyItem" type="button" onclick="addItem(${item.itemId})" class="btn btn-primary btn-block">Buy
+                            <button id="buyItem" type="button" onclick="addItem(${item.itemId})" class="btn btn-primary btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':'disabled =""'}>Buy
                             </button>
                         </c:if>
                     </div>

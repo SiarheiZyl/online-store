@@ -20,70 +20,15 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 
     final static Logger logger = Logger.getLogger(UserDao.class);
 
+    private final SessionFactory sessionFactory;
+
+    /**
+     * Injecting constructor for SessionFactory exemplar
+     */
     @Autowired
-    SessionFactory sessionFactory;
-/*
-
-    */
-/**
-     * Saving user
-     *
-     * @param user user
-     *//*
-
-    @Override
-    public void save(User user) {
-        sessionFactory.getCurrentSession().persist(user);
+    public UserDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
-
-    */
-/**
-     * Getting user by id
-     *
-     * @param id user id
-     * @return user ${@link User}
-     *//*
-
-    @Override
-    public User getById(int id) {
-
-        Session session = sessionFactory.openSession();
-        User user = session.get(User.class, id);
-        Hibernate.initialize(user);
-        session.close();
-
-        return user;
-    }
-
-    */
-/**
-     * Getting all users
-     *
-     * @return list of ${@link User}
-     *//*
-
-    @Override
-    public List<User> findAll() {
-
-        String s = "select e from User e";
-        Query query = sessionFactory.getCurrentSession().createQuery(s);
-
-        return query.getResultList();
-
-    }
-
-    */
-/**
-     * Updating user
-     *
-     * @param user user
-     *//*
-
-    @Override
-    public void saveOrUpdate(User user) {
-        sessionFactory.getCurrentSession().saveOrUpdate(user);
-    }
-*/
 
     /**
      * Validating user

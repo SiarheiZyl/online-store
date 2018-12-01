@@ -32,14 +32,24 @@ public class BucketController {
 
     final static Logger logger = Logger.getLogger(BucketController.class);
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    @Autowired
-    private ItemService itemService;
+    private final ItemService itemService;
 
+    private final UserService userService;
+
+    /**
+     * Injecting constructor
+     * @param userService user service
+     * @param orderService order service
+     * @param itemService item service
+     */
     @Autowired
-    private UserService userService;
+    public BucketController(OrderService orderService, ItemService itemService, UserService userService) {
+        this.orderService = orderService;
+        this.itemService = itemService;
+        this.userService = userService;
+    }
 
     /**
      * Get mapping for all users

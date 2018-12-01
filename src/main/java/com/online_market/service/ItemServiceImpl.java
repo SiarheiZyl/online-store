@@ -28,14 +28,24 @@ public class ItemServiceImpl implements ItemService {
 
     final static Logger logger = Logger.getLogger(ItemService.class);
 
-    @Autowired
-    private ItemDao itemDao;
+    private final ItemDao itemDao;
 
-    @Autowired
-    private ParamDao paramDao;
+    private final ParamDao paramDao;
 
+    private final CategoryDao categoryDao;
+
+    /**
+     * Injecting constructor
+     * @param itemDao item DAO
+     * @param paramDao param DAO
+     * @param categoryDao category DAO
+     */
     @Autowired
-    private CategoryDao categoryDao;
+    public ItemServiceImpl(ItemDao itemDao, ParamDao paramDao, CategoryDao categoryDao) {
+        this.itemDao = itemDao;
+        this.paramDao = paramDao;
+        this.categoryDao = categoryDao;
+    }
 
     /**
      * Getting all items

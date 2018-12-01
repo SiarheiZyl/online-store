@@ -31,20 +31,32 @@ public class ItemController {
 
     final static Logger logger = Logger.getLogger(ItemController.class);
 
-    @Autowired
-    private ItemService itemService;
+    private final ItemService itemService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    @Autowired
-    private ParamService paramService;
+    private final ParamService paramService;
 
+    private final CategoryService categoryService;
+
+    /**
+     * Injecting constructor
+     * @param itemService item service
+     * @param userService user service
+     * @param orderService order service
+     * @param paramService param service
+     * @param categoryService category service
+     */
     @Autowired
-    private CategoryService categoryService;
+    public ItemController(ItemService itemService, UserService userService, OrderService orderService, ParamService paramService, CategoryService categoryService) {
+        this.itemService = itemService;
+        this.userService = userService;
+        this.orderService = orderService;
+        this.paramService = paramService;
+        this.categoryService = categoryService;
+    }
 
     /**
      * Get mapping for catalog

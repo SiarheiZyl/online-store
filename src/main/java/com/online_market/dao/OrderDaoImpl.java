@@ -24,8 +24,15 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
 
     final static Logger logger = Logger.getLogger(OrderDao.class);
 
+    private final SessionFactory sessionFactory;
+
+    /**
+     * Injecting constructor for SessionFactory exemplar
+     */
     @Autowired
-    SessionFactory sessionFactory;
+    public OrderDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     /**
      * Getting all orders of user

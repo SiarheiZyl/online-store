@@ -20,8 +20,16 @@ public class AddressServiceImpl implements AddressService {
 
     final static Logger logger = Logger.getLogger(AddressService.class);
 
+    private final AddressDao addressDao;
+
+    /**
+     * Injecting constructor
+     * @param addressDao address DAO
+     */
     @Autowired
-    private AddressDao addressDao;
+    public AddressServiceImpl(AddressDao addressDao) {
+        this.addressDao = addressDao;
+    }
 
     /**
      * Saving address

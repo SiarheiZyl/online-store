@@ -24,8 +24,15 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
 
     final static Logger logger = Logger.getLogger(ItemDao.class);
 
+    private final SessionFactory sessionFactory;
+
+    /**
+     * Injecting constructor for SessionFactory exemplar
+     */
     @Autowired
-    SessionFactory sessionFactory;
+    public ItemDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     /**
      * Updating quantity of item

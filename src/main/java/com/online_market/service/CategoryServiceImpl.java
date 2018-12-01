@@ -21,8 +21,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     final static Logger logger = Logger.getLogger(CategoryService.class);
 
+    private final CategoryDao categoryDao;
+
+    /**
+     * Injecting constructor
+     * @param categoryDao category DAO
+     */
     @Autowired
-    private CategoryDao categoryDao;
+    public CategoryServiceImpl(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
 
     /**
      * Getting all categories

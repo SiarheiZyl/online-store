@@ -22,8 +22,15 @@ public class ParamDaoImpl extends GenericDaoImpl<Param> implements ParamDao {
 
     final static Logger logger = Logger.getLogger(ParamDao.class);
 
+    private final SessionFactory sessionFactory;
+
+    /**
+     * Injecting constructor for SessionFactory exemplar
+     */
     @Autowired
-    SessionFactory sessionFactory;
+    public ParamDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     /**
      * Saving param

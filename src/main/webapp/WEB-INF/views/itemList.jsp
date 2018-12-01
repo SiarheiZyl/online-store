@@ -100,7 +100,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <button onclick="addItem(${item.itemId})"
-                                                        class="btn btn-outline-dark btn-block">Buy
+                                                        class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':'disabled =""'}>Buy
                                                 </button>
                                             </div>
                                             <div class="col-md-6">
@@ -111,7 +111,7 @@
                                     </c:if>
                                     <c:if test="${role!=Roles.ADMIN}">
                                         <button onclick="addItem(${item.itemId})"
-                                                class="btn btn-outline-dark btn-block">Buy
+                                                class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':'disabled =""'}>Buy
                                         </button>
                                     </c:if>
                                 </div>

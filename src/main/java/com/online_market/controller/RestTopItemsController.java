@@ -22,8 +22,6 @@ import java.util.*;
 @RequestMapping(value = "/advertising")
 public class RestTopItemsController {
 
-
-
     private static final Logger log = Logger.getLogger(RestTopItemsController.class);
 
     /**
@@ -42,11 +40,9 @@ public class RestTopItemsController {
      */
     @Autowired
     public RestTopItemsController(ItemService itemService, OrderService orderService) {
-
         this.itemService = itemService;
         this.orderService = orderService;
     }
-
 
     /**
      * By this URL we can take list of the top product in JSON format.
@@ -81,7 +77,6 @@ public class RestTopItemsController {
 
         return tops;
     }
-
 
     /**
      * By this method, all users who have visited advertising stand subscribe for

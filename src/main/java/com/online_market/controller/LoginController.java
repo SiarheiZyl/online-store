@@ -24,8 +24,16 @@ public class LoginController {
 
     final static Logger logger = Logger.getLogger(LoginController.class);
 
+    private final UserService userService;
+
+    /**
+     * Injecting constructor
+     * @param userService user service
+     */
     @Autowired
-    private UserService userService;
+    public LoginController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Get mapping for logim page

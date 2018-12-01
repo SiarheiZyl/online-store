@@ -17,9 +17,8 @@ import java.util.List;
 @Repository
 public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
-
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Override
     public void save(T t) {

@@ -27,11 +27,16 @@ public class RegistrationController {
 
     final static Logger logger = Logger.getLogger(RegistrationController.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
+    /**
+     * Injecting constructor
+     * @param userService user service
+     */
     @Autowired
-    private OrderService orderService;
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Get mapping for register page

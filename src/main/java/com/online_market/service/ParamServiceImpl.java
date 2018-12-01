@@ -20,8 +20,17 @@ public class ParamServiceImpl implements ParamService {
 
     final static Logger logger = Logger.getLogger(ParamService.class);
 
+
+    private final ParamDao paramDao;
+
+    /**
+     * Injecting constructor
+     * @param paramDao param DAO
+     */
     @Autowired
-    private ParamDao paramDao;
+    public ParamServiceImpl(ParamDao paramDao) {
+        this.paramDao = paramDao;
+    }
 
     /**
      * Getting all authors

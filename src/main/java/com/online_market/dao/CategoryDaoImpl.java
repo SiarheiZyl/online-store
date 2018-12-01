@@ -20,8 +20,15 @@ public class CategoryDaoImpl extends GenericDaoImpl<Category> implements Categor
 
     final static Logger logger = Logger.getLogger(CategoryDao.class);
 
+    private final SessionFactory sessionFactory;
+
+    /**
+     * Injecting constructor for SessionFactory exemplar
+     */
     @Autowired
-    SessionFactory sessionFactory;
+    public CategoryDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     /**
      * Getting category by name

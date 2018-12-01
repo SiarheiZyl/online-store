@@ -31,17 +31,32 @@ public class OrderServiceImpl implements OrderService {
 
     final static Logger logger = Logger.getLogger(OrderService.class);
 
-    @Autowired
-    private OrderDao orderDao;
 
-    @Autowired
-    private ItemDao itemDao;
+    private final OrderDao orderDao;
 
-    @Autowired
-    private UserDao userDao;
 
+    private final ItemDao itemDao;
+
+
+    private final UserDao userDao;
+
+
+    private final JmsTemplate jmsTemplate;
+
+    /**
+     * Injecting constructor
+     * @param orderDao order DAO
+     * @param itemDao item DAO
+     * @param userDao user DAO
+     * @param jmsTemplate jmsTemplate
+     */
     @Autowired
-    private JmsTemplate jmsTemplate;
+    public OrderServiceImpl(OrderDao orderDao, ItemDao itemDao, UserDao userDao, JmsTemplate jmsTemplate) {
+        this.orderDao = orderDao;
+        this.itemDao = itemDao;
+        this.userDao = userDao;
+        this.jmsTemplate = jmsTemplate;
+    }
 
     List<Item> topItems = new ArrayList<>(10);
 

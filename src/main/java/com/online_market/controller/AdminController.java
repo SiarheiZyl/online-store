@@ -36,17 +36,28 @@ public class AdminController {
 
     final static Logger logger = Logger.getLogger(AdminController.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
+    private final ItemService itemService;
+
+    /**
+     * Injecting constructor
+     * @param userService user service
+     * @param orderService order service
+     * @param categoryService category service
+     * @param itemService item service
+     */
     @Autowired
-    private ItemService itemService;
+    public AdminController(UserService userService, OrderService orderService, CategoryService categoryService, ItemService itemService) {
+        this.userService = userService;
+        this.orderService = orderService;
+        this.categoryService = categoryService;
+        this.itemService = itemService;
+    }
 
     /**
      * Get mapping for authorized admin

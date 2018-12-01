@@ -26,17 +26,28 @@ public class UserController {
 
     final static Logger logger = Logger.getLogger(UserController.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private AddressService addressService;
+    private final AddressService addressService;
 
-    @Autowired
-    private ItemService itemService;
+    private final ItemService itemService;
 
+    private final OrderService orderService;
+
+    /**
+     * Injecting constructor
+     * @param userService user service
+     * @param addressService address service
+     * @param itemService item service
+     * @param orderService order service
+     */
     @Autowired
-    private OrderService orderService;
+    public UserController(UserService userService, AddressService addressService, ItemService itemService, OrderService orderService) {
+        this.userService = userService;
+        this.addressService = addressService;
+        this.itemService = itemService;
+        this.orderService = orderService;
+    }
 
     @GetMapping("/")
     public String index() {

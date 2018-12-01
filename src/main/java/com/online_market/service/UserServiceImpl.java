@@ -22,11 +22,17 @@ public class UserServiceImpl implements UserService {
 
     final static Logger logger = Logger.getLogger(UserService.class);
 
-    @Autowired
-    private UserDao userDao;
 
+    private final UserDao userDao;
+
+    /**
+     * Injecting constructor
+     * @param userDao user DAO
+     */
     @Autowired
-    private ItemDao itemDao;
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     /**
      * Getting all users
