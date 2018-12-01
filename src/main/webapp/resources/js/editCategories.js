@@ -13,30 +13,3 @@ function addCategory() {
     });
 }
 
-function addItem() {
-    $.ajax({
-        type: 'POST',//тип запроса
-        data: {
-            itemName: $("#item").val(),
-            itemCateg: $("#itemCateg").val(),
-            author: $("#author").val(),
-            country: $("#country").val(),
-            height: $("#height").val(),
-            width: $("#width").val(),
-            avalCount: $("#avalCount").val(),
-            price: $("#price").val()
-        },//параметры запроса
-        url: "/addNewItemProcess",//url адрес обработчика
-        success: function (res) {
-            alert("New category was successfully added!");
-            $('#item').val('');
-            $('#author').val('');
-            $('#country').val('');
-            $('#height').val('');
-            $('#width').val('');
-            $('#avalCount').val('');
-            $('#price').val('');
-
-        }
-    });
-}

@@ -18,11 +18,11 @@ public interface ItemService {
 
     Item getById(int id);
 
-    void update(int itemId, String itemName, String category, String author, String country, int height, int width, int availableCount, int price);
+    void update(int itemId, String itemName, String category, String author, String country, int height, int width, int availableCount, double price);
 
     void updateQuantity(Item item);
 
-    void addNewItem(String itemName, int avalCount, int price, String itemCateg, String author, String country, int height, int width);
+    int addNewItem(String itemName, int avalCount, int price, String itemCateg, String author, String country, int height, int width);
 
     Map<Item, Integer> getOrderNotNullItems(int orderId);
 

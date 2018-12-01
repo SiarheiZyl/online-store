@@ -133,4 +133,6 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
 
         return list;
     }
+
+
 }

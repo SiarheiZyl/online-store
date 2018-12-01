@@ -79,7 +79,7 @@ public class ItemServiceImpl implements ItemService {
      * @param price          price
      */
     @Override
-    public void update(int itemId, String itemName, String category, String author, String country, int height, int width, int availableCount, int price) {
+    public void update(int itemId, String itemName, String category, String author, String country, int height, int width, int availableCount, double price) {
 
         Item item = itemDao.getById(Item.class, itemId);
         Category category1 = categoryDao.findByName(category);
@@ -95,6 +95,7 @@ public class ItemServiceImpl implements ItemService {
 
         paramDao.update(param);
 
+        item.setItemName(itemName);
         item.setAvailableCount(availableCount);
         item.setPrice(price);
 
@@ -129,7 +130,7 @@ public class ItemServiceImpl implements ItemService {
      * @param width     width
      */
     @Override
-    public void addNewItem(String itemName, int avalCount, int price, String itemCateg, String author, String country, int height, int width) {
+    public int addNewItem(String itemName, int avalCount, int price, String itemCateg, String author, String country, int height, int width) {
 
         logger.info("Adding a new item(called addNewItem()) ");
 
@@ -155,6 +156,8 @@ public class ItemServiceImpl implements ItemService {
         itemDao.save(item);
 
         logger.info("Item was saved");
+
+        return  item.getItemId();
     }
 
     /**

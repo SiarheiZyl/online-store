@@ -12,7 +12,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Statistics</title>
+    <title>Managing</title>
     <jsp:include page="layout.jsp"/>
     <link href="<c:url value='../../resources/css/orderHistory.css' />" rel="stylesheet">
 
@@ -26,10 +26,46 @@
             integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
 
 </head>
 <body>
 <script src=/resources/js/editCategories.js type="text/javascript"></script>
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#upload-image')
+                    .attr('src', e.target.result)
+                    .show();
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+    $(document).ready(function() {
+        // bind 'myForm' and provide a simple callback function
+        $('#formItem').ajaxForm(function() {
+            $('#item').val('');
+            $('#author').val('');
+            $('#country').val('');
+            $('#height').val('');
+            $('#width').val('');
+            $('#avalCount').val('');
+            $('#price').val('');
+            $('#upload-image').hide();
+            alert("New item was successfully added!!");
+
+        });
+    });
+
+
+</script>
 <jsp:include page="navbar.jsp"/>
 <div class="panel panel-default panel-order ">
     <div class="panel-body">
@@ -53,15 +89,24 @@
                 <div class="row">
                     <h4 class="display-5">Add new item</h4>
                 </div>
-
+                <form:form action="/addNewItemProcess" method="post" id="formItem" enctype="multipart/form-data">
+                    <div class="image-slider">
+                        <img id="upload-image" class="img-fluid img-thumbnail" width="300" height="200" style="display: none;" src="/resources/images/2.jpg" alt="Item">
+                    </div>
+                    <div class="custom-file" id="customFile" lang="es">
+                        <input type="file"  class="custom-file-input"  id="imageFile" onchange="readURL(this);" accept="image/jpeg, image/png, image/gif" name="image">
+                        <label class="custom-file-label" for="imageFile">
+                            Select file...
+                        </label>
+                    </div>
                 <div class="form-row">
                     <div class="col form-group">
                         <label><i>Name</i></label>
-                        <input type="text" name="item" id="item" class="form-control">
+                        <input type="text" id="item" name="itemName" class="form-control">
                     </div>
                     <div class="col form-group">
                         <label><i>Category</i></label>
-                        <select id="itemCateg" class="form-control">
+                        <select id="itemCateg" name="itemCateg" class="form-control">
                             <c:forEach var="categ" items="${listCategories}">
                                 <option value="${categ}">${categ}</option>
                             </c:forEach>
@@ -101,8 +146,10 @@
                         <input type="number" name="price" id="price" class="form-control">
                     </div>
                 </div>
-                <button id="addItem" class="btn btn-outline-dark btn-sm pull-bottom" onclick="addItem()">Add item
+
+                <button id="addItem" class="btn btn-outline-dark btn-sm pull-bottom" type="submit">Add item
                 </button>
+                </form:form>
             </div>
         </div>
     </div>

@@ -112,7 +112,7 @@ public class ItemServiceTest {
         when(categoryDaoMock.findByName(itemCateg)).thenReturn(category);
 
         //call
-        itemService.addNewItem(name, avalCount, price, itemCateg, author, country, height, width);
+        int index = itemService.addNewItem(name, avalCount, price, itemCateg, author, country, height, width);
 
         verify(paramDaoMock).save(any(Param.class));
 

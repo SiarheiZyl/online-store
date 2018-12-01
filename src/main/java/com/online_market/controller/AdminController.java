@@ -7,12 +7,15 @@ import com.online_market.service.CategoryService;
 import com.online_market.service.ItemService;
 import com.online_market.service.OrderService;
 import com.online_market.service.UserService;
+import com.online_market.utils.ImageUtil;
 import org.apache.log4j.Logger;
+import org.apache.taglibs.standard.extra.spath.SPathTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -156,9 +159,15 @@ public class AdminController {
      */
     @PostMapping("/editItemProcess")
     @ResponseBody
-    public void updateItem(@RequestParam("itemId") int itemId, @RequestParam("itemName") String itemName, @RequestParam("category") String category, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("availableCount") int availableCount, @RequestParam("price") int price) {
+    public void updateItem(@RequestParam("itemId") int itemId, @RequestParam("itemName") String itemName, @RequestParam("category") String category, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("availableCount") int availableCount, @RequestParam("price") String price, @RequestParam("image") MultipartFile image) {
 
-        itemService.update(itemId, itemName, category, author, country, height, width, availableCount, price);
+
+        itemService.update(itemId, itemName, category, author, country, height, width, availableCount, Double.parseDouble(price));
+
+        if (!image.isEmpty()) {
+            ImageUtil.createImagesDirectoryIfNeeded();
+            ImageUtil.uploadImage(itemId+"", image);
+        }
     }
 
     /**
@@ -246,8 +255,14 @@ public class AdminController {
      */
     @PostMapping("/addNewItemProcess")
     @ResponseBody
-    public void addNewItem(@RequestParam("itemName") String itemName, @RequestParam("itemCateg") String itemCateg, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("avalCount") int avalCount, @RequestParam("price") int price) {
+    public void addNewItem(@RequestParam("itemName") String itemName, @RequestParam("itemCateg") String itemCateg, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("avalCount") int avalCount, @RequestParam("price") int price, @RequestParam("image") MultipartFile image) {
 
-        itemService.addNewItem(itemName, avalCount, price, itemCateg, author, country, height, width);
+        int id =  itemService.addNewItem(itemName, avalCount, price, itemCateg, author, country, height, width);
+        orderService.addNewItemToBucket(id);
+
+        if (!image.isEmpty()) {
+            ImageUtil.createImagesDirectoryIfNeeded();
+            ImageUtil.uploadImage(id+"", image);
+        }
     }
 }

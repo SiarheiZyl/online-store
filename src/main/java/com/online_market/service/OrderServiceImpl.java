@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 
         logger.info("Getting order by id(called getById(int id))");
 
-        return orderDao.getById(Order.class,id);
+        return orderDao.getById(Order.class, id);
     }
 
     /**
@@ -122,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
         Order userBucket = new Order();
         List<Item> items = itemDao.getAll("Item");
         userBucket.setItems(items);
-        userBucket.setUser(userDao.getById(User.class,userId));
+        userBucket.setUser(userDao.getById(User.class, userId));
         update(userBucket);
 
         return userBucket;
@@ -160,7 +160,7 @@ public class OrderServiceImpl implements OrderService {
 
         logger.info("Saving item to bucket(called addToBucket(int itemId, int userId))");
 
-        Item item = itemDao.getById(Item.class,itemId);
+        Item item = itemDao.getById(Item.class, itemId);
 
         if (item.getAvailableCount() > 0) {
 
@@ -179,7 +179,7 @@ public class OrderServiceImpl implements OrderService {
                 itemDao.updateQuantity(item);
             }
 
-            userBucket.setUser(userDao.getById(User.class,userId));
+            userBucket.setUser(userDao.getById(User.class, userId));
             userBucket.setItems(itemList);
 
             userBucket.setAmount(userBucket.getAmount() + item.getPrice());
@@ -193,6 +193,28 @@ public class OrderServiceImpl implements OrderService {
             logger.info("Item was saved");
         } else {
             logger.warn("Item's quantity = 0");
+        }
+    }
+
+
+    /**
+     * Adding new items to all buckets
+     *
+     * @param itemId item id
+     */
+    @Override
+    public void addNewItemToBucket(int itemId) {
+
+        List<Order> orders = orderDao.getAll("Order");
+        Item newItem = itemDao.getById(Item.class, itemId);
+
+        for (Order order : orders) {
+            if (order.getDeliveryMethod() == null && order.getPaymentMethod() == null){
+                List<Item> items = order.getItems();
+                items.add(newItem);
+                order.setItems(items);
+                update(order);
+            }
         }
     }
 
@@ -244,7 +266,7 @@ public class OrderServiceImpl implements OrderService {
 
         logger.info("Removing item from bucket(called removeFromBucket(int itemId, int userId, int quantity))");
 
-        Item item = itemDao.getById(Item.class,itemId);
+        Item item = itemDao.getById(Item.class, itemId);
         item.setAvailableCount(item.getAvailableCount() + quantity);
         itemDao.updateQuantity(item);
 
@@ -338,10 +360,10 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Filtering orders by date
      *
-     * @param pageId page id
+     * @param pageId   page id
      * @param pageSize page size
      * @param fromDate from
-     * @param toDate to
+     * @param toDate   to
      * @return list of ${@link Order}
      */
     @Override
@@ -387,7 +409,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Adding item to session(called addItemToSession(int itemId, HttpSession session))");
 
         Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
-        Item item1 = itemDao.getById(Item.class,itemId);
+        Item item1 = itemDao.getById(Item.class, itemId);
         int quantity = 1;
         if (item1.getAvailableCount() != 0) {
 
