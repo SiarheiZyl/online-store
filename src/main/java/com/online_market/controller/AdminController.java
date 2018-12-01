@@ -224,10 +224,6 @@ public class AdminController {
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
 
-            model.addAttribute("topUsers", orderService.getTopUsers());
-            model.addAttribute("topItems", orderService.getTopItems());
-            model.addAttribute("incomeMap", orderService.getIncome());
-
             model.addAttribute("listCategories", categoryService.listCategories());
 
             return "editCategories";

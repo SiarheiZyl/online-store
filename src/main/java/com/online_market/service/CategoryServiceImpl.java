@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -42,7 +43,11 @@ public class CategoryServiceImpl implements CategoryService {
 
         logger.info("Getting list of categories(called listCategories())");
 
-        return categoryDao.getAll("Category");
+        List<Category> list = categoryDao.getAll("Category");
+
+        list.sort(Comparator.comparing(Category::getCategoryName));
+
+        return list;
     }
 
     /**

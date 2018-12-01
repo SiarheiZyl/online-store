@@ -103,7 +103,7 @@
                                         <c:if test="${role==Roles.ADMIN}">
                                         <div class="row">
                                             <div class="col-md-6">
-                                            <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':'disabled =""'}>Buy</button>
+                                            <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy</button>
                                             </div>
                                             <div class="col-md-6">
                                                 <a href="/item/${item.itemId}" class="btn btn-outline-dark btn-block">Edit</a>
@@ -111,7 +111,7 @@
                                         </div>
                                         </c:if>
                                         <c:if test="${role!=Roles.ADMIN}">
-                                        <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':'disabled =""'}>Buy</button>
+                                        <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy</button>
                                         </c:if>
                                     </div>
                                 </div>

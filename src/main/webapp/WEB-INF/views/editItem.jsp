@@ -188,7 +188,7 @@ function addItem(itemId){
                         </c:if>
 
                         <c:if test="${role!=Roles.ADMIN}">
-                            <button id="buyItem" type="button" onclick="addItem(${item.itemId})" class="btn btn-primary btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':'disabled =""'}>Buy
+                            <button id="buyItem" type="button" onclick="addItem(${item.itemId})" class="btn btn-primary btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy
                             </button>
                         </c:if>
                     </div>

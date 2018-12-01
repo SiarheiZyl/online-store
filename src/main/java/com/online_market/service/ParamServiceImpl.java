@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * Class implementing ${@link ParamService}
@@ -42,7 +45,7 @@ public class ParamServiceImpl implements ParamService {
 
         logger.info("Getting all authors(called getAllAuthors())");
 
-        return paramDao.getAllAuthors();
+        return new TreeSet<>(paramDao.getAllAuthors());
     }
 
 
@@ -56,6 +59,6 @@ public class ParamServiceImpl implements ParamService {
 
         logger.info("Getting all countries(called getAllCountries())");
 
-        return paramDao.getAllCountries();
+        return new TreeSet<>(paramDao.getAllCountries());
     }
 }
