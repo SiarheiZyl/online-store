@@ -46,6 +46,11 @@
                     </li>
                 </c:if>
                 <li class="nav-item active">
+                    <a class="nav-link" href="/search">
+                        <span class="fas fa-search" title="Search" style="font-size:24px"></span>
+                    </a>
+                </li>
+                <li class="nav-item active">
                     <a class="nav-link" href="/bucket">
                         <span class="fa fa-shopping-basket" title="Basket" style="font-size:24px"></span>
 

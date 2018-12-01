@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Service interface for ${@link Item}
@@ -41,4 +42,6 @@ public interface ItemService {
     List<Item> itemListPerPage(int pageId, int pageSize);
 
     int getOrderSize(Map<Item, Integer> items);
+
+    Set<Item> search(String searchString);
 }

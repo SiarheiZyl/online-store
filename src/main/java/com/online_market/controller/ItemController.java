@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class for mapping all paths associated with items{@link Item}
@@ -204,20 +205,24 @@ public class ItemController {
         return "editItem";
     }
 
-    @GetMapping("/test")
-    public String getTest(Model model){
+    @GetMapping("/search")
+    public String getSearchPage(Model model, @RequestParam(value = "searchData", required = false) String searchData){
 
-        return "test";
-    }
+        int id = userService.getAuthorizedUserId();
+        model.addAttribute("id", id);
 
-    @PostMapping("/test/upload")
-    public String uploadTest(@RequestParam("name") String name,
-                             @RequestParam("file") MultipartFile image){
-
-        if (!image.isEmpty()) {
-            ImageUtil.createImagesDirectoryIfNeeded();
-            ImageUtil.uploadImage(name, image);
+        if (id != 0) {
+            model.addAttribute("role", userService.getById(id).getRole());
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
         }
-        return "test";
+
+        if(searchData == null){
+            model.addAttribute("items", null);
+        }
+        else{
+            model.addAttribute("items", itemService.search(searchData));
+        }
+
+        return "search";
     }
 }

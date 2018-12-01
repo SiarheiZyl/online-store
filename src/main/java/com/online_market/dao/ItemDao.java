@@ -24,4 +24,11 @@ public interface ItemDao extends GenericDao<Item> {
     Map<Item, Integer> getNotNullItemsInBucket(int orderId);
 
     List<Item> itemListPerPage(int pageId, int pageSize);
+
+    List<Item> findItemsByAuthor(String author);
+
+    List<Item> findItemsByCountry(String country);
+
+    List<Item> findItemsByName(String name);
+
 }

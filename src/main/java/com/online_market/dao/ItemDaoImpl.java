@@ -142,5 +142,30 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
         return list;
     }
 
+    @Override
+    public List<Item> findItemsByAuthor(String author) {
 
+        Query query = sessionFactory.getCurrentSession().createQuery("SELECT p FROM Item p WHERE params.author = :author");
+        query.setParameter("author", author);
+
+        return (List<Item>) query.getResultList();
+    }
+
+    @Override
+    public List<Item> findItemsByCountry(String country) {
+
+        Query query = sessionFactory.getCurrentSession().createQuery("SELECT p FROM Item p WHERE params.country = :country");
+        query.setParameter("country", country);
+
+        return (List<Item>) query.getResultList();
+    }
+
+    @Override
+    public List<Item> findItemsByName(String name) {
+
+        Query query = sessionFactory.getCurrentSession().createQuery("SELECT p FROM Item p WHERE itemName= :itemName");
+        query.setParameter("itemName", name);
+
+        return (List<Item>) query.getResultList();
+    }
 }

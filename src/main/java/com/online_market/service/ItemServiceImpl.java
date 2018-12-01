@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class implementing ${@link ItemService}
@@ -350,5 +348,16 @@ public class ItemServiceImpl implements ItemService {
         }
 
         return sum;
+    }
+
+    @Override
+    public Set<Item> search(String searchString) {
+        Set<Item> result = new HashSet<>();
+
+        result.addAll(itemDao.findItemsByCountry(searchString));
+        result.addAll(itemDao.findItemsByName(searchString));
+        result.addAll(itemDao.findItemsByAuthor(searchString));
+
+        return result;
     }
 }
