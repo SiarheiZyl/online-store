@@ -34,13 +34,13 @@ public class CategoryDaoImpl extends GenericDaoImpl<Category> implements Categor
      * Getting category by name
      *
      * @param categoryName category's name
-     * @return
+     * @return an exemplar ${@link Category}
      */
     @Override
     public Category findByName(String categoryName) {
 
-        String s = "select * from categories where category_name = :categoty_name";
-        Query query = sessionFactory.getCurrentSession().createSQLQuery(s).addEntity(Category.class);
+        String s = "select c from Category c where categoryName = :categoty_name";
+        Query query = sessionFactory.getCurrentSession().createQuery(s);
         query.setParameter("categoty_name", categoryName);
         List list = query.list();
 

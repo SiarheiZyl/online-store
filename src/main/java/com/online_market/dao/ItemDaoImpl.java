@@ -42,9 +42,9 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
     @Override
     public void updateQuantity(Item item) {
 
-        String s = "update items SET available_count = :available_count where item_id = :item_id";
+        String s = "update Item SET availableCount = :available_count where itemId = :item_id";
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createSQLQuery(s);
+        Query query = session.createQuery(s);
         query.setParameter("available_count", item.getAvailableCount());
         query.setParameter("item_id", item.getItemId());
         query.executeUpdate();
@@ -63,6 +63,7 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
      */
     @Override
     public int orderedItemQuantity(int orderId, int itemId) {
+
         String s = "select quantity from ordered_items where orders = :orders AND item = :item";
         Query query = sessionFactory.getCurrentSession().createSQLQuery(s);
         query.setParameter("orders", orderId);
@@ -81,11 +82,11 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
      */
     @Override
     public void updateQuantityOfOrderedItem(int orderId, int itemId, int quantity) {
-        int q = quantity;
+
         String s = "update ordered_items SET quantity = :quantity where orders = :orders AND item = :item";
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createSQLQuery(s);
-        query.setParameter("quantity", q);
+        query.setParameter("quantity", quantity);
         query.setParameter("orders", orderId);
         query.setParameter("item", itemId);
         query.executeUpdate();
@@ -99,6 +100,7 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
      */
     @Override
     public Map<Item, Integer> getNotNullItemsInBucket(int orderId) {
+
         String s = "select item from ordered_items where orders =:orders AND quantity >0";
         Query query = sessionFactory.getCurrentSession().createSQLQuery(s);
         query.setParameter("orders", orderId);
@@ -129,7 +131,6 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
      * @return list of ${@link Item}
      */
     public List<Item> itemListPerPage(int pageId, int pageSize) {
-
 
         Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Item");
 

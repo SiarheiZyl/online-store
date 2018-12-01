@@ -40,8 +40,8 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
     @Override
     public User validate(String username, String password) {
 
-        String s = "select * from users where login = :login and password = :password";
-        Query query = sessionFactory.getCurrentSession().createSQLQuery(s).addEntity(User.class);
+        String s = "select u from User u where login = :login and password = :password";
+        Query query = sessionFactory.getCurrentSession().createQuery(s);
         query.setParameter("login", username);
         query.setParameter("password", password);
         List list = query.list();
