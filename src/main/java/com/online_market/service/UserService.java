@@ -2,6 +2,8 @@ package com.online_market.service;
 
 import com.online_market.entity.User;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ public interface UserService {
 
     void update(User user);
 
-    User validate(String username, String password);
+    User validate(String username, String password) ;
 
     void authorize(int id);
 
@@ -27,5 +29,7 @@ public interface UserService {
     void logout();
 
     int getAuthorizedUserId();
+
+    void setPasswordHash(User user);
 
 }

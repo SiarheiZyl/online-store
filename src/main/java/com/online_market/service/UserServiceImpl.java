@@ -3,11 +3,15 @@ package com.online_market.service;
 import com.online_market.dao.ItemDao;
 import com.online_market.dao.UserDao;
 import com.online_market.entity.User;
+import com.online_market.utils.HashPasswordUtil;
+import com.online_market.utils.MD5Util;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 /**
@@ -107,6 +111,8 @@ public class UserServiceImpl implements UserService {
 
         logger.info("Registration a new user(called register(User user))");
 
+        setPasswordHash(user);
+
         userDao.register(user);
     }
 
@@ -153,5 +159,19 @@ public class UserServiceImpl implements UserService {
         logger.info("Getting authirized user id(called getAuthorizedUserId())");
 
         return userDao.getAuthirizedUserId();
+    }
+
+
+    /**
+     * Setting password hash
+     * @param user user
+     */
+    @Override
+    public void setPasswordHash(User user) {
+        try {
+            user.setPassword(HashPasswordUtil.getSaltedHash(user.getPassword()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -6,6 +6,7 @@ import com.online_market.service.AddressService;
 import com.online_market.service.ItemService;
 import com.online_market.service.OrderService;
 import com.online_market.service.UserService;
+import com.online_market.utils.HashPasswordUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -90,6 +91,7 @@ public class UserController {
     public User updateUser(@ModelAttribute("user") User user) {
 
         user.setAuth(true);
+        userService.setPasswordHash(user);
         userService.update(user);
 
         return user;

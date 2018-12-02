@@ -1,12 +1,16 @@
 package com.online_market.dao;
 
 import com.online_market.entity.User;
+import com.online_market.utils.HashPasswordUtil;
+import com.online_market.utils.MD5Util;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 /**
@@ -38,15 +42,25 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
      * @return null if there is no user in DB otherwise ${@link User}
      */
     @Override
-    public User validate(String username, String password) {
+    public User validate(String username, String password)  {
 
-        String s = "select u from User u where login = :login and password = :password";
+        String s = "select u from User u where login = :login";
         Query query = sessionFactory.getCurrentSession().createQuery(s);
         query.setParameter("login", username);
-        query.setParameter("password", password);
         List list = query.list();
 
-        return list.size() > 0 ? (User) list.get(0) : null;
+        if(list.size() == 0)
+            return null;
+        User userForValidation = (User)list.get(0);
+
+        try {
+           if( HashPasswordUtil.check(password, userForValidation.getPassword()))
+               return userForValidation;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**

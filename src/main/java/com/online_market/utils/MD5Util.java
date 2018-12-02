@@ -34,4 +34,8 @@ public class MD5Util {
 
         return null;
     }
+
+    public static boolean check(String message, String storedMessage){
+        return storedMessage.equals(md5Hex(message));
+    }
 }
