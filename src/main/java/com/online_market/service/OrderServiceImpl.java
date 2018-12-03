@@ -409,6 +409,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Map<Order, Map<Item, Integer>> getHistoryOfOrdersPerPage(int userId, int pageId, int pageSize) {
+
+        logger.info("Getting history of orders(called getHistoryOfOrdersPerPage(int id, int pageId, int pageSize)");
+
+        Map<Order, Map<Item, Integer>> result = new HashMap<>();
+
+        List<Order> orders = getAllTrackedOrdersById(userId);
+
+        for (int i = pageSize*(pageId-1); i < pageSize*pageId ; i++) {
+
+            if(i>=orders.size())
+                break;
+            Map<Item, Integer> map = itemDao.getNotNullItemsInBucket(orders.get(i).getOrderId());
+            result.put(orders.get(i),map);
+        }
+
+        return result;
+    }
+
+    @Override
     public void repeatOrder(Order repeatedOrder, int orderId) {
     }
 

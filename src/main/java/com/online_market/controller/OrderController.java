@@ -50,15 +50,22 @@ public class OrderController {
      * @param model model
      * @return page with order history
      */
-    @GetMapping("/orderHistory")
-    public String orderHistory(Model model) {
+    @GetMapping("/orderHistory/{pageId}")
+    public String orderHistory(@PathVariable("pageId") int pageId, Model model) {
 
         int id = userService.getAuthorizedUserId();
         if (userService.getById(id).isAuth()) {
 
+            int pageSize = 10;
+            int totalPages = orderService.getHistoryOfOrders(id).size()/pageSize + 1;
 
-            model.addAttribute("orders", orderService.getHistoryOfOrders(id));
+            if (pageId > totalPages)
+                return "pageNotFound";
 
+            model.addAttribute("pageId", pageId);
+            model.addAttribute("pageSize", totalPages);
+
+            model.addAttribute("orders", orderService.getHistoryOfOrdersPerPage(id, pageId, pageSize));
             model.addAttribute("ord", new Order());
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());

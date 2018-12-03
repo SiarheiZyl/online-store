@@ -15,7 +15,7 @@
             <ul class="nav navbar-nav nav-flex-icons ml-auto">
                 <c:if test="${role==Roles.USER}">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/orderHistory">Order history</a>
+                        <a class="nav-link" href="/orderHistory/1">Order history</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/user/${id}">

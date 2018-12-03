@@ -54,6 +54,8 @@ public interface OrderService {
 
     Map<Order, Map<Item, Integer>> getHistoryOfOrders(int userId);
 
+    Map<Order, Map<Item, Integer>> getHistoryOfOrdersPerPage(int userId, int pageId, int pageSize);
+
     void repeatOrder(Order repeatedOrder, int orderId);
 
     void addItemToSession(int itemId, HttpSession session);

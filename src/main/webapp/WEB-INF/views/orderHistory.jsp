@@ -15,8 +15,8 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 
-<div class="panel panel-default panel-order " style="margin-top: 5%; margin-left: 5%; width: 90%">
-    <h1 class="my-4"><i>Order history</i></h1>
+<div class="panel panel-default panel-order " style="margin-top: 1%; margin-left: 5%; width: 90%">
+    <h1 class="display-4">Order history</h1>
     <div class="panel-body">
         <c:forEach var="order" items="${orders}">
             <form:form id="repeatOrderrderForm" modelAttribute="ord" action="/repeatOrderProcess/${order.key.orderId}"
@@ -57,5 +57,18 @@
         </c:forEach>
     </div>
 </div>
+<ul class="pagination justify-content-center">
+    <li ${pageId==1 ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link"
+                                                                             href="/orderHistory/${pageId-1}">Previous</a>
+    </li>
+    <c:forEach var="i" begin="1" end="${pageSize}">
+        <li ${i==pageId ? 'class="page-item active"' : 'class="page-item"'}><a class="page-link"
+                                                                               href="/orderHistory/${i}">${i}</a>
+        </li>
+    </c:forEach>
+    <li ${pageId==pageSize ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link"
+                                                                                    href="/orderHistory/${pageId+1}">Next</a>
+    </li>
+</ul>
 </body>
 </html>
