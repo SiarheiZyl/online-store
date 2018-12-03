@@ -22,6 +22,9 @@ public class Category {
     @Column(name = "category_name")
     private String categoryName;
 
+    @Column(name = "isShown")
+    private boolean isShown;
+
     public Category() {
     }
 
@@ -39,6 +42,14 @@ public class Category {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public boolean isShown() {
+        return isShown;
+    }
+
+    public void setShown(boolean shown) {
+        isShown = shown;
     }
 
     @Override

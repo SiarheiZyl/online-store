@@ -3,6 +3,7 @@ package com.online_market.controller;
 
 import com.online_market.entity.Item;
 import com.online_market.entity.Param;
+import com.online_market.entity.enums.Roles;
 import com.online_market.service.*;
 import com.online_market.utils.ImageUtil;
 import org.apache.log4j.Logger;
@@ -101,9 +102,12 @@ public class ItemController {
         model.addAttribute("pageSize", totalPages);
 
         model.addAttribute("item", new Item());
-        model.addAttribute("itemList", itemService.itemListPerPage(pageId, pageSize));
-        model.addAttribute("categoryList", categoryService.listCategories());
 
+        if(id!=0 && userService.getById(id).getRole() == Roles.ADMIN)
+            model.addAttribute("itemList", itemService.itemListPerPage(pageId, pageSize));
+        else
+            model.addAttribute("itemList", itemService.visibleItemList());
+        model.addAttribute("categoryList", categoryService.listCategories());
 
         return "catalog";
     }
@@ -117,15 +121,20 @@ public class ItemController {
     @GetMapping("/items")
     public String itemList2(Model model, HttpSession session) {
 
+        int id = userService.getAuthorizedUserId();
+
         model.addAttribute("it", new Item());
-        model.addAttribute("itemList", itemService.itemList());
+        if(id!=0 && userService.getById(id).getRole() == Roles.ADMIN)
+            model.addAttribute("itemList", itemService.itemList());
+        else
+            model.addAttribute("itemList", itemService.visibleItemList());
         model.addAttribute("params", new Param());
 
         model.addAttribute("authors", paramService.getAllAuthors());
         model.addAttribute("countries", paramService.getAllCountries());
         model.addAttribute("category", "ALL");
 
-        int id = userService.getAuthorizedUserId();
+
         if (id != 0 && userService.getById(id).isAuth()) {
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
@@ -148,6 +157,8 @@ public class ItemController {
     @GetMapping("/filterItems/{category}")
     public String filteredItemList2(@ModelAttribute("params") Param params, @PathVariable("category") String category, Model model, HttpSession session) {
 
+        int id = userService.getAuthorizedUserId();
+
         model.addAttribute("item", new Item());
         List<Item> itemList;
         if (params.getWidth() == 0 && params.getHeight() == 0 && params.getAuthor() == null && params.getCountry() == null)
@@ -155,12 +166,15 @@ public class ItemController {
         else
             itemList = itemService.getFilteredItemsByAllParams(params.getAuthor(), params.getCountry(), params.getWidth(), params.getHeight());
 
-        model.addAttribute("itemList", itemService.getFilteredItemsByCategory(itemList, category));
+        if(id!=0 && userService.getById(id).getRole() == Roles.ADMIN)
+            model.addAttribute("itemList", itemService.getFilteredItemsByCategory(itemList, category));
+        else
+            model.addAttribute("itemList", itemService.getFilteredShownItemsByCategory(itemList, category));
 
         model.addAttribute("authors", paramService.getAllAuthors());
         model.addAttribute("countries", paramService.getAllCountries());
 
-        int id = userService.getAuthorizedUserId();
+
         if (id != 0 && userService.getById(id).isAuth()) {
 
             model.addAttribute("role", userService.getById(id).getRole());

@@ -39,13 +39,38 @@ function addItem(itemId){
             data:{itId: itemId},
             url:"/addItemToOrderProcess" ,
             success: function (res) {
+                if(res == 0)
+                    $("#buyItem").prop('disabled', true);
                 $("#available").html(res);
                 $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
             }
         });
     }
 
-    function readURL(input) {
+function changeVisibilityOfItem(itemId, isShown){
+    $.ajax({
+        type:'GET',
+        data:{itId: itemId},
+        url:"/changeVisibilityOfItem" ,
+        success: function (res) {
+            var text ="";
+            if( $("#hideItem").text()=="Hide item") {
+                text = "Show item";
+                $("#buyItem").hide();
+                alert("Item is hidden for users.")
+            }
+            if($("#hideItem").text()=="Show item") {
+                text = "Hide item";
+                alert("Item is availible for users.")
+            }
+
+            $("#hideItem").html("");
+            $("#hideItem").html(text);
+        }
+    });
+}
+
+function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
@@ -65,7 +90,13 @@ function addItem(itemId){
         <div class="card">
             <header class="card-header">
                 <c:if test="${role==Roles.ADMIN}">
-                <h4 class="card-title mt-1">Edit</h4>
+                    <c:if test="${!item.shown}">
+                        <button id="hideItem" type="button" onclick="changeVisibilityOfItem(${item.itemId})" class="float-right btn btn-outline-dark mt-1" ${item.availableCount==0 ? 'disabled = "disabled"':''} value="Show item">Show item</button>
+                    </c:if>
+                    <c:if test="${item.shown}">
+                        <button id="hideItem" type="button" onclick="changeVisibilityOfItem(${item.itemId})" class="float-right btn btn-outline-dark mt-1" ${item.availableCount==0 ? 'disabled = "disabled"':''} value="Hide item">Hide item</button>
+                    </c:if>
+                        <h4 class="display-4">Editing item</h4>
                 </c:if>
                 <c:if test="${role!=Roles.ADMIN}">
                     <h3 class="display-4">${item.itemName}</h3>
@@ -187,10 +218,12 @@ function addItem(itemId){
                         </button>
                         </c:if>
 
+
                         <c:if test="${role!=Roles.ADMIN}">
                             <button id="buyItem" type="button" onclick="addItem(${item.itemId})" class="btn btn-primary btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy
                             </button>
                         </c:if>
+
                     </div>
                 </form>
             </article>

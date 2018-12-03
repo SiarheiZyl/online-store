@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public interface ItemDao extends GenericDao<Item> {
 
+    List<Item> getAllItemsWithIsShown();
+
     void updateQuantity(Item item);
 
     int orderedItemQuantity(int orderId, int itemId);
@@ -24,6 +26,8 @@ public interface ItemDao extends GenericDao<Item> {
     Map<Item, Integer> getNotNullItemsInBucket(int orderId);
 
     List<Item> itemListPerPage(int pageId, int pageSize);
+
+    List<Item> visibleItemListPerPage(int pageId, int pageSize);
 
     List<Item> findItemsByAuthor(String author);
 

@@ -275,4 +275,17 @@ public class AdminController {
             ImageUtil.uploadImage(id+"", image);
         }
     }
+
+    /**
+     * Mapping for admin
+     * to change visibility of item
+     *
+     * @param itemId
+     */
+    @GetMapping("/changeVisibilityOfItem")
+    @ResponseBody
+    public void changeVisibilityOfItem(@RequestParam("itId") int itemId){
+
+        itemService.changeVisibilityOfItem(itemId);
+    }
 }

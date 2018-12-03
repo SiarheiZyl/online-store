@@ -34,6 +34,9 @@ public class Item {
     @Column(name = "image")
     private String picture = IMAGES_LOCATION + itemId + ".jpg";
 
+    @Column(name = "isShown")
+    private boolean isShown;
+
     @ManyToOne
     @JoinColumn(name = "item_category")
     private Category category;
@@ -70,7 +73,6 @@ public class Item {
         this.price = price;
     }
 
-
     public int getAvailableCount() {
         return availableCount;
     }
@@ -85,6 +87,14 @@ public class Item {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public boolean isShown() {
+        return isShown;
+    }
+
+    public void setShown(boolean shown) {
+        isShown = shown;
     }
 
     public Category getCategory() {

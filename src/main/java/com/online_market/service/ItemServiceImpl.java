@@ -59,6 +59,16 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /**
+     * Finding all items with isShown == true
+     *
+     * @return list of ${@link Item}
+     */
+    @Override
+    public List<Item> visibleItemList() {
+        return itemDao.getAllItemsWithIsShown();
+    }
+
+    /**
      * Getting item by id
      *
      * @param id id
@@ -318,6 +328,37 @@ public class ItemServiceImpl implements ItemService {
         return result;
     }
 
+    /**
+     * Getting filtered visible items by category
+     *
+     * @param items    items
+     * @param category category
+     * @return list of ${@link Item}
+     */
+    @Override
+    public List<Item> getFilteredShownItemsByCategory(List<Item> items, String category) {
+
+        logger.info("Getting filtering items by category(called getFilteredItemsByCategory(List<Item> items, String category))");
+
+        List<Item> result = new ArrayList<>();
+
+        if (category.equals("ALL")){
+            for (Item item : items) {
+                if(item.isShown())
+                    result.add(item);
+            }
+
+            return items;
+        }
+
+        for (Item item : items) {
+            if (item.getCategory().getCategoryName().toLowerCase().equals(category.toLowerCase()) && item.isShown())
+                result.add(item);
+        }
+
+        return result;
+    }
+
 
     /**
      * Getting items per page
@@ -329,6 +370,18 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> itemListPerPage(int pageId, int pageSize) {
         return itemDao.itemListPerPage(pageId, pageSize);
+    }
+
+    /**
+     * Getting visible items per page
+     *
+     * @param pageId   page id
+     * @param pageSize page size
+     * @return list of ${@link Item}
+     */
+    @Override
+    public List<Item> visibleItemListPerPage(int pageId, int pageSize) {
+        return itemDao.visibleItemListPerPage(pageId, pageSize);
     }
 
 
@@ -367,5 +420,18 @@ public class ItemServiceImpl implements ItemService {
         result.addAll(itemDao.findItemsByAuthor(searchString));
 
         return result;
+    }
+
+    /**
+     * Changing visibility of item
+     *
+     * @param itemId item id
+     */
+    @Override
+    public void changeVisibilityOfItem(int itemId) {
+
+        Item item = getById(itemId);
+        item.setShown(!item.isShown());
+        itemDao.update(item);
     }
 }

@@ -17,6 +17,8 @@ public interface ItemService {
 
     List<Item> itemList();
 
+    List<Item> visibleItemList();
+
     Item getById(int id);
 
     void update(int itemId, String itemName, String category, String author, String country, int height, int width, int availableCount, double price);
@@ -37,11 +39,17 @@ public interface ItemService {
 
     List<Item> getFilteredItemsByAllParams(String author, String country, int maxWidth, int maxHeight);
 
+    List<Item> getFilteredShownItemsByCategory(List<Item> items, String category);
+
     List<Item> getFilteredItemsByCategory(List<Item> items, String category);
 
     List<Item> itemListPerPage(int pageId, int pageSize);
 
+    List<Item> visibleItemListPerPage(int pageId, int pageSize);
+
     int getOrderSize(Map<Item, Integer> items);
 
     Set<Item> search(String searchString);
+
+    void changeVisibilityOfItem(int itemId);
 }

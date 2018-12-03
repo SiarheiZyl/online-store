@@ -35,6 +35,20 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
     }
 
     /**
+     * Finding all items with isShown == true
+     *
+     * @return list of ${@link Item}
+     */
+    @Override
+    public List<Item> getAllItemsWithIsShown() {
+
+        Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Item as item where item.isShown = true");
+        List<Item> list = selectQuery.list();
+
+        return list;
+    }
+
+    /**
      * Updating quantity of item
      *
      * @param item item
@@ -133,6 +147,25 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
     public List<Item> itemListPerPage(int pageId, int pageSize) {
 
         Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Item");
+
+        selectQuery.setFirstResult((pageId - 1) * pageSize);
+        selectQuery.setMaxResults(pageSize);
+
+        List<Item> list = selectQuery.list();
+
+        return list;
+    }
+
+    /**
+     * Getting visible items per page
+     *
+     * @param pageId   page id
+     * @param pageSize page size
+     * @return list of ${@link Item}
+     */
+    public List<Item> visibleItemListPerPage(int pageId, int pageSize) {
+
+        Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Item as item where item.isShown = true");
 
         selectQuery.setFirstResult((pageId - 1) * pageSize);
         selectQuery.setMaxResults(pageSize);

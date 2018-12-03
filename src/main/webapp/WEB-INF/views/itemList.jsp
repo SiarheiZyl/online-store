@@ -34,6 +34,8 @@
             data:{itId: itemId},
             url:"/addItemToOrderProcess" ,
             success: function (res) {
+                if(res == 0)
+                    $("#buyButton").prop('disabled', true);
                 $("#availible"+itemId).html("Availible count: "+res);
                 $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
             }
@@ -100,7 +102,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <button onclick="addItem(${item.itemId})"
-                                                        class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy
+                                                        class="btn btn-outline-dark btn-block" id="buyButton" ${item.availableCount==0 || !item.shown ? 'disabled = "disabled"':''}>Buy
                                                 </button>
                                             </div>
                                             <div class="col-md-6">
@@ -111,7 +113,7 @@
                                     </c:if>
                                     <c:if test="${role!=Roles.ADMIN}">
                                         <button onclick="addItem(${item.itemId})"
-                                                class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy
+                                                class="btn btn-outline-dark btn-block" id="buyButton" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy
                                         </button>
                                     </c:if>
                                 </div>
