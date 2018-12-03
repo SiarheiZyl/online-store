@@ -44,6 +44,8 @@ public interface OrderService {
 
     long sizeOfTrackedOrdersFilteredByDate(Date from, Date to);
 
+    long sizeOfHistoryOfOrdersFilteredByDate(int userId, Date fromDate, Date toDate);
+
     List<Order> getOrdersPerPage(int pageId, int total);
 
     List<Order> getOrdersPerPageFilteredFromToDate(int pageId, int pageSize, Date fromDate, Date toDate);
@@ -55,6 +57,8 @@ public interface OrderService {
     Map<Order, Map<Item, Integer>> getHistoryOfOrders(int userId);
 
     Map<Order, Map<Item, Integer>> getHistoryOfOrdersPerPage(int userId, int pageId, int pageSize);
+
+    Map<Order, Map<Item, Integer>> getHistoryOfOrdersPerPageFilteredFromToDate(int userId, int pageId, int  pageSize, Date fromDate, Date toDate);
 
     void repeatOrder(Order repeatedOrder, int orderId);
 

@@ -350,13 +350,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * Quantity of tracked orders filtered by date
+     * Quantity of tracked orders by period
      *
-     * @return quantity
+     * @param from from
+     * @param to to
+     * @return quantity of orders
      */
     @Override
     public long sizeOfTrackedOrdersFilteredByDate(java.util.Date from, java.util.Date to) {
         return orderDao.sizeOfTrackedOrdersFilteredByDate(from, to);
+    }
+
+    /**
+     * Quantity of stored orders by period
+     *
+     * @param userId user id
+     * @param fromDate from
+     * @param toDate to
+     * @return quantity of orders
+     */
+    @Override
+    public long sizeOfHistoryOfOrdersFilteredByDate(int userId, java.util.Date fromDate, java.util.Date toDate) {
+        return orderDao.sizeOfHistoryOfOrdersFilteredByDate(userId, fromDate, toDate);
     }
 
     /**
@@ -387,6 +402,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Filtering stored orders by date
+     *
+     * @param userId   user id
+     * @param pageId   page id
+     * @param pageSize page size
+     * @param fromDate from
+     * @param toDate   to
+     * @return map of ${@link Order}
+     */
+    @Override
+    public Map<Order, Map<Item, Integer>> getHistoryOfOrdersPerPageFilteredFromToDate(int userId, int pageId, int pageSize, java.util.Date fromDate, java.util.Date toDate) {
+
+        List<Order> orders = orderDao.getHistoryOfOrdersPerPageFilteredFromToDate(userId, pageId, pageSize, fromDate, toDate);
+        Map<Order, Map<Item, Integer>> result = new HashMap<>();
+        for (Order order : orders) {
+            Map<Item, Integer> map = itemDao.getNotNullItemsInBucket(order.getOrderId());
+            result.put(order, map);
+        }
+
+        return result;
+    }
+
+    /**
      * Getting user's history of orders
      *
      * @param userId user id
@@ -405,6 +443,7 @@ public class OrderServiceImpl implements OrderService {
             Map<Item, Integer> map = itemDao.getNotNullItemsInBucket(order.getOrderId());
             result.put(order, map);
         }
+
         return result;
     }
 

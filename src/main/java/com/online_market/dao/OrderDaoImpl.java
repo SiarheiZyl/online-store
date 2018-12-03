@@ -85,6 +85,26 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
     }
 
     /**
+     * Quantity of stored orders by period
+     *
+     * @param userId user id
+     * @param from from
+     * @param to to
+     * @return quantity of orders
+     */
+    @Override
+    public long sizeOfHistoryOfOrdersFilteredByDate(int userId, Date from, Date to) {
+
+        java.sql.Date fromDate = new java.sql.Date(from.getTime());
+        java.sql.Date toDate = new java.sql.Date(to.getTime());
+
+        Query countQuery = sessionFactory.getCurrentSession().createQuery("Select count (f.id) from Order f where f.paymentMethod is not null and f.deliveryMethod is not null and f.user.id = :userId and f.date BETWEEN :stDate AND :edDate").setParameter("userId", userId).setParameter("stDate", fromDate).setParameter("edDate", toDate);
+        Long countResults = (Long) countQuery.uniqueResult();
+
+        return countResults;
+    }
+
+    /**
      * Getting orders for pagination
      *
      * @param pageId pageId
@@ -136,6 +156,22 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
 
         List<Order> list = selectQuery.list();
 
+
+        return list;
+    }
+
+    @Override
+    public List<Order> getHistoryOfOrdersPerPageFilteredFromToDate(int userId, int pageId, int pageSize, Date fromDate, Date toDate) {
+
+        java.sql.Date from = new java.sql.Date(fromDate.getTime());
+        java.sql.Date to = new java.sql.Date(toDate.getTime());
+
+        Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Order as order where order.paymentMethod is not null and order.deliveryMethod is not null and order.user.id = :userId and order.date BETWEEN :stDate AND :edDate").setParameter("userId", userId).setParameter("stDate", from).setParameter("edDate", to);
+
+        selectQuery.setFirstResult((pageId-1)*pageSize);
+        selectQuery.setMaxResults(pageSize);
+
+        List<Order> list = selectQuery.list();
 
         return list;
     }
