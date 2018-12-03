@@ -350,10 +350,18 @@ public class ItemServiceImpl implements ItemService {
         return sum;
     }
 
+
+    /**
+     * This function is used to find items by key word
+     *
+     * @param searchString string for searching
+     * @return set of {@link Item}
+     */
     @Override
     public Set<Item> search(String searchString) {
         Set<Item> result = new HashSet<>();
 
+        result.addAll(getFilteredItemsByCategory(itemList(), searchString));
         result.addAll(itemDao.findItemsByCountry(searchString));
         result.addAll(itemDao.findItemsByName(searchString));
         result.addAll(itemDao.findItemsByAuthor(searchString));

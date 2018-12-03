@@ -4,7 +4,7 @@
       integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <nav class="navbar navbar-expand-md navbar-dark bg-dark sidebarNavigation" data-sidebarClass="navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand fa fa-shopping-cart fa-lg" href="/catalog/1"> Store</a>
+        <a class="navbar-brand fa fa-shopping-cart fa-lg" href="/catalog/1"><span class="display-5"> Store</span></a>
         <button class="navbar-toggler leftNavbarToggler" type="button" data-toggle="collapse"
                 data-target="#navbarsExampleDefault"
                 aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@
                 <c:if test="${role==Roles.ADMIN}">
 
                     <li class="nav-item active">
-                        <a class="nav-link" href="/editOrders/1">Edit orders</a>
+                        <a class="nav-link" href="/editOrders/1"><span class="display-5">Edit orders</span></a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/editCategories">

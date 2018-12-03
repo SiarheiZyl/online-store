@@ -174,6 +174,7 @@ public class AdminController {
 
 
         itemService.update(itemId, itemName, category, author, country, height, width, availableCount, Double.parseDouble(price));
+        orderService.sendUpdateMessageToJms();
 
         if (image != null) {
             ImageUtil.createImagesDirectoryIfNeeded();

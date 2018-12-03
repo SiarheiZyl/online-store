@@ -67,7 +67,7 @@
                 <c:forEach var="item" items="${topItems}">
                     <div class="row" style="margin-top: 10px">
                         <div class="col-md-2">
-                            <img  src="/image/${item.key.itemId}" alt="${item.key.itemName}" class="media-object img-thumbnail">
+                            <a href="/item/${item.key.itemId}" target="_blank"> <img  src="/image/${item.key.itemId}" alt="${item.key.itemName}" class="media-object img-thumbnail"></a>
                         </div>
                         <div class="col-md-6">
                             <strong><i>${item.key.itemName}</i></strong><br>

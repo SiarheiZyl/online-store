@@ -15,7 +15,7 @@
     <div class="col-md-6">
         <div class="card">
             <header class="card-header">
-                <a href="login" class="float-right btn btn-outline-primary mt-1">Log in</a>
+                <a href="login" class="float-right btn btn-outline-dark mt-1">Log in</a>
                 <h4 class="card-title mt-2">Sign up</h4>
             </header>
             <article class="card-body">
@@ -65,7 +65,7 @@
 
                     <div class="form-group">
                         <form:button id="register" name="register"
-                                     class="btn btn-primary btn-block">Register</form:button>
+                                     class="btn btn-dark btn-block">Register</form:button>
                     </div>
                     <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br>
                         Terms of use and Privacy Policy.

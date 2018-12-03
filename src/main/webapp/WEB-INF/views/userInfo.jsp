@@ -74,7 +74,7 @@
     </div>
     </form>
             </article>
-            <c:if test="${user.role==Roles.USER}">
+            <c:if test="${user.role==Roles.USER || user.role == Roles.ADMIN}">
                     <div class="border-top card-body text-center"><a href="/user/${user.id}/address">Edit address</a></div>
             </c:if>
         </div>

@@ -39,7 +39,7 @@
 <body>
 <jsp:include page="navbar.jsp"/>
 <div class="panel panel-default panel-order " style="margin-left: 5%; width: 90%">
-    <h1 class="display-4"><i>Search</i></h1>
+    <h1 class="display-4">Search</h1>
     <div class="panel-body ">
         <form action="/search" method="get" >
             <div class="form-row">

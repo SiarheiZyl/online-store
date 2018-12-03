@@ -72,9 +72,9 @@
         <div class="row" style="margin-left: 10%; margin-top: 2%; margin-right: 10%;">
             <div class="col-md-6">
                 <div class="row">
-                    <h4 class="display-5">Add Category</h4>
+                    <h4 class="display-4">Add Category</h4>
                 </div>
-                <div class="row" style="margin-top: 10px">
+                <div class="row" >
                     <div class="col-md-6">
                         <label><i>Category name</i></label>
                         <input name="categName" id="categName" class="form-control" placeholder="New category"/>
@@ -87,7 +87,7 @@
 
             <div class="col-md-6 float-right">
                 <div class="row">
-                    <h4 class="display-5">Add new item</h4>
+                    <h4 class="display-4">Add new item</h4>
                 </div>
                 <form:form action="/addNewItemProcess" method="post" id="formItem" enctype="multipart/form-data">
                     <div class="image-slider">

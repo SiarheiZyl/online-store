@@ -41,7 +41,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-3">
-            <h1 class="my-4"><i>Art Shop</i></h1>
+            <h1 class="display-4">Art Shop</h1>
                 <div class="list-group">
                         <a href="/items" class="list-group-item">ALL</a>
                     <c:forEach items="${categoryList}" var="category">

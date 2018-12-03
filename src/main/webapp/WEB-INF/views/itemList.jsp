@@ -44,7 +44,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-2">
-            <h1 class="my-4"><i>Filtering</i></h1>
+            <h1 class="display-4">Filtering</h1>
             <form:form modelAttribute="params" action="/filterItems/${category}" method="get">
                 <div class="list-group">
                     <div class="form-group">

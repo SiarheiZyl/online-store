@@ -38,7 +38,7 @@
 <script src=/resources/js/editOrders.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 <div class="panel panel-default panel-order " style="margin-left: 5%; width: 90%">
-    <h1 class="my-4"><i>Orders</i></h1>
+    <h1 class="display-4">Orders</h1>
     <div class="panel-body  ">
         <form action="/editOrders/${pageId}" method="get" >
         <div class="form-row">
