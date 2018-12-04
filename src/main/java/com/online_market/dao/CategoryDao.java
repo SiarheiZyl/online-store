@@ -13,4 +13,6 @@ import java.util.List;
 public interface CategoryDao extends GenericDao<Category> {
 
     Category findByName(String categoryName);
+
+    List<Category> getAllItemsWithIsShown(boolean isShown);
 }

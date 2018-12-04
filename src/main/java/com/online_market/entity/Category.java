@@ -23,7 +23,7 @@ public class Category {
     private String categoryName;
 
     @Column(name = "isShown")
-    private boolean isShown;
+    private boolean isShown = true;
 
     public Category() {
     }

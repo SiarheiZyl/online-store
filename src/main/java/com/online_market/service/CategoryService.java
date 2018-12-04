@@ -15,4 +15,10 @@ public interface CategoryService {
     List<Category> listCategories();
 
     String save(String categName);
+
+    List<Category> getAllItemsWithIsShown(boolean isShown);
+
+    void changeVisibilityOfCategory(String category);
+
+    Category findByName(String name);
 }

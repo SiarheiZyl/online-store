@@ -107,7 +107,8 @@ public class ItemController {
             model.addAttribute("itemList", itemService.itemListPerPage(pageId, pageSize));
         else
             model.addAttribute("itemList", itemService.visibleItemList());
-        model.addAttribute("categoryList", categoryService.listCategories());
+
+        model.addAttribute("categoryList", categoryService.getAllItemsWithIsShown(true));
 
         return "catalog";
     }
@@ -158,6 +159,9 @@ public class ItemController {
     public String filteredItemList2(@ModelAttribute("params") Param params, @PathVariable("category") String category, Model model, HttpSession session) {
 
         int id = userService.getAuthorizedUserId();
+
+        if(!categoryService.findByName(category).isShown())
+            return "pageNotFound";
 
         model.addAttribute("item", new Item());
         List<Item> itemList;

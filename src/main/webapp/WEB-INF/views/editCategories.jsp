@@ -33,6 +33,60 @@
 <body>
 <script src=/resources/js/editCategories.js type="text/javascript"></script>
 <script type="text/javascript">
+
+    function addCategory() {
+        $.ajax({
+            type: 'POST',//тип запроса
+            data: {categName: $("#categName").val()},//параметры запроса
+            url: "/addNewCategoryProcess",//url адрес обработчика
+            success: function (res) {
+                alert("New category was successfully added!");
+                $('#itemCateg').append("<option value=" + res + ">" + res + "</option>");
+                $('#visibleCateg').append("<option value=" + res + ">" + res + "</option>");
+                $('#categName').val('');
+                $('#categName').attr("placeholder", "New category");
+
+            }//возвращаемый результат от сервера
+        });
+    }
+
+    function hideCategory() {
+
+        var category = $("#visibleCateg").val();
+        $.ajax({
+            type: 'GET',//тип запроса
+            data: {categName: category},//параметры запроса
+            url: "/changeVisibilityOfCategory",//url адрес обработчика
+            success: function (res) {
+                alert(category+" is hidden!");
+                $('#invisibleCateg').append("<option value=" + category + ">" + category + "</option>");
+
+                $("select#visibleCateg option").filter("[value="+category+"]").remove();
+                $("select#itemCateg option").filter("[value="+category+"]").remove();
+
+
+            }//возвращаемый результат от сервера
+        });
+    }
+
+    function showCategory() {
+
+        var category = $("#invisibleCateg").val();
+        $.ajax({
+            type: 'GET',//тип запроса
+            data: {categName: category},//параметры запроса
+            url: "/changeVisibilityOfCategory",//url адрес обработчика
+            success: function (res) {
+                alert(category+" is availible!");
+                $('#itemCateg').append("<option value=" + category + ">" + category + "</option>");
+                $('#visibleCateg').append("<option value=" + category + ">" + category + "</option>");
+                $("select#invisibleCateg option").filter("[value="+category+"]").remove();
+
+                $("#invisCateg").prop('disabled', false);
+            }//возвращаемый результат от сервера
+        })
+    }
+
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -72,17 +126,49 @@
         <div class="row" style="margin-left: 10%; margin-top: 2%; margin-right: 10%;">
             <div class="col-md-6">
                 <div class="row">
-                    <h4 class="display-4">Add Category</h4>
+                    <h4 class="display-4">Add category</h4>
                 </div>
                 <div class="row" >
                     <div class="col-md-6">
                         <label><i>Category name</i></label>
                         <input name="categName" id="categName" class="form-control" placeholder="New category"/>
                     </div>
+                    <div class="col-md-6">
+                        <button id="newCateg" class="btn btn-outline-dark btn-sm pull-bottom" onclick="addCategory()"
+                                style="height: 38px; width: 110px; margin-top: 31px">Add category
+                        </button>
+                    </div>
                 </div>
-                <button id="newCateg" class="btn btn-outline-dark btn-sm pull-bottom" onclick="addCategory()"
-                        style="margin-top: 10px">Add category
-                </button>
+
+                <div class="row" style="margin-top: 38px">
+                    <h4 class="display-4">Hide/show category</h4>
+                </div>
+                <div class="row"  >
+                    <div class="col-md-6">
+                        <select id="visibleCateg" name="visibleCateg" class="form-control">
+                            <c:forEach var="categ" items="${visibleCategories}">
+                                <option value="${categ}">${categ}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <button id="visCateg" class="btn btn-outline-dark btn-sm pull-bottom" onclick="hideCategory()" style="height: 38px; width: 110px" }>Hide category
+                        </button>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 19px" >
+                    <div class="col-md-6">
+                        <select id="invisibleCateg" name="visibleCateg" class="form-control">
+                            <c:forEach var="categ" items="${invisibleCategories}">
+                                <option value="${categ}">${categ}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <button id="invisCateg" class="btn btn-outline-dark btn-sm pull-bottom" onclick="showCategory()" style="height: 38px;width: 110px" }>Show category
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-6 float-right">

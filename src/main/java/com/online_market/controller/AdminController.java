@@ -229,6 +229,9 @@ public class AdminController {
 
             model.addAttribute("listCategories", categoryService.listCategories());
 
+            model.addAttribute("visibleCategories", categoryService.getAllItemsWithIsShown(true));
+            model.addAttribute("invisibleCategories", categoryService.getAllItemsWithIsShown(false));
+
             return "editCategories";
         } else {
             return "redirect:/login";
@@ -280,12 +283,27 @@ public class AdminController {
      * Mapping for admin
      * to change visibility of item
      *
-     * @param itemId
+     * @param itemId item id
      */
     @GetMapping("/changeVisibilityOfItem")
     @ResponseBody
     public void changeVisibilityOfItem(@RequestParam("itId") int itemId){
 
         itemService.changeVisibilityOfItem(itemId);
+    }
+
+    /**
+     * Mapping for admin
+     * to change visibility of item
+     *
+     * @param category category name
+     */
+    @GetMapping("/changeVisibilityOfCategory")
+    @ResponseBody
+    public void changeVisibilityOfCategory(@RequestParam("categName") String category){
+
+        if (category != null || !category.equals("")) {
+            categoryService.changeVisibilityOfCategory(category);
+        }
     }
 }

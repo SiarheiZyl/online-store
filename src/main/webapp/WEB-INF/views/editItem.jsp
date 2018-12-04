@@ -47,7 +47,7 @@ function addItem(itemId){
         });
     }
 
-function changeVisibilityOfItem(itemId, isShown){
+function changeVisibilityOfItem(itemId){
     $.ajax({
         type:'GET',
         data:{itId: itemId},

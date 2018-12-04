@@ -1,6 +1,7 @@
 package com.online_market.dao;
 
 import com.online_market.entity.Category;
+import com.online_market.entity.Item;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -45,5 +46,19 @@ public class CategoryDaoImpl extends GenericDaoImpl<Category> implements Categor
         List list = query.list();
 
         return list.size() > 0 ? (Category) list.get(0) : null;
+    }
+
+    /**
+     * Finding all category depends on isShown
+     *
+     * @return list of ${@link Category}
+     */
+    @Override
+    public List<Category> getAllItemsWithIsShown(boolean isShown) {
+
+        Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Category as categ where categ.isShown = :isShown").setParameter("isShown", isShown);
+        List<Category> list = selectQuery.list();
+
+        return list;
     }
 }

@@ -1,7 +1,9 @@
 package com.online_market.service;
 
 import com.online_market.dao.CategoryDao;
+import com.online_market.dao.ItemDao;
 import com.online_market.entity.Category;
+import com.online_market.entity.Item;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +26,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryDao categoryDao;
 
+    private final ItemDao itemDao;
+
     /**
      * Injecting constructor
      * @param categoryDao category DAO
      */
     @Autowired
-    public CategoryServiceImpl(CategoryDao categoryDao) {
+    public CategoryServiceImpl(CategoryDao categoryDao, ItemDao itemDao) {
         this.categoryDao = categoryDao;
+        this.itemDao = itemDao;
     }
 
     /**
@@ -70,5 +75,43 @@ public class CategoryServiceImpl implements CategoryService {
         categoryDao.saveOrUpdate(category);
 
         return categoryName;
+    }
+
+    /**
+     * Finding all category depends on isShown
+     *
+     * @return list of ${@link Category}
+     */
+    public List<Category> getAllItemsWithIsShown(boolean isShown){
+
+        List<Category> list  = categoryDao.getAllItemsWithIsShown(isShown);
+
+        list.sort(Comparator.comparing(Category::getCategoryName));
+
+        return list;
+    }
+
+    @Override
+    public void changeVisibilityOfCategory(String category) {
+
+        Category category1  = categoryDao.findByName(category);
+
+
+        category1.setShown(!category1.isShown());
+
+        categoryDao.update(category1);
+
+        boolean isShown = category1.isShown();
+        for (Item item : itemDao.getAll("Item")) {
+            if (item.getCategory().getCategoryName().toLowerCase().equals(category.toLowerCase())){
+                item.setShown(isShown);
+                itemDao.update(item);
+            }
+        }
+    }
+
+    @Override
+    public Category findByName(String name) {
+        return categoryDao.findByName(name);
     }
 }
