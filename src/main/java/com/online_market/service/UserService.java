@@ -32,4 +32,6 @@ public interface UserService {
 
     void setPasswordHash(User user);
 
+    boolean isLoginUnique(User user);
+
 }

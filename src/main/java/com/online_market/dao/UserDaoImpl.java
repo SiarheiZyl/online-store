@@ -44,14 +44,10 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
     @Override
     public User validate(String username, String password)  {
 
-        String s = "select u from User u where login = :login";
-        Query query = sessionFactory.getCurrentSession().createQuery(s);
-        query.setParameter("login", username);
-        List list = query.list();
+        User userForValidation = getUserByLogin(username);
 
-        if(list.size() == 0)
+        if(userForValidation == null)
             return null;
-        User userForValidation = (User)list.get(0);
 
         try {
            if( HashPasswordUtil.check(password, userForValidation.getPassword()))
@@ -88,5 +84,22 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
         List<User> list = query.list();
 
         return list.size() > 0 ? list.get(0).getId() : 0;
+    }
+
+    /**
+     * Getting user by login
+     *
+     * @param login login
+     * @return null if no such login in DB otherwise {@link User}
+     */
+    @Override
+    public User getUserByLogin(String login) {
+
+        String s = "select u from User u where login = :login";
+        Query query = sessionFactory.getCurrentSession().createQuery(s);
+        query.setParameter("login", login);
+        List list = query.list();
+
+        return list.size()==0 ? null : (User)list.get(0);
     }
 }

@@ -37,6 +37,7 @@
 
                     <div class="form-group">
                         <label>Username</label>
+                        <h6 style="color: red">${LOGIN_MESSAGE}</h6>
                         <form:input path="login" name="login" id="username" class="form-control" data-validation="text"
                                     required="required" data-validation-error-msg="You did not enter username"
                                     minlength="5"/>

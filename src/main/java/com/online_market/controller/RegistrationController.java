@@ -60,7 +60,12 @@ public class RegistrationController {
      * @return redirect to user page
      */
     @PostMapping("/registerProcess")
-    public String addUser(@ModelAttribute("user") User user) {
+    public String addUser(@ModelAttribute("user") User user, Model model) {
+
+        if(!userService.isLoginUnique(user)){
+            model.addAttribute("LOGIN_MESSAGE", "This login is already taken by another user.");
+            return "register";
+        }
 
         userService.register(user);
 

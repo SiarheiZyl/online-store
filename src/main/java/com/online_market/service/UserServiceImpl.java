@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Injecting constructor
+     *
      * @param userDao user DAO
      */
     @Autowired
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
         logger.info("Getting user by id(called getById(int id))");
 
-        return userDao.getById(User.class,id);
+        return userDao.getById(User.class, id);
     }
 
     /**
@@ -164,6 +165,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Setting password hash
+     *
      * @param user user
      */
     @Override
@@ -173,5 +175,20 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * Method for chech if login is unique
+     *
+     * @param user user
+     * @return true if login is unique
+     */
+    @Override
+    public boolean isLoginUnique(User user) {
+
+        User user1 = userDao.getUserByLogin(user.getLogin());
+
+        return user1 == null;
     }
 }
