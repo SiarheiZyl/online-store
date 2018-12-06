@@ -19,7 +19,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 </head>
 <body>
-<script src=/resources/js/address.js stype="text/javascript"></script>
+<script src=/resources/js/address.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 <div class="row justify-content-center">
     <div class="col-md-6">

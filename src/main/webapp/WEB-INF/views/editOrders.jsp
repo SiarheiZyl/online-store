@@ -40,25 +40,27 @@
 <div class="panel panel-default panel-order " style="margin-left: 5%; width: 90%">
     <h1 class="display-4">Orders</h1>
     <div class="panel-body  ">
-        <form action="/editOrders/${pageId}" method="get" >
-        <div class="form-row">
+        <form action="/editOrders/${pageId}" method="get">
+            <div class="form-row">
 
 
-            <div class="col-md-2">
-                <label>From</label>
-                <input id="fromDate" name="fromDate" type="date" class="form-control" />
+                <div class="col-md-2">
+                    <label>From</label>
+                    <input id="fromDate" name="fromDate" type="date" class="form-control"/>
+                </div>
+                <div class="col-md-2">
+                    <label>To</label>
+                    <input id="toDate" name="toDate" type="date" class="form-control"/>
+                </div>
+                <div class="col-md-4">
+                    <label></label>
+                    <button id="period" class="btn btn-dark btn-sm pull-bottom" type="submit"
+                            style="width: 100px;height: 40px; margin-top: 31px"> Find
+                    </button>
+                </div>
+
+
             </div>
-            <div class="col-md-2">
-                <label>To</label>
-                <input id="toDate" name="toDate" type="date" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label></label>
-                <button id="period" class="btn btn-dark btn-sm pull-bottom" type="submit" style="width: 100px;height: 40px; margin-top: 31px"> Find</button>
-            </div>
-
-
-        </div>
 
         </form>
         <div id="orders">

@@ -27,7 +27,6 @@
 <jsp:include page="navbar.jsp"/>
 
 <div class="panel panel-default panel-order ">
-
     <div class="panel-body">
         <div class="row" style="margin-left: 10%; margin-top: 2%; margin-right: 10%">
             <div class="col-md-4">
@@ -67,7 +66,9 @@
                 <c:forEach var="item" items="${topItems}">
                     <div class="row" style="margin-top: 10px">
                         <div class="col-md-2">
-                            <a href="/item/${item.key.itemId}" target="_blank"> <img  src="/image/${item.key.itemId}" alt="${item.key.itemName}" class="media-object img-thumbnail"></a>
+                            <a href="/item/${item.key.itemId}" target="_blank"> <img src="/image/${item.key.itemId}"
+                                                                                     alt="${item.key.itemName}"
+                                                                                     class="media-object img-thumbnail"></a>
                         </div>
                         <div class="col-md-6">
                             <strong><i>${item.key.itemName}</i></strong><br>

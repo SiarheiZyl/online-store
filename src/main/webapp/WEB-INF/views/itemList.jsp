@@ -27,21 +27,7 @@
     </style>
 </head>
 <body>
-<script type="text/javascript">
-    function addItem(itemId){
-        $.ajax({
-            type:'GET',
-            data:{itId: itemId},
-            url:"/addItemToOrderProcess" ,
-            success: function (res) {
-                if(res !== "-1") {
-                    $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
-                    $("#availible"+itemId).html("Availible count: "+res);
-                }
-            }
-        });
-    }
-</script>
+<script src=/resources/js/catalog.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 <div class="container">
     <div class="row">
@@ -87,14 +73,14 @@
                                 <img class="card-img-top img-fluid img-thumbnail" width="300" height="200"
                                      src="/image/${item.itemId}" alt="${item.itemName}" style="cursor:zoom-in;">
                                 <div class="card-body ">
-                                    <a href="/item/${item.itemId}" style="color: black;" >
-                                    <h4 class="card-title"><strong>${item.itemName}</strong></h4>
-                                    <h5><strong><i>$${item.price}</i></strong></h5>
-                                    <p class="card-text-bottom">
-                                        Category: ${item.category.categoryName}<br>Author: ${item.params.author}<br>Size: ${item.params.height}x${item.params.width}<br>
-                                        <label id="availible${item.itemId}">Availible
-                                            count: ${item.availableCount}</label>
-                                    </p>
+                                    <a href="/item/${item.itemId}" style="color: black;">
+                                        <h4 class="card-title"><strong>${item.itemName}</strong></h4>
+                                        <h5><strong><i>$${item.price}</i></strong></h5>
+                                        <p class="card-text-bottom">
+                                            Category: ${item.category.categoryName}<br>Author: ${item.params.author}<br>Size: ${item.params.height}x${item.params.width}<br>
+                                            <label id="availible${item.itemId}">Availible
+                                                count: ${item.availableCount}</label>
+                                        </p>
                                     </a>
                                 </div>
                                 <div class="card-footer">
@@ -102,7 +88,9 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <button onclick="addItem(${item.itemId})"
-                                                        class="btn btn-outline-dark btn-block" id="buyButton" ${item.availableCount==0 || !item.shown ? 'disabled = "disabled"':''}>Buy
+                                                        class="btn btn-outline-dark btn-block"
+                                                        id="buyButton" ${item.availableCount==0 || !item.shown ? 'disabled = "disabled"':''}>
+                                                    Buy
                                                 </button>
                                             </div>
                                             <div class="col-md-6">
@@ -113,7 +101,9 @@
                                     </c:if>
                                     <c:if test="${role!=Roles.ADMIN}">
                                         <button onclick="addItem(${item.itemId})"
-                                                class="btn btn-outline-dark btn-block" id="buyButton" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy
+                                                class="btn btn-outline-dark btn-block"
+                                                id="buyButton" ${item.availableCount==0 ? 'disabled = "disabled"':''}>
+                                            Buy
                                         </button>
                                     </c:if>
                                 </div>

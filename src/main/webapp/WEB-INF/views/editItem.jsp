@@ -19,21 +19,32 @@
             integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
 </head>
 <body>
-<script type="text/javascript">
-
-// wait for the DOM to be loaded
-$(document).ready(function() {
-    // bind 'myForm' and provide a simple callback function
-    $('#editItemForm').ajaxForm(function() {
-        alert("Item was updated successfully!");
+<script>
+    // wait for the DOM to be loaded
+    $(document).ready(function() {
+        // bind 'myForm' and provide a simple callback function
+        $('#editItemForm').ajaxForm(function() {
+            alert("Item was updated successfully!");
+        });
     });
-});
 
-function addItem(itemId){
+    $.validate({
+        borderColorOnError: '#c80e0e',
+        addValidClassOnAll: true,
+        lang: 'en',
+        validateOnBlur: false, // disable validation when input looses focus
+        errorMessagePosition: 'top', // Instead of 'inline' which is default
+        scrollToTopOnError: false // Set this property to true on longer forms
+    });
+
+    function addItem(itemId){
         $.ajax({
             type:'GET',
             data:{itId: itemId},
@@ -49,30 +60,30 @@ function addItem(itemId){
         });
     }
 
-function changeVisibilityOfItem(itemId){
-    $.ajax({
-        type:'GET',
-        data:{itId: itemId},
-        url:"/changeVisibilityOfItem" ,
-        success: function (res) {
-            var text ="";
-            if( $("#hideItem").text()=="Hide item") {
-                text = "Show item";
-                $("#buyItem").hide();
-                alert("Item is hidden for users.")
-            }
-            if($("#hideItem").text()=="Show item") {
-                text = "Hide item";
-                alert("Item is availible for users.")
-            }
+    function changeVisibilityOfItem(itemId){
+        $.ajax({
+            type:'GET',
+            data:{itId: itemId},
+            url:"/changeVisibilityOfItem" ,
+            success: function (res) {
+                var text ="";
+                if( $("#hideItem").text()=="Hide item") {
+                    text = "Show item";
+                    $("#buyItem").hide();
+                    alert("Item is hidden for users.")
+                }
+                if($("#hideItem").text()=="Show item") {
+                    text = "Hide item";
+                    alert("Item is availible for users.")
+                }
 
-            $("#hideItem").html("");
-            $("#hideItem").html(text);
-        }
-    });
-}
+                $("#hideItem").html("");
+                $("#hideItem").html(text);
+            }
+        });
+    }
 
-function readURL(input) {
+    function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
@@ -93,58 +104,68 @@ function readURL(input) {
             <header class="card-header">
                 <c:if test="${role==Roles.ADMIN}">
                     <c:if test="${!item.shown}">
-                        <button id="hideItem" type="button" onclick="changeVisibilityOfItem(${item.itemId})" class="float-right btn btn-outline-dark mt-1" ${item.availableCount==0 ? 'disabled = "disabled"':''} value="Show item">Show item</button>
+                        <button id="hideItem" type="button" onclick="changeVisibilityOfItem(${item.itemId})"
+                                class="float-right btn btn-outline-dark mt-1" ${item.availableCount==0 ? 'disabled = "disabled"':''}
+                                value="Show item">Show item
+                        </button>
                     </c:if>
                     <c:if test="${item.shown}">
-                        <button id="hideItem" type="button" onclick="changeVisibilityOfItem(${item.itemId})" class="float-right btn btn-outline-dark mt-1" ${item.availableCount==0 ? 'disabled = "disabled"':''} value="Hide item">Hide item</button>
+                        <button id="hideItem" type="button" onclick="changeVisibilityOfItem(${item.itemId})"
+                                class="float-right btn btn-outline-dark mt-1" ${item.availableCount==0 ? 'disabled = "disabled"':''}
+                                value="Hide item">Hide item
+                        </button>
                     </c:if>
-                        <h4 class="display-4">Editing item</h4>
+                    <h4 class="display-4">Editing item</h4>
                 </c:if>
                 <c:if test="${role!=Roles.ADMIN}">
                     <h3 class="display-4">${item.itemName}</h3>
                 </c:if>
             </header>
             <article class="card-body">
-                <form action="/editItemProcess" method="post" id="editItemForm" name="editItemForm" enctype="multipart/form-data">
+                <form action="/editItemProcess" method="post" id="editItemForm" name="editItemForm"
+                      enctype="multipart/form-data">
                     <div>
                         <input type="hidden" name="itemId" id="itemId" value="${item.itemId}"/>
                     </div>
 
 
                     <div class="form-group">
-                        <img id="upload-image" class="card-img-top img-fluid img-thumbnail" src="/image/${item.itemId}" alt="${item.itemName}">
+                        <img id="upload-image" class="card-img-top img-fluid img-thumbnail" src="/image/${item.itemId}"
+                             alt="${item.itemName}">
                     </div>
 
-                   <c:if test="${role == Roles.ADMIN}">
-                       <div class="custom-file" id="customFile" lang="es">
-                        <input type="file"  class="custom-file-input"  id="imageFile" onchange="readURL(this);" accept="image/jpeg, image/png, image/gif" name="image">
-                        <label class="custom-file-label" for="imageFile">
-                            Select file...
-                        </label>
-                    </div>
-                   </c:if>
+                    <c:if test="${role == Roles.ADMIN}">
+                        <div class="custom-file" id="customFile" lang="es">
+                            <input type="file" class="custom-file-input" id="imageFile" onchange="readURL(this);"
+                                   accept="image/jpeg, image/png, image/gif" name="image">
+                            <label class="custom-file-label" for="imageFile">
+                                Select file...
+                            </label>
+                        </div>
+                    </c:if>
 
                     <div class="form-row">
                         <div class="col form-group">
                             <label>Name</label>
                             <c:if test="${role==Roles.ADMIN}">
-                            <input name="itemName" id="itemName" class="form-control" value="${item.itemName}"/>
+                                <input name="itemName" id="itemName" class="form-control" data-validation="text"
+                                       required="required" value="${item.itemName}"/>
                             </c:if>
                             <c:if test="${role!=Roles.ADMIN}">
-                                <label  class="form-control" >${item.itemName}</label>
+                                <label class="form-control">${item.itemName}</label>
                             </c:if>
                         </div> <!-- form-group end.// -->
                         <div class="col form-group">
                             <label>Category</label>
                             <c:if test="${role==Roles.ADMIN}">
-                            <select id="category" name="category" class="form-control">
-                                <c:forEach var="categ" items="${listCategories}">
-                                    <option value="${categ.categoryName}" ${categ.categoryName == item.category.categoryName ? 'selected="selected"' : ''} >${categ.categoryName}</option>
-                                </c:forEach>
-                            </select>
+                                <select id="category" name="category" class="form-control">
+                                    <c:forEach var="categ" items="${listCategories}">
+                                        <option value="${categ.categoryName}" ${categ.categoryName == item.category.categoryName ? 'selected="selected"' : ''} >${categ.categoryName}</option>
+                                    </c:forEach>
+                                </select>
                             </c:if>
                             <c:if test="${role!=Roles.ADMIN}">
-                                <label  class="form-control" >${item.category.categoryName}</label>
+                                <label class="form-control">${item.category.categoryName}</label>
                             </c:if>
                         </div> <!-- form-group end.// -->
                     </div>
@@ -153,20 +174,22 @@ function readURL(input) {
                         <div class="col form-group">
                             <label>Price($)</label>
                             <c:if test="${role==Roles.ADMIN}">
-                            <input name="price" id="price" type="number" class="form-control" value="${item.price}"/>
+                                <input name="price" id="price" type="number" data-validation="number"
+                                       required="required" min="0" class="form-control" value="${item.price}"/>
                             </c:if>
                             <c:if test="${role!=Roles.ADMIN}">
-                                <label  class="form-control" >${item.price}</label>
+                                <label class="form-control">${item.price}</label>
                             </c:if>
                         </div> <!-- form-group end.// -->
                         <div class="col form-group">
                             <label>Availible count</label>
                             <c:if test="${role==Roles.ADMIN}">
-                            <input type="number" name="availableCount" id="availableCount" class="form-control"
-                                   value="${item.availableCount}"/>
+                                <input type="number" name="availableCount" id="availableCount" data-validation="number"
+                                       required="required" min="0" class="form-control"
+                                       value="${item.availableCount}"/>
                             </c:if>
                             <c:if test="${role!=Roles.ADMIN}">
-                                <label  class="form-control" id="available" >${item.availableCount}</label>
+                                <label class="form-control" id="available">${item.availableCount}</label>
                             </c:if>
                         </div> <!-- form-group end.// -->
                     </div>
@@ -175,19 +198,21 @@ function readURL(input) {
                         <div class="col form-group">
                             <label>Country</label>
                             <c:if test="${role==Roles.ADMIN}">
-                            <input id="country" name="country" class="form-control" value="${item.params.country}"/>
+                                <input id="country" name="country" class="form-control" data-validation="text"
+                                       required="required" value="${item.params.country}"/>
                             </c:if>
                             <c:if test="${role!=Roles.ADMIN}">
-                                <label  class="form-control" >${item.params.country}</label>
+                                <label class="form-control">${item.params.country}</label>
                             </c:if>
                         </div> <!-- form-group end.// -->
                         <div class="col form-group">
                             <label>Author</label>
                             <c:if test="${role==Roles.ADMIN}">
-                            <input id="author" name="author" class="form-control" value="${item.params.author}"/>
+                                <input id="author" name="author" class="form-control" data-validation="text"
+                                       required="required" value="${item.params.author}"/>
                             </c:if>
                             <c:if test="${role!=Roles.ADMIN}">
-                                <label  class="form-control" >${item.params.author}</label>
+                                <label class="form-control">${item.params.author}</label>
                             </c:if>
                         </div> <!-- form-group end.// -->
                     </div>
@@ -196,19 +221,23 @@ function readURL(input) {
                         <div class="col form-group">
                             <label>Height</label>
                             <c:if test="${role==Roles.ADMIN}">
-                            <input id="height" type="number" name="height" class="form-control" value="${item.params.height}"/>
+                                <input id="height" type="number" name="height" class="form-control"
+                                       data-validation="number"
+                                       required="required" min="0" value="${item.params.height}"/>
                             </c:if>
                             <c:if test="${role!=Roles.ADMIN}">
-                                <label  class="form-control" >${item.params.height}</label>
+                                <label class="form-control">${item.params.height}</label>
                             </c:if>
                         </div> <!-- form-group end.// -->
                         <div class="col form-group">
                             <label>Width</label>
                             <c:if test="${role==Roles.ADMIN}">
-                            <input type="number" id="width" name="width" class="form-control" value="${item.params.width}"/>
+                                <input type="number" id="width" name="width" class="form-control"
+                                       data-validation="number"
+                                       required="required" min="0" value="${item.params.width}"/>
                             </c:if>
                             <c:if test="${role!=Roles.ADMIN}">
-                                <label  class="form-control" >${item.params.width}</label>
+                                <label class="form-control">${item.params.width}</label>
                             </c:if>
                         </div> <!-- form-group end.// -->
                     </div>
@@ -216,13 +245,16 @@ function readURL(input) {
 
                     <div class="form-group">
                         <c:if test="${role==Roles.ADMIN}">
-                        <button id="editItem" name="editItem" type="submit" class="btn btn-outline-dark  btn-block">Save
-                        </button>
+                            <button id="editItem" name="editItem" type="submit" class="btn btn-outline-dark  btn-block">
+                                Save
+                            </button>
                         </c:if>
 
 
                         <c:if test="${role!=Roles.ADMIN}">
-                            <button id="buyItem" type="button" onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy
+                            <button id="buyItem" type="button" onclick="addItem(${item.itemId})"
+                                    class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>
+                                Buy
                             </button>
                         </c:if>
 

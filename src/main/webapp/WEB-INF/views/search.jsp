@@ -22,16 +22,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <jsp:include page="layout.jsp"/>
     <title>Search</title>
-    <script  type="text/javascript">
-        function addItem(itemId){
+    <script type="text/javascript">
+        function addItem(itemId) {
             $.ajax({
-                type:'GET',//тип запроса
-                data:{itId: itemId},//параметры запроса
-                url:"/addItemToOrderProcess" ,//url адрес обработчика
+                type: 'GET',//тип запроса
+                data: {itId: itemId},//параметры запроса
+                url: "/addItemToOrderProcess",//url адрес обработчика
                 success: function (res) {
-                    if(res !== "-1") {
-                        $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
-                        $("#availible"+itemId).html("Availible count: "+res);
+                    if (res !== "-1") {
+                        $("#lblCartCount").html(Number($("#lblCartCount").text()) + 1).show();
+                        $("#availible" + itemId).html("Availible count: " + res);
                     }
                 }//возвращаемый результат от сервера
             });
@@ -43,14 +43,16 @@
 <div class="panel panel-default panel-order " style="margin-left: 5%; width: 90%">
     <h1 class="display-4">Search</h1>
     <div class="panel-body ">
-        <form action="/search" method="get" >
+        <form action="/search" method="get">
             <div class="form-row">
                 <div class="col-md-4">
-                    <input id="fromDate" name="searchData" class="form-control" />
+                    <input id="fromDate" name="searchData" class="form-control"/>
                 </div>
                 <div class="col-md-4">
                     <label></label>
-                    <button id="period" class="btn btn-dark btn-sm pull-bottom" type="submit" style="width: 100px;height: 40px;"> Find</button>
+                    <button id="period" class="btn btn-dark btn-sm pull-bottom" type="submit"
+                            style="width: 100px;height: 40px;"> Find
+                    </button>
                 </div>
             </div>
         </form>
@@ -61,13 +63,15 @@
         <c:forEach items="${items}" var="item" varStatus="rowCounter">
             <div class="col-md-3  mb-3">
                 <div class="card" style="height: 550px;">
-                    <img class="card-img-top img-fluid img-thumbnail" width="300" height="200" src="/image/${item.itemId}" alt="${item.itemName}" style="cursor:zoom-in;" >
+                    <img class="card-img-top img-fluid img-thumbnail" width="300" height="200"
+                         src="/image/${item.itemId}" alt="${item.itemName}" style="cursor:zoom-in;">
 
                     <div class="card-body ">
-                        <a href="/item/${item.itemId}" style="color: black;" >
+                        <a href="/item/${item.itemId}" style="color: black;">
                             <h4 class="card-title"><strong>${item.itemName}</strong></h4>
                             <h5><strong><i>$${item.price}</i></strong></h5>
-                            <p class="card-text-bottom">Category: ${item.category.categoryName}<br>Author: ${item.params.author}<br>Size: ${item.params.height}x${item.params.width}<br>
+                            <p class="card-text-bottom">
+                                Category: ${item.category.categoryName}<br>Author: ${item.params.author}<br>Size: ${item.params.height}x${item.params.width}<br>
                                 <label id="availible${item.itemId}">Availible count: ${item.availableCount}</label>
                             </p>
                         </a>
@@ -77,7 +81,10 @@
                         <c:if test="${role==Roles.ADMIN}">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy</button>
+                                    <button onclick="addItem(${item.itemId})"
+                                            class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>
+                                        Buy
+                                    </button>
                                 </div>
                                 <div class="col-md-6">
                                     <a href="/item/${item.itemId}" class="btn btn-outline-dark btn-block">Edit</a>
@@ -85,12 +92,15 @@
                             </div>
                         </c:if>
                         <c:if test="${role!=Roles.ADMIN}">
-                            <button onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy</button>
+                            <button onclick="addItem(${item.itemId})"
+                                    class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>
+                                Buy
+                            </button>
                         </c:if>
                     </div>
                 </div>
             </div>
-        </c:forEach >
+        </c:forEach>
     </c:if>
 </div>
 </body>

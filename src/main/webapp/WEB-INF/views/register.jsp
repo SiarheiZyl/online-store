@@ -73,7 +73,6 @@
                     </small>
                 </form:form>
                 <script>
-
                     $.validate({
                         borderColorOnError: '#c80e0e',
                         addValidClassOnAll: true,
@@ -82,8 +81,6 @@
                         errorMessagePosition: 'top', // Instead of 'inline' which is default
                         scrollToTopOnError: false // Set this property to true on longer forms
                     });
-
-
                 </script>
             </article>
             <div class="border-top card-body text-center">Have an account? <a href="login">Log In</a></div>

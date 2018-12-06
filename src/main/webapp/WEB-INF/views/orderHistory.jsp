@@ -19,27 +19,27 @@
     <h1 class="display-4">Order history</h1>
     <div class="panel-body">
         <c:if test="${orders.size()>0}">
-        <form action="/orderHistory/${pageId}" method="get" >
-            <div class="form-row">
+            <form action="/orderHistory/${pageId}" method="get">
+                <div class="form-row">
+                    <div class="col-md-2">
+                        <label>From</label>
+                        <input id="fromDate" name="fromDate" type="date" class="form-control"/>
+                    </div>
+                    <div class="col-md-2">
+                        <label>To</label>
+                        <input id="toDate" name="toDate" type="date" class="form-control"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label></label>
+                        <button id="period" class="btn btn-dark btn-sm pull-bottom" type="submit"
+                                style="width: 100px;height: 40px; margin-top: 31px"> Find
+                        </button>
+                    </div>
 
 
-                <div class="col-md-2">
-                    <label>From</label>
-                    <input id="fromDate" name="fromDate" type="date" class="form-control" />
                 </div>
-                <div class="col-md-2">
-                    <label>To</label>
-                    <input id="toDate" name="toDate" type="date" class="form-control" />
-                </div>
-                <div class="col-md-4">
-                    <label></label>
-                    <button id="period" class="btn btn-dark btn-sm pull-bottom" type="submit" style="width: 100px;height: 40px; margin-top: 31px"> Find</button>
-                </div>
 
-
-            </div>
-
-        </form>
+            </form>
         </c:if>
         <c:forEach var="order" items="${orders}">
             <form:form id="repeatOrderrderForm" modelAttribute="ord" action="/repeatOrderProcess/${order.key.orderId}"
@@ -81,21 +81,21 @@
     </div>
 </div>
 <c:if test="${pageSize>1}">
-<nav aria-label="Page navigation" style="margin-top: 10px">
-    <ul class="pagination justify-content-center">
-        <li ${pageId==1 ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link"
-                                                                                 href="/orderHistory/${pageId-1}?fromDate=${fromDate}&toDate=${toDate}">Previous</a>
-        </li>
-        <c:forEach var="i" begin="1" end="${pageSize}">
-            <li ${i==pageId ? 'class="page-item active"' : 'class="page-item"'}><a class="page-link"
-                                                                                   href="/orderHistory/${i}?fromDate=${fromDate}&toDate=${toDate}">${i}</a>
+    <nav aria-label="Page navigation" style="margin-top: 10px">
+        <ul class="pagination justify-content-center">
+            <li ${pageId==1 ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link"
+                                                                                     href="/orderHistory/${pageId-1}?fromDate=${fromDate}&toDate=${toDate}">Previous</a>
             </li>
-        </c:forEach>
-        <li ${pageId==pageSize ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link"
-                                                                                        href="/orderHistory/${pageId+1}?fromDate=${fromDate}&toDate=${toDate}">Next</a>
-        </li>
-    </ul>
-</nav>
+            <c:forEach var="i" begin="1" end="${pageSize}">
+                <li ${i==pageId ? 'class="page-item active"' : 'class="page-item"'}><a class="page-link"
+                                                                                       href="/orderHistory/${i}?fromDate=${fromDate}&toDate=${toDate}">${i}</a>
+                </li>
+            </c:forEach>
+            <li ${pageId==pageSize ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link"
+                                                                                            href="/orderHistory/${pageId+1}?fromDate=${fromDate}&toDate=${toDate}">Next</a>
+            </li>
+        </ul>
+    </nav>
 </c:if>
 </body>
 </html>

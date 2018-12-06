@@ -26,13 +26,38 @@
             integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
-
 </head>
 <body>
-<script src=/resources/js/editCategories.js type="text/javascript"></script>
-<script type="text/javascript">
+<script>
+    $(document).ready(function() {
+        // bind 'myForm' and provide a simple callback function
+        $('#formItem').ajaxForm(function() {
+            $('#item').val('');
+            $('#author').val('');
+            $('#country').val('');
+            $('#height').val('');
+            $('#width').val('');
+            $('#avalCount').val('');
+            $('#price').val('');
+            $('#upload-image').hide();
+            alert("New item was successfully added!!");
+
+        });
+    });
+
+    $.validate({
+        borderColorOnError: '#c80e0e',
+        addValidClassOnAll: true,
+        lang: 'en',
+        validateOnBlur: false, // disable validation when input looses focus
+        errorMessagePosition: 'top', // Instead of 'inline' which is default
+        scrollToTopOnError: false // Set this property to true on longer forms
+    });
 
     function addCategory() {
         $.ajax({
@@ -100,26 +125,8 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-
-
-    $(document).ready(function() {
-        // bind 'myForm' and provide a simple callback function
-        $('#formItem').ajaxForm(function() {
-            $('#item').val('');
-            $('#author').val('');
-            $('#country').val('');
-            $('#height').val('');
-            $('#width').val('');
-            $('#avalCount').val('');
-            $('#price').val('');
-            $('#upload-image').hide();
-            alert("New item was successfully added!!");
-
-        });
-    });
-
-
 </script>
+<script src=/resources/js/editCategories.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 <div class="panel panel-default panel-order ">
     <div class="panel-body">
@@ -128,7 +135,7 @@
                 <div class="row">
                     <h4 class="display-4">Add category</h4>
                 </div>
-                <div class="row" >
+                <div class="row">
                     <div class="col-md-6">
                         <label><i>Category name</i></label>
                         <input name="categName" id="categName" class="form-control" placeholder="New category"/>
@@ -143,7 +150,7 @@
                 <div class="row" style="margin-top: 38px">
                     <h4 class="display-4">Hide/show category</h4>
                 </div>
-                <div class="row"  >
+                <div class="row">
                     <div class="col-md-6">
                         <select id="visibleCateg" name="visibleCateg" class="form-control">
                             <c:forEach var="categ" items="${visibleCategories}">
@@ -152,11 +159,12 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <button id="visCateg" class="btn btn-outline-dark btn-sm pull-bottom" onclick="hideCategory()" style="height: 38px; width: 110px" }>Hide category
+                        <button id="visCateg" class="btn btn-outline-dark btn-sm pull-bottom" onclick="hideCategory()"
+                                style="height: 38px; width: 110px" }>Hide category
                         </button>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 19px" >
+                <div class="row" style="margin-top: 19px">
                     <div class="col-md-6">
                         <select id="invisibleCateg" name="visibleCateg" class="form-control">
                             <c:forEach var="categ" items="${invisibleCategories}">
@@ -165,7 +173,8 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <button id="invisCateg" class="btn btn-outline-dark btn-sm pull-bottom" onclick="showCategory()" style="height: 38px;width: 110px" }>Show category
+                        <button id="invisCateg" class="btn btn-outline-dark btn-sm pull-bottom" onclick="showCategory()"
+                                style="height: 38px;width: 110px" }>Show category
                         </button>
                     </div>
                 </div>
@@ -177,64 +186,74 @@
                 </div>
                 <form:form action="/addNewItemProcess" method="post" id="formItem" enctype="multipart/form-data">
                     <div class="image-slider">
-                        <img id="upload-image" class="img-fluid img-thumbnail" width="300" height="200" style="display: none;" src="/resources/images/2.jpg" alt="Item">
+                        <img id="upload-image" class="img-fluid img-thumbnail" width="300" height="200"
+                             style="display: none;" src="/resources/images/2.jpg" alt="Item">
                     </div>
                     <div class="custom-file" id="customFile" lang="es">
-                        <input type="file"  class="custom-file-input"  id="imageFile" onchange="readURL(this);" accept="image/jpeg, image/png, image/gif" name="image">
+                        <input type="file" class="custom-file-input" id="imageFile" data-validation="file"
+                               required="required" onchange="readURL(this);" accept="image/jpeg, image/png, image/gif"
+                               name="image">
                         <label class="custom-file-label" for="imageFile">
                             Select file...
                         </label>
                     </div>
-                <div class="form-row">
-                    <div class="col form-group">
-                        <label><i>Name</i></label>
-                        <input type="text" id="item" name="itemName" class="form-control">
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label><i>Name</i></label>
+                            <input type="text" id="item" name="itemName" data-validation="text" required="required"
+                                   class="form-control">
+                        </div>
+                        <div class="col form-group">
+                            <label><i>Category</i></label>
+                            <select id="itemCateg" name="itemCateg" class="form-control">
+                                <c:forEach var="categ" items="${listCategories}">
+                                    <option value="${categ}">${categ}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col form-group">
-                        <label><i>Category</i></label>
-                        <select id="itemCateg" name="itemCateg" class="form-control">
-                            <c:forEach var="categ" items="${listCategories}">
-                                <option value="${categ}">${categ}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="col form-group">
-                        <label><i>Author</i></label>
-                        <input type="text" name="author" id="author" class="form-control">
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label><i>Author</i></label>
+                            <input type="text" name="author" id="author" data-validation="text" required="required"
+                                   class="form-control">
+                        </div>
+                        <div class="col form-group">
+                            <label><i>Country</i></label>
+                            <input type="text" name="country" id="country" data-validation="text" required="required"
+                                   class="form-control">
+                        </div>
                     </div>
-                    <div class="col form-group">
-                        <label><i>Country</i></label>
-                        <input type="text" name="country" id="country" class="form-control">
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="col form-group">
-                        <label><i>Height</i></label>
-                        <input type="number" name="height" id="height" class="form-control">
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label><i>Height</i></label>
+                            <input type="number" name="height" id="height" data-validation="number" required="required"
+                                   min="0" class="form-control">
+                        </div>
+                        <div class="col form-group">
+                            <label><i>Width</i></label>
+                            <input type="number" name="width" id="width" data-validation="number" required="required"
+                                   min="0" class="form-control">
+                        </div>
                     </div>
-                    <div class="col form-group">
-                        <label><i>Width</i></label>
-                        <input type="number" name="width" id="width" class="form-control">
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="col form-group">
-                        <label><i>Availible count</i></label>
-                        <input type="number" name="avalCount" id="avalCount" class="form-control">
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label><i>Availible count</i></label>
+                            <input type="number" name="avalCount" id="avalCount" data-validation="number"
+                                   required="required" min="0" class="form-control">
+                        </div>
+                        <div class="col form-group">
+                            <label><i>Price($)</i></label>
+                            <input type="number" name="price" id="price" data-validation="number" required="required"
+                                   min="0" class="form-control">
+                        </div>
                     </div>
-                    <div class="col form-group">
-                        <label><i>Price($)</i></label>
-                        <input type="number" name="price" id="price" class="form-control">
-                    </div>
-                </div>
 
-                <button id="addItem" class="btn btn-outline-dark btn-sm pull-bottom" type="submit">Add item
-                </button>
+                    <button id="addItem" class="btn btn-outline-dark btn-sm pull-bottom" type="submit">Add item
+                    </button>
                 </form:form>
             </div>
         </div>

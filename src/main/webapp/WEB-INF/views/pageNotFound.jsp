@@ -13,7 +13,7 @@
     <link href="<c:url value='../../resources/css/pageNotFound.css' />" rel="stylesheet">
 </head>
 <body>
-<div class="container"  ><span class="numer">4</span>
+<div class="container"><span class="numer">4</span>
     <div class="circle">
         <div class="drops"></div>
         <div class="drops"></div>
@@ -32,8 +32,11 @@
                 <div class="neck"></div>
             </div>
         </div>
-    </div><span class="numer">4</span>
-    <a href="/catalog/1" style="position: center;height: 80px;width: 300px;font-size: 24pt; color: whitesmoke; text-decoration: none;" class="btn btn-primary btn-block">Back to shop</a>
+    </div>
+    <span class="numer">4</span>
+    <a href="/catalog/1"
+       style="position: center;height: 80px;width: 300px;font-size: 24pt; color: whitesmoke; text-decoration: none;"
+       class="btn btn-primary btn-block">Back to shop</a>
 </div>
 
 
