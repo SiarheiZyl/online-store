@@ -39,10 +39,12 @@ function addItem(itemId){
             data:{itId: itemId},
             url:"/addItemToOrderProcess" ,
             success: function (res) {
-                if(res == 0)
-                    $("#buyItem").prop('disabled', true);
-                $("#available").html(res);
-                $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+
+                if(res !== "-1") {
+                    $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+                    $("#available").html(res);
+                }
+
             }
         });
     }
@@ -214,13 +216,13 @@ function readURL(input) {
 
                     <div class="form-group">
                         <c:if test="${role==Roles.ADMIN}">
-                        <button id="editItem" name="editItem" type="submit" class="btn btn-primary btn-block">Save
+                        <button id="editItem" name="editItem" type="submit" class="btn btn-outline-dark  btn-block">Save
                         </button>
                         </c:if>
 
 
                         <c:if test="${role!=Roles.ADMIN}">
-                            <button id="buyItem" type="button" onclick="addItem(${item.itemId})" class="btn btn-primary btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy
+                            <button id="buyItem" type="button" onclick="addItem(${item.itemId})" class="btn btn-outline-dark btn-block" ${item.availableCount==0 ? 'disabled = "disabled"':''}>Buy
                             </button>
                         </c:if>
 

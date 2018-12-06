@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="form-group">
-                        <button id="editAddr" name="editAddr" type="submit" class="btn btn-primary btn-block">Save
+                        <button id="editAddr" name="editAddr" type="submit" class="btn btn-outline-dark btn-block">Save
                         </button>
                     </div>
                 </form>

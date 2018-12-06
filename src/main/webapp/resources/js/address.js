@@ -21,7 +21,7 @@ $(function () {
             url: 'addressProcess',
             data: $('form[name=addressForm]').serialize(),
             success: function (res) {
-                alert("Your info was updated");
+                alert("Your address was updated");
             }
         })
     });

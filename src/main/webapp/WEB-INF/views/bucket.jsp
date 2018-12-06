@@ -24,6 +24,7 @@
             url:"/deleteProcess" ,//url адрес обработчика
             success: function (res) {
 
+
                 amount = (Number($("#sum").text())-Number(price));
 
                 $("#totalPrice").html("Total price:"+"$<b id=\"sum\">"+amount+"<b>");
@@ -38,6 +39,10 @@
             }//возвращаемый результат от сервера
         });
     }
+
+$("#orderbut").submit(function () {
+    alert("Your order is successfully completed.")
+})
 </script>
 <jsp:include page="navbar.jsp"/>
 <div class="card-body">
@@ -96,7 +101,7 @@
                 </div>
                 <div class="float-right float-bottom" style="margin-top: 20px">
 
-                    <form:button id="orderbut" name="order" class="btn btn-primary pull-right vbottom"  >Order</form:button>
+                    <form:button id="orderbut" name="order" class="btn btn-primary pull-right vbottom"   >Order</form:button>
                 </div>
             </form:form>
         </c:if>

@@ -70,7 +70,7 @@
     </div>
 
     <div class="form-group">
-        <button id="editInfo" name="editInfo" type="submit" class="btn btn-primary btn-block">Save</button>
+        <button id="editInfo" name="editInfo" type="submit" class="btn btn-outline-dark btn-block">Save</button>
     </div>
     </form>
             </article>

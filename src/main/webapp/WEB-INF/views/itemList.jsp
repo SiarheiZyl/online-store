@@ -34,10 +34,10 @@
             data:{itId: itemId},
             url:"/addItemToOrderProcess" ,
             success: function (res) {
-                if(res == 0)
-                    $("#buyButton").prop('disabled', true);
-                $("#availible"+itemId).html("Availible count: "+res);
-                $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+                if(res !== "-1") {
+                    $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+                    $("#availible"+itemId).html("Availible count: "+res);
+                }
             }
         });
     }

@@ -29,8 +29,10 @@
                 data:{itId: itemId},//параметры запроса
                 url:"/addItemToOrderProcess" ,//url адрес обработчика
                 success: function (res) {
-                    $("#availible"+itemId).html("Availible count: "+res);
-                    $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+                    if(res !== "-1") {
+                        $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+                        $("#availible"+itemId).html("Availible count: "+res);
+                    }
                 }//возвращаемый результат от сервера
             });
         }

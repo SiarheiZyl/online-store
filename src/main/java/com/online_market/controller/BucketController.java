@@ -73,7 +73,6 @@ public class BucketController {
         if (id != 0 && userService.getById(id).isAuth()) {
             Order bucket = orderService.getBucketOrder(id);
 
-
             Order order = orderService.getBucketOrder(id) == null ? new Order() : orderService.getBucketOrder(id);
 
             model.addAttribute("order", order);
@@ -104,6 +103,9 @@ public class BucketController {
     public String addItemToOrder(@RequestParam("itId") int itemId, HttpSession session) {
 
         int id = userService.getAuthorizedUserId();
+
+        if(itemService.getById(itemId).getAvailableCount() == 0 )
+            return -1+"";
         if (id != 0)
             orderService.addToBucket(itemId, id);
         else {
@@ -144,7 +146,7 @@ public class BucketController {
      * @return redirecting to the catalog
      */
     @PostMapping("/orderProcess")
-    public String addBucketToOrders(@ModelAttribute("order") Order order) {
+    public String addBucketToOrders(@ModelAttribute("order") Order order, HttpSession session) {
 
         int id = userService.getAuthorizedUserId();
         if (order.getPaymentMethod() == null || order.getDeliveryMethod() == null)

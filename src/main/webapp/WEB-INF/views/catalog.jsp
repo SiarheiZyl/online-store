@@ -31,11 +31,12 @@
             data:{itId: itemId},//параметры запроса
             url:"/addItemToOrderProcess" ,//url адрес обработчика
             success: function (res) {
-                if(res == 0) {
-                    $("#buyButton").prop('disabled', true);
+                if(res !== "-1") {
+                    $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+                    $("#availible"+itemId).html("Availible count: "+res);
                 }
-                $("#availible"+itemId).html("Availible count: "+res);
-                $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
+
+
             }//возвращаемый результат от сервера
         });
     }
@@ -106,7 +107,7 @@
                                         <c:if test="${role==Roles.ADMIN}">
                                         <div class="row">
                                             <div class="col-md-6">
-                                            <button onclick="addItem(${item.itemId})" id="buyButton" class="btn btn-outline-dark btn-block" ${item.availableCount==0 || !item.shown ? 'disabled = "disabled"':''}>Buy</button>
+                                            <button onclick="addItem(${item.itemId})" id="buyButton1" class="btn btn-outline-dark btn-block" ${item.availableCount==0 || !item.shown ? 'disabled = "disabled"':''}>Buy</button>
                                             </div>
                                             <div class="col-md-6">
                                                 <a href="/item/${item.itemId}" class="btn btn-outline-dark btn-block">Edit</a>

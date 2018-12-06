@@ -18,6 +18,7 @@
 <div class="panel panel-default panel-order " style="margin-top: 1%; margin-left: 5%; width: 90%">
     <h1 class="display-4">Order history</h1>
     <div class="panel-body">
+        <c:if test="${orders.size()>0}">
         <form action="/orderHistory/${pageId}" method="get" >
             <div class="form-row">
 
@@ -39,6 +40,7 @@
             </div>
 
         </form>
+        </c:if>
         <c:forEach var="order" items="${orders}">
             <form:form id="repeatOrderrderForm" modelAttribute="ord" action="/repeatOrderProcess/${order.key.orderId}"
                        method="post">
@@ -78,6 +80,7 @@
         </c:forEach>
     </div>
 </div>
+<c:if test="${pageSize>1}">
 <nav aria-label="Page navigation" style="margin-top: 10px">
     <ul class="pagination justify-content-center">
         <li ${pageId==1 ? 'class="page-item disabled"' : 'class="page-item"'}><a class="page-link"
@@ -93,5 +96,6 @@
         </li>
     </ul>
 </nav>
+</c:if>
 </body>
 </html>

@@ -106,7 +106,7 @@ public class ItemController {
         if(id!=0 && userService.getById(id).getRole() == Roles.ADMIN)
             model.addAttribute("itemList", itemService.itemListPerPage(pageId, pageSize));
         else
-            model.addAttribute("itemList", itemService.visibleItemList());
+            model.addAttribute("itemList", itemService.visibleItemListPerPage(pageId, pageSize));
 
         model.addAttribute("categoryList", categoryService.getAllItemsWithIsShown(true));
 

@@ -174,7 +174,11 @@ public class AdminController {
 
 
         itemService.update(itemId, itemName, category, author, country, height, width, availableCount, Double.parseDouble(price));
-        orderService.sendUpdateMessageToJms();
+        try {
+            orderService.sendUpdateMessageToJms();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (image != null) {
             ImageUtil.createImagesDirectoryIfNeeded();
@@ -201,7 +205,11 @@ public class AdminController {
         order1.setPaymentStatus(paymentStatus);
 
         orderService.update(order1);
-        orderService.updateTopItems();
+        try {
+            orderService.updateTopItems();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         OrderStatus[] orderStatuses = OrderStatus.values();
         for (int i = 0; i < orderStatuses.length; i++) {

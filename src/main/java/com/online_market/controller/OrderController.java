@@ -57,7 +57,7 @@ public class OrderController {
         int id = userService.getAuthorizedUserId();
         if (id!=0) {
 
-            int pageSize = 10;
+            int pageSize = 4;
             long totalPages ;
 
             model.addAttribute("pageId", pageId);
