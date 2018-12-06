@@ -45,10 +45,11 @@ public class ItemController {
 
     /**
      * Injecting constructor
-     * @param itemService item service
-     * @param userService user service
-     * @param orderService order service
-     * @param paramService param service
+     *
+     * @param itemService     item service
+     * @param userService     user service
+     * @param orderService    order service
+     * @param paramService    param service
      * @param categoryService category service
      */
     @Autowired
@@ -103,7 +104,7 @@ public class ItemController {
 
         model.addAttribute("item", new Item());
 
-        if(id!=0 && userService.getById(id).getRole() == Roles.ADMIN)
+        if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN)
             model.addAttribute("itemList", itemService.itemListPerPage(pageId, pageSize));
         else
             model.addAttribute("itemList", itemService.visibleItemListPerPage(pageId, pageSize));
@@ -125,7 +126,7 @@ public class ItemController {
         int id = userService.getAuthorizedUserId();
 
         model.addAttribute("it", new Item());
-        if(id!=0 && userService.getById(id).getRole() == Roles.ADMIN)
+        if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN)
             model.addAttribute("itemList", itemService.itemList());
         else
             model.addAttribute("itemList", itemService.visibleItemList());
@@ -160,7 +161,7 @@ public class ItemController {
 
         int id = userService.getAuthorizedUserId();
 
-        if(!categoryService.findByName(category).isShown())
+        if (!categoryService.findByName(category).isShown())
             return "pageNotFound";
 
         model.addAttribute("item", new Item());
@@ -170,7 +171,7 @@ public class ItemController {
         else
             itemList = itemService.getFilteredItemsByAllParams(params.getAuthor(), params.getCountry(), params.getWidth(), params.getHeight());
 
-        if(id!=0 && userService.getById(id).getRole() == Roles.ADMIN)
+        if (id != 0 && userService.getById(id).getRole() == Roles.ADMIN)
             model.addAttribute("itemList", itemService.getFilteredItemsByCategory(itemList, category));
         else
             model.addAttribute("itemList", itemService.getFilteredShownItemsByCategory(itemList, category));
@@ -192,9 +193,28 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/image/{itemId}")
-    public @ResponseBody byte[] getImage(@PathVariable(value = "itemId") String itemId) throws IOException {
+    public @ResponseBody
+    byte[] getImage(@PathVariable(value = "itemId") String itemId) throws IOException {
 
         File serverFile = new File(ImageUtil.getImagesDirectoryAbsolutePath() + itemId);
+
+        return Files.readAllBytes(serverFile.toPath());
+    }
+
+    @RequestMapping(value = "/smallImage/{itemId}")
+    public @ResponseBody
+    byte[] getSmallImage(@PathVariable(value = "itemId") String itemId) throws IOException {
+
+        File serverFile = new File(ImageUtil.getImagesDirectoryAbsolutePath() + itemId + "small");
+
+        return Files.readAllBytes(serverFile.toPath());
+    }
+
+    @RequestMapping(value = "/mediumImage/{itemId}")
+    public @ResponseBody
+    byte[] getMediumImage(@PathVariable(value = "itemId") String itemId) throws IOException {
+
+        File serverFile = new File(ImageUtil.getImagesDirectoryAbsolutePath() + itemId + "medium");
 
         return Files.readAllBytes(serverFile.toPath());
     }
@@ -224,7 +244,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public String getSearchPage(Model model, @RequestParam(value = "searchData", required = false) String searchData){
+    public String getSearchPage(Model model, @RequestParam(value = "searchData", required = false) String searchData) {
 
         int id = userService.getAuthorizedUserId();
         model.addAttribute("id", id);
@@ -234,10 +254,9 @@ public class ItemController {
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
         }
 
-        if(searchData == null){
+        if (searchData == null) {
             model.addAttribute("items", null);
-        }
-        else{
+        } else {
             model.addAttribute("items", itemService.search(searchData));
         }
 

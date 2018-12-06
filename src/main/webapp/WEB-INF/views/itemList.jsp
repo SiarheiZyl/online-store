@@ -18,13 +18,6 @@
             integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <style>
-        img:active {
-            -webkit-transform: scale(2);
-            transform: scale(2);
-            z-index: 3;
-        }
-    </style>
 </head>
 <body>
 <script src=/resources/js/catalog.js type="text/javascript"></script>
@@ -71,7 +64,7 @@
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card" style="height: 530px;">
                                 <img class="card-img-top img-fluid img-thumbnail" width="300" height="200"
-                                     src="/image/${item.itemId}" alt="${item.itemName}" style="cursor:zoom-in;">
+                                     src="/mediumImage/${item.itemId}" alt="${item.itemName}">
                                 <div class="card-body ">
                                     <a href="/item/${item.itemId}" style="color: black;">
                                         <h4 class="card-title"><strong>${item.itemName}</strong></h4>

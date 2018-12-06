@@ -2,9 +2,10 @@ package com.online_market.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 
 /**
@@ -51,6 +52,18 @@ public class ImageUtil {
      */
     private static final String IMAGES_DIR_ABSOLUTE_PATH = IMAGES_DIR.getAbsolutePath() + File.separator;
 
+
+    /**
+     * Size in pixels for scaling original images(used for images in bucket and statistics)
+     */
+    private static final int SMALL_SIZE = 120;
+
+    /**
+     * Size in pixels for scaling original images(used for images in catalog)
+     */
+    private static final int MEDIUM_SIZE = 300;
+
+
     /**
      * Empty constructor
      */
@@ -71,7 +84,50 @@ public class ImageUtil {
         } catch (Exception e) {
             log.error("Something was wrong during uploading image.", e);
         }
+
+        try {
+            saveScaledImages(file, name);
+        } catch (IOException e) {
+            log.error("IOException while uploading images");
+        }
     }
+
+    private static void saveScaledImages(MultipartFile file, String name) throws IOException {
+        InputStream in = new ByteArrayInputStream(file.getBytes());
+        BufferedImage image =  ImageIO.read(in);
+
+        int height = image.getHeight();
+        int width = image.getWidth();
+
+        double scaleSmall = SMALL_SIZE/(double)width;
+        double scaleMedium = MEDIUM_SIZE/(double)width;
+
+        int smallWidth = (int)(width*scaleSmall);
+        int smallHeight = (int)(height*scaleSmall);
+
+        int mediumWidth = (int)(width*scaleMedium);
+        int mediumHeight = (int)(height*scaleMedium);
+
+        BufferedImage smallImage = new BufferedImage(smallWidth, smallHeight, BufferedImage.TYPE_INT_RGB);
+
+        Graphics g = smallImage.createGraphics();
+        g.drawImage(image, 0, 0, smallWidth, smallHeight, null);
+        g.dispose();
+
+        BufferedImage mediumImage = new BufferedImage(mediumWidth, mediumHeight, BufferedImage.TYPE_INT_RGB);
+
+
+        Graphics gr = mediumImage.createGraphics();
+        gr.drawImage(image, 0, 0, mediumWidth, mediumHeight, null);
+        gr.dispose();
+
+        File mediumFile = new File(IMAGES_DIR_ABSOLUTE_PATH + name + "medium");
+        ImageIO.write(mediumImage, "jpg", mediumFile);
+
+        File smallFile = new File(IMAGES_DIR_ABSOLUTE_PATH + name + "small");
+        ImageIO.write(smallImage, "jpg", smallFile);
+    }
+
 
     /**
      * Method creates images directory if it doesn't exist

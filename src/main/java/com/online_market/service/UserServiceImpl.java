@@ -74,7 +74,16 @@ public class UserServiceImpl implements UserService {
         logger.info("Updating user(called saveOrUpdate(User user))");
 
         User user_for_update = getById(user.getId());
-
+        if(user.getFirstName()==null || user.getFirstName().equals(""))
+            user.setFirstName(user_for_update.getFirstName());
+        if(user.getLastName()==null || user.getLastName().equals(""))
+            user.setLastName(user_for_update.getLastName());
+        if(user.getLogin()==null || user.getLogin().equals(""))
+            user.setLogin(user_for_update.getLogin());
+        if(user.getEmail()==null || user.getEmail().equals(""))
+            user.setEmail(user_for_update.getEmail());
+        if(user.getBirthdate()==null)
+            user.setBirthdate(user_for_update.getBirthdate());
         if (user.getAddress() == null)
             user.setAddress(user_for_update.getAddress());
         if (user.getPassword() == null || user.getPassword().equals(""))
@@ -129,7 +138,7 @@ public class UserServiceImpl implements UserService {
         for (User user : users) {
             if (user.isAuth()) {
                 user.setAuth(false);
-                update(user);
+                userDao.update(user);
             }
         }
     }
@@ -146,7 +155,7 @@ public class UserServiceImpl implements UserService {
 
         User user = getById(id);
         user.setAuth(true);
-        update(user);
+        userDao.update(user);
     }
 
     /**

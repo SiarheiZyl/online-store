@@ -172,13 +172,13 @@ public class AdminController {
     @ResponseBody
     public String updateItem(@RequestParam("itemId") int itemId, @RequestParam("itemName") String itemName, @RequestParam("category") String category, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("availableCount") int availableCount, @RequestParam("price") String price, @RequestParam(value = "image", required = false) MultipartFile image) {
 
-
+/*
         itemService.update(itemId, itemName, category, author, country, height, width, availableCount, Double.parseDouble(price));
         try {
             orderService.sendUpdateMessageToJms();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         if (image != null) {
             ImageUtil.createImagesDirectoryIfNeeded();
