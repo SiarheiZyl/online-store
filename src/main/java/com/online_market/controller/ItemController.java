@@ -86,6 +86,7 @@ public class ItemController {
 
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
+            orderService.updateBucket(id);
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
         } else {
             Map<Item, Integer> itemMap = new HashMap<>();

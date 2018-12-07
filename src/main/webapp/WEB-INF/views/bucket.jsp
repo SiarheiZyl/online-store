@@ -23,6 +23,15 @@
 <body>
 <script src=/resources/js/bucket.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
+
+<c:if test="${itemMap.size()==0}">
+    <script>
+        $(document).ready(function() {
+            alert("Your basket is empty")
+
+        })
+    </script>
+</c:if>
 <div class="card-body">
     <c:set var="sum" value="${0}"/>
     <c:forEach var="item" items="${itemMap}">
@@ -46,7 +55,7 @@
                 </div>
                 <div class="col-4 col-sm-4 .col-md-4">
                     <div class="quantity">
-                        <input type="number" step="1" max="99" min="1" value=${item.value} title="quantity" class="qty"
+                        <input type="number" step="1" max="99" min="1" value=${item.value>item.key.availableCount?item.key.availableCount:item.value} title="quantity" class="qty"
                                id="#qty_input">
                     </div>
                 </div>

@@ -6,7 +6,7 @@ function addItem(itemId){
         success: function (res) {
             if(res !== "-1") {
                 $("#lblCartCount").html(Number( $("#lblCartCount").text())+1).show();
-                $("#availible"+itemId).html("Availible count: "+res);
+                //$("#availible"+itemId).html("Availible count: "+res);
             }
 
 

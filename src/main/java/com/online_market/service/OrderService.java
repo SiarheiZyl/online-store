@@ -75,4 +75,6 @@ public interface OrderService {
     void sendUpdateMessageToJms();
 
     void updateTopItems();
+
+    void updateBucket(int userId);
 }

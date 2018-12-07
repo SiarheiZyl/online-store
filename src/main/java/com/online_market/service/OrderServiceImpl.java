@@ -156,6 +156,23 @@ public class OrderServiceImpl implements OrderService {
 
         Order order1 = getBucketOrder(userId);
 
+        Map<Item, Integer> items = itemDao.getNotNullItemsInBucket(order1.getOrderId());
+
+        for (Map.Entry<Item, Integer> item : items.entrySet()) {
+            Item item1 = item.getKey();
+            int quantity = item.getValue();
+
+
+            if(quantity<=item1.getAvailableCount()) {
+                item1.setAvailableCount(item1.getAvailableCount() - quantity);
+                itemDao.updateQuantity(item1);
+            }
+            else{
+                updateQuantity(userId, item1.getItemId(), item1.getAvailableCount());
+            }
+        }
+
+
         order1.setDeliveryMethod(order.getDeliveryMethod());
         order1.setPaymentMethod(order.getPaymentMethod());
         java.util.Date date1 = new java.util.Date();
@@ -184,15 +201,6 @@ public class OrderServiceImpl implements OrderService {
 
             int quantity;
 
-            for (Item item1 : itemList) {
-                if (item1.getItemId() == item.getItemId()) {
-                    item1.setAvailableCount(item1.getAvailableCount() - 1);
-                }
-            }
-            if (item.getAvailableCount() != 0) {
-                item.setAvailableCount(item.getAvailableCount() - 1);
-                itemDao.updateQuantity(item);
-            }
 
             userBucket.setUser(userDao.getById(User.class, userId));
             userBucket.setItems(itemList);
@@ -282,8 +290,8 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Removing item from bucket(called removeFromBucket(int itemId, int userId, int quantity))");
 
         Item item = itemDao.getById(Item.class, itemId);
-        item.setAvailableCount(item.getAvailableCount() + quantity);
-        itemDao.updateQuantity(item);
+/*        item.setAvailableCount(item.getAvailableCount() + quantity);
+        itemDao.updateQuantity(item);*/
 
         if (userId != 0) {
             Order bucket = getBucketOrder(userId);
@@ -667,6 +675,22 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
 
+        }
+    }
+
+
+    @Override
+    public void updateBucket(int userId) {
+
+        Order order = getBucketOrder(userId);
+        Map<Item, Integer> items = itemDao.getNotNullItemsInBucket(order.getOrderId());
+
+        for (Map.Entry<Item, Integer> item : items.entrySet()) {
+            Item item1 = item.getKey();
+            int quantity = item.getValue();
+            if(quantity>item1.getAvailableCount()) {
+                updateQuantity(userId, item1.getItemId(), item1.getAvailableCount());
+            }
         }
     }
 }

@@ -47,7 +47,7 @@ public class RestTopItemsController {
     /**
      * By this URL we can take list of the top product in JSON format.
      * This method also call sendMessageToUpdate() to notify all browsers about changing
-     * of top products list. See {@link #sendNotificationForAllSubscribers()} ()}
+     * of top products list.
      * @return List of top products.
      */
     @RequestMapping(value = "/stand")

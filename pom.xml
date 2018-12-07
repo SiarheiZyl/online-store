@@ -15,7 +15,6 @@
         <spring.version>4.3.20.RELEASE</spring.version>
         <spring.data>1.11.4.RELEASE</spring.data>
         <javax.servlet>3.0.1</javax.servlet>
-        <postgresql.version>9.4-1201-jdbc4</postgresql.version>
         <hb.manager>5.2.10.Final</hb.manager>
         <spring.test>3.2.4.RELEASE</spring.test>
         <junit.version>4.11</junit.version>
@@ -25,10 +24,8 @@
         <jstl.version>1.2</jstl.version>
         <spring-web.version>4.3.20.RELEASE</spring-web.version>
         <log4j.version>1.2.17</log4j.version>
-        <itextpdf.version>5.5.12</itextpdf.version>
         <mockito-all.version>1.10.19</mockito-all.version>
         <selenium.version>2.25.0</selenium.version>
-        <mail.version>1.6.0</mail.version>
         <spring-context-support.version>4.3.20.RELEASE</spring-context-support.version>
     </properties>
 
@@ -162,25 +159,6 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-all</artifactId>
             <version>5.15.0</version>
-        </dependency>
-
-        <!--PDF-->
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itextpdf</artifactId>
-            <version>${itextpdf.version}</version>
-        </dependency>
-
-        <!-- Java Mail API -->
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>${mail.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring-context-support.version}</version>
         </dependency>
 
         <!-- Gravatar -->
