@@ -22,9 +22,9 @@ import java.util.List;
 
 /**
  * Class for testing {@link UserServiceImpl}
+ *
  * @author Siarhei
  * @version 1.0
- *
  */
 public class UserServiceTest {
 
@@ -35,13 +35,13 @@ public class UserServiceTest {
     private UserServiceImpl userService;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testFindAllUsers_ListOfUsers(){
+    public void testFindAllUsers_ListOfUsers() {
 
         //expected
         List expected = new ArrayList();
@@ -58,14 +58,14 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGettingUserById_returnsUser(){
+    public void testGettingUserById_returnsUser() {
 
         //expected
         int id = 8;
         User expected = new User();
         expected.setId(id);
         //mock
-        when(userDaoMock.getById(User.class,id)).thenReturn(expected);
+        when(userDaoMock.getById(User.class, id)).thenReturn(expected);
 
         //call
         User actual = userService.getById(id);
@@ -76,13 +76,13 @@ public class UserServiceTest {
 
 
     @Test
-    public void testGettingUserById_returnsNullUser(){
+    public void testGettingUserById_returnsNullUser() {
 
         //expected
         int id = 1;
         User expected = null;
         //mock
-        when(userDaoMock.getById(User.class,id)).thenReturn(expected);
+        when(userDaoMock.getById(User.class, id)).thenReturn(expected);
 
         //call
         User actual = userService.getById(id);
@@ -102,7 +102,7 @@ public class UserServiceTest {
         expected.setPassword("1");
         expected.setRole(Roles.ADMIN);
         //mock
-        when(userDaoMock.getById(User.class,id)).thenReturn(expected);
+        when(userDaoMock.getById(User.class, id)).thenReturn(expected);
 
         User user = new User();
         user.setId(8);
@@ -110,11 +110,11 @@ public class UserServiceTest {
 
         verify(userDaoMock).update(any(User.class));
 
-        verify(userDaoMock).getById(User.class,8);
+        verify(userDaoMock).getById(User.class, 8);
     }
 
     @Test
-    public void testValidate_returnsUser(){
+    public void testValidate_returnsUser() {
 
         //expected
         String expectedLogin = "login";
@@ -133,7 +133,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testValidate_returnsNullUser(){
+    public void testValidate_returnsNullUser() {
 
         //expected
         String expectedLogin = "";
@@ -151,7 +151,7 @@ public class UserServiceTest {
 
 
     @Test
-    public void testRegisterUser_void(){
+    public void testRegisterUser_void() {
 
         userService.register(new User());
 
@@ -160,7 +160,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testLogout_void(){
+    public void testLogout_void() {
 
         //expected
         List<User> expected = new ArrayList<>();
@@ -177,7 +177,7 @@ public class UserServiceTest {
 
         //mock
         when(userDaoMock.getAll("User")).thenReturn(expected);
-        when(userDaoMock.getById(User.class,1)).thenReturn(user1);
+        when(userDaoMock.getById(User.class, 1)).thenReturn(user1);
 
         //actual
         user1.setAuth(true);
@@ -187,7 +187,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testAuthorizeById_void(){
+    public void testAuthorizeById_void() {
 
         //expected
         boolean expected = true;
@@ -196,7 +196,7 @@ public class UserServiceTest {
         User user = new User();
         user.setId(1);
         user.setAuth(false);
-        when(userDaoMock.getById(User.class,user.getId())).thenReturn(user);
+        when(userDaoMock.getById(User.class, user.getId())).thenReturn(user);
 
         //actual
 
@@ -207,7 +207,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetAuthorizedUserId_returnsUserId(){
+    public void testGetAuthorizedUserId_returnsUserId() {
 
         //expected
         int expected = 1;

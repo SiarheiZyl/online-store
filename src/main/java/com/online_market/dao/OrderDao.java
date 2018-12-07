@@ -25,6 +25,6 @@ public interface OrderDao extends GenericDao<Order> {
 
     List<Order> getOrdersPerPageFilteredFromToDate(int pageId, int pageSize, Date fromDate, Date toDate);
 
-    List<Order> getHistoryOfOrdersPerPageFilteredFromToDate(int userId, int pageId, int  pageSize, Date fromDate, Date toDate);
+    List<Order> getHistoryOfOrdersPerPageFilteredFromToDate(int userId, int pageId, int pageSize, Date fromDate, Date toDate);
 
 }

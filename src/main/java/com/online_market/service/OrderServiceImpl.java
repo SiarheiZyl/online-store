@@ -29,25 +29,37 @@ import java.util.*;
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(OrderService.class);
 
-
+    /**
+     * Order dao bean
+     */
     private final OrderDao orderDao;
 
-
+    /**
+     * Item dao bean
+     */
     private final ItemDao itemDao;
 
-
+    /**
+     * User dao bean
+     */
     private final UserDao userDao;
 
-
+    /**
+     * Object which allows us send messages to JMS server
+     */
     private final JmsTemplate jmsTemplate;
 
     /**
      * Injecting constructor
-     * @param orderDao order DAO
-     * @param itemDao item DAO
-     * @param userDao user DAO
+     *
+     * @param orderDao    order DAO
+     * @param itemDao     item DAO
+     * @param userDao     user DAO
      * @param jmsTemplate jmsTemplate
      */
     @Autowired
@@ -58,7 +70,10 @@ public class OrderServiceImpl implements OrderService {
         this.jmsTemplate = jmsTemplate;
     }
 
-    List<Item> topItems = new ArrayList<>(10);
+    /**
+     * List of top items
+     */
+    private List<Item> topItems = new ArrayList<>(10);
 
     /**
      * Saving order
@@ -163,15 +178,13 @@ public class OrderServiceImpl implements OrderService {
             int quantity = item.getValue();
 
 
-            if(quantity<=item1.getAvailableCount()) {
+            if (quantity <= item1.getAvailableCount()) {
                 item1.setAvailableCount(item1.getAvailableCount() - quantity);
                 itemDao.updateQuantity(item1);
-            }
-            else{
+            } else {
                 updateQuantity(userId, item1.getItemId(), item1.getAvailableCount());
             }
         }
-
 
         order1.setDeliveryMethod(order.getDeliveryMethod());
         order1.setPaymentMethod(order.getPaymentMethod());
@@ -219,7 +232,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
     /**
      * Adding new items to all buckets
      *
@@ -232,7 +244,7 @@ public class OrderServiceImpl implements OrderService {
         Item newItem = itemDao.getById(Item.class, itemId);
 
         for (Order order : orders) {
-            if (order.getDeliveryMethod() == null && order.getPaymentMethod() == null){
+            if (order.getDeliveryMethod() == null && order.getPaymentMethod() == null) {
                 List<Item> items = order.getItems();
                 items.add(newItem);
                 order.setItems(items);
@@ -276,7 +288,6 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-
     /**
      * Removing item from bucket
      *
@@ -290,8 +301,6 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Removing item from bucket(called removeFromBucket(int itemId, int userId, int quantity))");
 
         Item item = itemDao.getById(Item.class, itemId);
-/*        item.setAvailableCount(item.getAvailableCount() + quantity);
-        itemDao.updateQuantity(item);*/
 
         if (userId != 0) {
             Order bucket = getBucketOrder(userId);
@@ -346,7 +355,6 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
-
     /**
      * Quantity of tracked orders
      *
@@ -361,7 +369,7 @@ public class OrderServiceImpl implements OrderService {
      * Quantity of tracked orders by period
      *
      * @param from from
-     * @param to to
+     * @param to   to
      * @return quantity of orders
      */
     @Override
@@ -372,9 +380,9 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Quantity of stored orders by period
      *
-     * @param userId user id
+     * @param userId   user id
      * @param fromDate from
-     * @param toDate to
+     * @param toDate   to
      * @return quantity of orders
      */
     @Override
@@ -393,7 +401,6 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrdersPerPage(int pageId, int total) {
         return orderDao.getOrdersPerPage(pageId, total);
     }
-
 
     /**
      * Filtering orders by date
@@ -455,6 +462,15 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    /**
+     * Getting history of orders per page
+     *
+     * @param userId   user id
+     * @param pageId   page id
+     * @param pageSize page size
+     * @return map where key is ${@link Order}
+     * and value is map where id is ${@link Item} and value is quantity
+     */
     @Override
     public Map<Order, Map<Item, Integer>> getHistoryOfOrdersPerPage(int userId, int pageId, int pageSize) {
 
@@ -464,12 +480,12 @@ public class OrderServiceImpl implements OrderService {
 
         List<Order> orders = getAllTrackedOrdersById(userId);
 
-        for (int i = pageSize*(pageId-1); i < pageSize*pageId ; i++) {
+        for (int i = pageSize * (pageId - 1); i < pageSize * pageId; i++) {
 
-            if(i>=orders.size())
+            if (i >= orders.size())
                 break;
             Map<Item, Integer> map = itemDao.getNotNullItemsInBucket(orders.get(i).getOrderId());
-            result.put(orders.get(i),map);
+            result.put(orders.get(i), map);
         }
 
         return result;
@@ -509,7 +525,6 @@ public class OrderServiceImpl implements OrderService {
 
         logger.info("Item was added to session");
     }
-
 
     /**
      * Adding item from session to bucket(for unauthorized users)
@@ -648,6 +663,10 @@ public class OrderServiceImpl implements OrderService {
         return incomeMap;
     }
 
+    /**
+     * Sending message to Jms server
+     * In order to notify second app to refresh top of items.
+     */
     @Override
     public void sendUpdateMessageToJms() {
 
@@ -658,6 +677,9 @@ public class OrderServiceImpl implements OrderService {
         });
     }
 
+    /**
+     * Updating top of items
+     */
     @Override
     public void updateTopItems() {
 
@@ -678,7 +700,11 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
+    /**
+     * Update quantity of items which are availible for user bucket
+     *
+     * @param userId user id
+     */
     @Override
     public void updateBucket(int userId) {
 
@@ -688,7 +714,7 @@ public class OrderServiceImpl implements OrderService {
         for (Map.Entry<Item, Integer> item : items.entrySet()) {
             Item item1 = item.getKey();
             int quantity = item.getValue();
-            if(quantity>item1.getAvailableCount()) {
+            if (quantity > item1.getAvailableCount()) {
                 updateQuantity(userId, item1.getItemId(), item1.getAvailableCount());
             }
         }

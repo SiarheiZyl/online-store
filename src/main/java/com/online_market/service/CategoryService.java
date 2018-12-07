@@ -16,7 +16,7 @@ public interface CategoryService {
 
     String save(String categName);
 
-    List<Category> getAllItemsWithIsShown(boolean isShown);
+    List<Category> getAllCategoriesWithIsShown(boolean isShown);
 
     void changeVisibilityOfCategory(String category);
 

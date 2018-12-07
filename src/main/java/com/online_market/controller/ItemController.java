@@ -31,17 +31,35 @@ import java.util.Set;
 @Controller
 public class ItemController {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(ItemController.class);
 
-    private final ItemService itemService;
-
+    /**
+     * User service object. See {@link com.online_market.service.UserServiceImpl}
+     */
     private final UserService userService;
 
+    /**
+     * Order service object. See {@link com.online_market.service.OrderServiceImpl}
+     */
     private final OrderService orderService;
 
-    private final ParamService paramService;
-
+    /**
+     * Category service object. See {@link com.online_market.service.CategoryServiceImpl}
+     */
     private final CategoryService categoryService;
+
+    /**
+     * Item service object. See {@link com.online_market.service.ItemServiceImpl}
+     */
+    private final ItemService itemService;
+
+    /**
+     * Param service object. See {@link com.online_market.service.ParamServiceImpl}
+     */
+    private final ParamService paramService;
 
     /**
      * Injecting constructor
@@ -88,7 +106,11 @@ public class ItemController {
             model.addAttribute("role", userService.getById(id).getRole());
             orderService.updateBucket(id);
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
+            logger.info("User with id: " + id + "visited catalog page.");
         } else {
+            logger.info("Unauthorized user visited catalog page.");
+
             Map<Item, Integer> itemMap = new HashMap<>();
             if (session.getAttribute("basket") == null)
                 session.setAttribute("basket", itemMap);
@@ -110,7 +132,7 @@ public class ItemController {
         else
             model.addAttribute("itemList", itemService.visibleItemListPerPage(pageId, pageSize));
 
-        model.addAttribute("categoryList", categoryService.getAllItemsWithIsShown(true));
+        model.addAttribute("categoryList", categoryService.getAllCategoriesWithIsShown(true));
 
         return "catalog";
     }
@@ -142,8 +164,12 @@ public class ItemController {
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
+            logger.info("User with id: " + id + "all items page.");
         } else {
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize((Map<Item, Integer>) session.getAttribute("basket")));
+
+            logger.info("Unauthorized user visited all items page.");
         }
 
         return "itemList";
@@ -186,8 +212,12 @@ public class ItemController {
             model.addAttribute("role", userService.getById(id).getRole());
             model.addAttribute("id", id);
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
+            logger.info("User with id: " + id + "visited page with filtered items.");
         } else {
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize((Map<Item, Integer>) session.getAttribute("basket")));
+
+            logger.info("Unauthorized user visited page with filtered items.");
         }
 
         return "itemList";
@@ -236,6 +266,8 @@ public class ItemController {
         if (id != 0) {
             model.addAttribute("role", userService.getById(id).getRole());
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
+            logger.info("User with id: " + id + "visited item page with id: " + itemId);
         }
 
         model.addAttribute("item", itemService.getById(itemId));
@@ -253,6 +285,8 @@ public class ItemController {
         if (id != 0) {
             model.addAttribute("role", userService.getById(id).getRole());
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
+            logger.info("User with id: " + id + "visited search page");
         }
 
         if (searchData == null) {

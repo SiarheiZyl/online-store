@@ -2,9 +2,6 @@ package com.online_market.dao;
 
 
 import com.online_market.entity.Item;
-import com.online_market.entity.Order;
-import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -22,8 +19,10 @@ import java.util.*;
 @Repository
 public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
 
-    final static Logger logger = Logger.getLogger(ItemDao.class);
-
+    /**
+     * SessionFactory exemplar through which we get
+     * sessions and perform database operations
+     */
     private final SessionFactory sessionFactory;
 
     /**
@@ -175,6 +174,12 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
         return list;
     }
 
+    /**
+     * Finding items by author
+     *
+     * @param author author
+     * @return list of {@link Item}
+     */
     @Override
     public List<Item> findItemsByAuthor(String author) {
 
@@ -184,6 +189,12 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
         return (List<Item>) query.getResultList();
     }
 
+    /**
+     * Finding items by country
+     *
+     * @param country country
+     * @return list of {@link Item}
+     */
     @Override
     public List<Item> findItemsByCountry(String country) {
 
@@ -193,6 +204,13 @@ public class ItemDaoImpl extends GenericDaoImpl<Item> implements ItemDao {
         return (List<Item>) query.getResultList();
     }
 
+
+    /**
+     * Finding items by name
+     *
+     * @param name name
+     * @return list of {@link Item}
+     */
     @Override
     public List<Item> findItemsByName(String name) {
 

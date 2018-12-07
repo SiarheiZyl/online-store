@@ -25,12 +25,19 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(RegistrationController.class);
 
+    /**
+     * User service object. See {@link com.online_market.service.UserServiceImpl}
+     */
     private final UserService userService;
 
     /**
      * Injecting constructor
+     *
      * @param userService user service
      */
     @Autowired
@@ -62,10 +69,12 @@ public class RegistrationController {
     @PostMapping("/registerProcess")
     public String addUser(@ModelAttribute("user") User user, Model model) {
 
-        if(!userService.isLoginUnique(user)){
+        if (!userService.isLoginUnique(user)) {
             model.addAttribute("LOGIN_MESSAGE", "This login is already taken by another user.");
             return "register";
         }
+
+        logger.info("Registration process started.");
 
         userService.register(user);
 

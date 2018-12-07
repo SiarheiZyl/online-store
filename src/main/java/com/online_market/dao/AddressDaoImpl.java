@@ -1,8 +1,6 @@
 package com.online_market.dao;
 
-
 import com.online_market.entity.Address;
-import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,8 +14,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AddressDaoImpl extends GenericDaoImpl<Address> implements AddressDao {
 
-    final static Logger logger = Logger.getLogger(AddressDao.class);
-
+    /**
+     * SessionFactory exemplar through which we get
+     * sessions and perform database operations
+     */
     private final SessionFactory sessionFactory;
 
     /**

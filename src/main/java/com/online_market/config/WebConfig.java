@@ -30,6 +30,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
      * Method register multipartResolver bean in spring context.
+     *
      * @return CommonsMultipartResolver. It used in application for uploading images
      */
     @Bean

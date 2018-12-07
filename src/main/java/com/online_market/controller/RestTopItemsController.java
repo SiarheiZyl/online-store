@@ -22,6 +22,9 @@ import java.util.*;
 @RequestMapping(value = "/advertising")
 public class RestTopItemsController {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     private static final Logger log = Logger.getLogger(RestTopItemsController.class);
 
     /**
@@ -30,12 +33,19 @@ public class RestTopItemsController {
      */
     private final Set<SseEmitter> emitters = Collections.synchronizedSet(new HashSet<>());
 
-    private final ItemService itemService;
-
+    /**
+     * Order service object. See {@link com.online_market.service.OrderServiceImpl}
+     */
     private final OrderService orderService;
 
     /**
+     * Item service object. See {@link com.online_market.service.ItemServiceImpl}
+     */
+    private final ItemService itemService;
+
+    /**
      * Injecting product service into this controller by spring tools.
+     *
      * @param itemService is our service which provide API to work with products and DB
      */
     @Autowired
@@ -48,13 +58,13 @@ public class RestTopItemsController {
      * By this URL we can take list of the top product in JSON format.
      * This method also call sendMessageToUpdate() to notify all browsers about changing
      * of top products list.
+     *
      * @return List of top products.
      */
     @RequestMapping(value = "/stand")
     public List<Map<String, String>> getStandInformation() {
 
         Map<Item, Integer> top = orderService.getTopItems();
-
 
         List<Map<String, String>> tops = new ArrayList<>();
         for (Map.Entry<Item, Integer> product : top.entrySet()) {
@@ -72,8 +82,7 @@ public class RestTopItemsController {
             }
         }, 10000);
 
-        //log
-        log.info("Someone has requested stand information. Application is returning list of top products.");
+        log.info("Request for advertising stand information. Application is returning list of top products.");
 
         return tops;
     }
@@ -86,6 +95,7 @@ public class RestTopItemsController {
      * messages in queue, it try to update tops by available URL (see {@link #getStandInformation}).
      * After that current application send notifications for all subscribers (browsers or something else)
      * to refresh their pages and to see updated top products.
+     *
      * @param response - no comments
      * @return new exemplar of emitter
      */
@@ -120,16 +130,15 @@ public class RestTopItemsController {
                     emitter.send("update");
                     emitter.complete();
                 } catch (Exception ignored) {
-                    //we should ignore this exception
-                    //because sometimes we have two similar connections to one user.
-                    //One of them complete(timeout), another is active.
-                    //After this catch block, completed exemplar will be removed.
+                    /*we should ignore this exception
+                    because sometimes we have two similar connections to one user.
+                    One of them complete(timeout), another is active.
+                    After this catch block, completed exemplar will be removed.*/
                 }
             }
         }
-        //log
+
         log.info("All stands have received message to reload page.");
 
     }
-
 }

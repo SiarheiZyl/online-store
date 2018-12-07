@@ -1,17 +1,13 @@
 package com.online_market.service;
 
-import com.online_market.dao.ItemDao;
 import com.online_market.dao.UserDao;
 import com.online_market.entity.User;
 import com.online_market.utils.HashPasswordUtil;
-import com.online_market.utils.MD5Util;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 /**
@@ -24,9 +20,14 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(UserService.class);
 
-
+    /**
+     * User dao bean
+     */
     private final UserDao userDao;
 
     /**
@@ -74,15 +75,15 @@ public class UserServiceImpl implements UserService {
         logger.info("Updating user(called saveOrUpdate(User user))");
 
         User user_for_update = getById(user.getId());
-        if(user.getFirstName()==null || user.getFirstName().equals(""))
+        if (user.getFirstName() == null || user.getFirstName().equals(""))
             user.setFirstName(user_for_update.getFirstName());
-        if(user.getLastName()==null || user.getLastName().equals(""))
+        if (user.getLastName() == null || user.getLastName().equals(""))
             user.setLastName(user_for_update.getLastName());
-        if(user.getLogin()==null || user.getLogin().equals(""))
+        if (user.getLogin() == null || user.getLogin().equals(""))
             user.setLogin(user_for_update.getLogin());
-        if(user.getEmail()==null || user.getEmail().equals(""))
+        if (user.getEmail() == null || user.getEmail().equals(""))
             user.setEmail(user_for_update.getEmail());
-        if(user.getBirthdate()==null)
+        if (user.getBirthdate() == null)
             user.setBirthdate(user_for_update.getBirthdate());
         if (user.getAddress() == null)
             user.setAddress(user_for_update.getAddress());
@@ -185,7 +186,6 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Method for chech if login is unique

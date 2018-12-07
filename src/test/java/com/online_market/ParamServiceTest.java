@@ -19,6 +19,7 @@ import java.util.Set;
 
 /**
  * Class for testing ${@link com.online_market.entity.Param}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -31,13 +32,13 @@ public class ParamServiceTest {
     ParamServiceImpl paramService;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testGetAllCountries_returnsSetOfCountries(){
+    public void testGetAllCountries_returnsSetOfCountries() {
 
         //expected
         Set<String> expected = new HashSet<>();
@@ -55,7 +56,7 @@ public class ParamServiceTest {
     }
 
     @Test
-    public void testGetAllAuthors_returnsSetOfCountries(){
+    public void testGetAllAuthors_returnsSetOfCountries() {
 
         //expected
         Set<String> expected = new HashSet<>();

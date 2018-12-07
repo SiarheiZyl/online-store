@@ -30,19 +30,32 @@ import java.util.Map;
 @RequestMapping("/")
 public class BucketController {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(BucketController.class);
 
-    private final OrderService orderService;
-
-    private final ItemService itemService;
-
+    /**
+     * User service object. See {@link com.online_market.service.UserServiceImpl}
+     */
     private final UserService userService;
 
     /**
+     * Order service object. See {@link com.online_market.service.OrderServiceImpl}
+     */
+    private final OrderService orderService;
+
+    /**
+     * Item service object. See {@link com.online_market.service.ItemServiceImpl}
+     */
+    private final ItemService itemService;
+
+    /**
      * Injecting constructor
-     * @param userService user service
+     *
+     * @param userService  user service
      * @param orderService order service
-     * @param itemService item service
+     * @param itemService  item service
      */
     @Autowired
     public BucketController(OrderService orderService, ItemService itemService, UserService userService) {
@@ -71,6 +84,9 @@ public class BucketController {
 
         int id = userService.getAuthorizedUserId();
         if (id != 0 && userService.getById(id).isAuth()) {
+
+            logger.info("User with id: " + id + "visited bucket page.");
+
             Order bucket = orderService.getBucketOrder(id);
 
             Order order = orderService.getBucketOrder(id) == null ? new Order() : orderService.getBucketOrder(id);
@@ -83,6 +99,8 @@ public class BucketController {
             model.addAttribute("itemMap", itemService.getOrderNotNullItems(order.getOrderId()));
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
         } else {
+            logger.info("Unauthorized visited bucket page.");
+
             model.addAttribute("order", new Order());
             model.addAttribute("itemMap", session.getAttribute("basket"));
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize((Map<Item, Integer>) session.getAttribute("basket")));
@@ -104,11 +122,15 @@ public class BucketController {
 
         int id = userService.getAuthorizedUserId();
 
-        if(itemService.getById(itemId).getAvailableCount() == 0 )
-            return -1+"";
-        if (id != 0)
+        if (itemService.getById(itemId).getAvailableCount() == 0)
+            return -1 + "";
+        if (id != 0) {
+            logger.info("User with id: " + id + "trying to add item to bucket.");
+
             orderService.addToBucket(itemId, id);
-        else {
+        } else {
+            logger.info("Unauthorized user trying to add item to bucket.");
+
             orderService.addItemToSession(itemId, session);
         }
 
@@ -130,8 +152,11 @@ public class BucketController {
 
         orderService.removeFromBucket(itemId, id, quantity);
         if (id != 0) {
+            logger.info("User with id: " + id + "trying to remove item from bucket.");
+
             orderService.updateQuantity(id, itemId, 0);
         } else {
+            logger.info("Unauthorized user trying  to remove item from  bucket.");
 
             Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
             itemMap.remove(itemService.getById(itemId));
@@ -151,6 +176,8 @@ public class BucketController {
         int id = userService.getAuthorizedUserId();
         if (order.getPaymentMethod() == null || order.getDeliveryMethod() == null)
             return "redirect:/bucket";
+
+        logger.info("User with id: " + id + "trying to save bucket to orders.");
 
         orderService.saveBucketToOrders(order, id);
 

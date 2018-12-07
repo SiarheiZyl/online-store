@@ -1,6 +1,5 @@
 package com.online_market.controller;
 
-import com.online_market.entity.Item;
 import com.online_market.entity.Order;
 import com.online_market.entity.enums.*;
 import com.online_market.service.CategoryService;
@@ -9,7 +8,6 @@ import com.online_market.service.OrderService;
 import com.online_market.service.UserService;
 import com.online_market.utils.ImageUtil;
 import org.apache.log4j.Logger;
-import org.apache.taglibs.standard.extra.spath.SPathTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -21,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -34,22 +31,38 @@ import java.util.Map;
 @RequestMapping("/")
 public class AdminController {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(AdminController.class);
 
+    /**
+     * User service object. See {@link com.online_market.service.UserServiceImpl}
+     */
     private final UserService userService;
 
+    /**
+     * Order service object. See {@link com.online_market.service.OrderServiceImpl}
+     */
     private final OrderService orderService;
 
+    /**
+     * Category service object. See {@link com.online_market.service.CategoryServiceImpl}
+     */
     private final CategoryService categoryService;
 
+    /**
+     * Item service object. See {@link com.online_market.service.ItemServiceImpl}
+     */
     private final ItemService itemService;
 
     /**
      * Injecting constructor
-     * @param userService user service
-     * @param orderService order service
+     *
+     * @param userService     user service
+     * @param orderService    order service
      * @param categoryService category service
-     * @param itemService item service
+     * @param itemService     item service
      */
     @Autowired
     public AdminController(UserService userService, OrderService orderService, CategoryService categoryService, ItemService itemService) {
@@ -123,6 +136,8 @@ public class AdminController {
 
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
+            logger.info("User with id: " + id + "visited editOrders page.");
+
             return "editOrders";
         } else {
             return "redirect:/login";
@@ -150,6 +165,8 @@ public class AdminController {
 
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
+            logger.info("User with id: " + id + "visited statistics page.");
+
             return "statisticsForAdmin";
         } else {
             return "redirect:/login";
@@ -172,17 +189,16 @@ public class AdminController {
     @ResponseBody
     public String updateItem(@RequestParam("itemId") int itemId, @RequestParam("itemName") String itemName, @RequestParam("category") String category, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("availableCount") int availableCount, @RequestParam("price") String price, @RequestParam(value = "image", required = false) MultipartFile image) {
 
-
         itemService.update(itemId, itemName, category, author, country, height, width, availableCount, Double.parseDouble(price));
         try {
             orderService.sendUpdateMessageToJms();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error while sending update message to JMS");
         }
 
         if (image != null) {
             ImageUtil.createImagesDirectoryIfNeeded();
-            ImageUtil.uploadImage(itemId+"", image);
+            ImageUtil.uploadImage(itemId + "", image);
         }
 
         return "";
@@ -237,8 +253,10 @@ public class AdminController {
 
             model.addAttribute("listCategories", categoryService.listCategories());
 
-            model.addAttribute("visibleCategories", categoryService.getAllItemsWithIsShown(true));
-            model.addAttribute("invisibleCategories", categoryService.getAllItemsWithIsShown(false));
+            model.addAttribute("visibleCategories", categoryService.getAllCategoriesWithIsShown(true));
+            model.addAttribute("invisibleCategories", categoryService.getAllCategoriesWithIsShown(false));
+
+            logger.info("User with id: " + id + "visited editCategories page.");
 
             return "editCategories";
         } else {
@@ -278,12 +296,12 @@ public class AdminController {
     @ResponseBody
     public void addNewItem(@RequestParam("itemName") String itemName, @RequestParam("itemCateg") String itemCateg, @RequestParam("author") String author, @RequestParam("country") String country, @RequestParam("height") int height, @RequestParam("width") int width, @RequestParam("avalCount") int avalCount, @RequestParam("price") int price, @RequestParam("image") MultipartFile image) {
 
-        int id =  itemService.addNewItem(itemName, avalCount, price, itemCateg, author, country, height, width);
+        int id = itemService.addNewItem(itemName, avalCount, price, itemCateg, author, country, height, width);
         orderService.addNewItemToBucket(id);
 
         if (!image.isEmpty()) {
             ImageUtil.createImagesDirectoryIfNeeded();
-            ImageUtil.uploadImage(id+"", image);
+            ImageUtil.uploadImage(id + "", image);
         }
     }
 
@@ -295,7 +313,7 @@ public class AdminController {
      */
     @GetMapping("/changeVisibilityOfItem")
     @ResponseBody
-    public void changeVisibilityOfItem(@RequestParam("itId") int itemId){
+    public void changeVisibilityOfItem(@RequestParam("itId") int itemId) {
 
         itemService.changeVisibilityOfItem(itemId);
     }
@@ -308,7 +326,7 @@ public class AdminController {
      */
     @GetMapping("/changeVisibilityOfCategory")
     @ResponseBody
-    public void changeVisibilityOfCategory(@RequestParam("categName") String category){
+    public void changeVisibilityOfCategory(@RequestParam("categName") String category) {
 
         if (category != null || !category.equals("")) {
             categoryService.changeVisibilityOfCategory(category);

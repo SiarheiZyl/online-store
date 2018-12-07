@@ -1,9 +1,6 @@
 package com.online_market.dao;
 
 import com.online_market.entity.Order;
-import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +19,10 @@ import java.util.List;
 @Repository
 public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
 
-    final static Logger logger = Logger.getLogger(OrderDao.class);
-
+    /**
+     * SessionFactory exemplar through which we get
+     * sessions and perform database operations
+     */
     private final SessionFactory sessionFactory;
 
     /**
@@ -70,10 +69,10 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
      * Size of list of tracked orders filtered by date
      *
      * @param from from date
-     * @param to to date
+     * @param to   to date
      * @return size
      */
-    public long sizeOfTrackedOrdersFilteredByDate(Date from, Date to){
+    public long sizeOfTrackedOrdersFilteredByDate(Date from, Date to) {
 
         java.sql.Date fromDate = new java.sql.Date(from.getTime());
         java.sql.Date toDate = new java.sql.Date(to.getTime());
@@ -88,8 +87,8 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
      * Quantity of stored orders by period
      *
      * @param userId user id
-     * @param from from
-     * @param to to
+     * @param from   from
+     * @param to     to
      * @return quantity of orders
      */
     @Override
@@ -137,10 +136,10 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
     /**
      * Getting orders for pagination filtered by date
      *
-     * @param pageId page id
+     * @param pageId   page id
      * @param pageSize page size
      * @param fromDate from
-     * @param toDate to
+     * @param toDate   to
      * @return @return list of ${@link Order}
      */
     @Override
@@ -151,7 +150,7 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
 
         Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Order as order where order.paymentMethod is not null and order.deliveryMethod is not null and order.date BETWEEN :stDate AND :edDate").setParameter("stDate", from).setParameter("edDate", to);
 
-        selectQuery.setFirstResult((pageId-1)*pageSize);
+        selectQuery.setFirstResult((pageId - 1) * pageSize);
         selectQuery.setMaxResults(pageSize);
 
         List<Order> list = selectQuery.list();
@@ -160,6 +159,15 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
         return list;
     }
 
+    /**
+     * Getting history of orders for pagination filtered by date
+     *
+     * @param pageId   page id
+     * @param pageSize page size
+     * @param fromDate from
+     * @param toDate   to
+     * @return @return list of ${@link Order}
+     */
     @Override
     public List<Order> getHistoryOfOrdersPerPageFilteredFromToDate(int userId, int pageId, int pageSize, Date fromDate, Date toDate) {
 
@@ -168,7 +176,7 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao {
 
         Query selectQuery = sessionFactory.getCurrentSession().createQuery("From Order as order where order.paymentMethod is not null and order.deliveryMethod is not null and order.user.id = :userId and order.date BETWEEN :stDate AND :edDate").setParameter("userId", userId).setParameter("stDate", from).setParameter("edDate", to);
 
-        selectQuery.setFirstResult((pageId-1)*pageSize);
+        selectQuery.setFirstResult((pageId - 1) * pageSize);
         selectQuery.setMaxResults(pageSize);
 
         List<Order> list = selectQuery.list();

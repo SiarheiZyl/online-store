@@ -11,6 +11,7 @@ import java.security.*;
  * @version 1.0
  */
 public class MD5Util {
+
     public static String hex(byte[] array) {
 
         StringBuffer sb = new StringBuffer();
@@ -33,9 +34,5 @@ public class MD5Util {
         }
 
         return null;
-    }
-
-    public static boolean check(String message, String storedMessage){
-        return storedMessage.equals(md5Hex(message));
     }
 }

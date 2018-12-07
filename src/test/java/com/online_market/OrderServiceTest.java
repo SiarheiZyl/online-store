@@ -23,6 +23,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Class for testing ${@link com.online_market.service.OrderServiceImpl}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -44,13 +45,13 @@ public class OrderServiceTest {
     private UserServiceImpl userService;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testSaveOrder_void(){
+    public void testSaveOrder_void() {
 
         orderService.save(new Order());
 
@@ -58,7 +59,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testGetOrderById_returnsOrder(){
+    public void testGetOrderById_returnsOrder() {
 
         //expected
         int orderId = 8;
@@ -66,7 +67,7 @@ public class OrderServiceTest {
         expected.setOrderId(orderId);
 
         //mock
-        when(orderDaoMock.getById(Order.class,orderId)).thenReturn(expected);
+        when(orderDaoMock.getById(Order.class, orderId)).thenReturn(expected);
 
         //actual
         Order actual = orderService.getById(orderId);
@@ -76,7 +77,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testUpdateOrder_void(){
+    public void testUpdateOrder_void() {
 
         orderService.update(new Order());
 
@@ -84,7 +85,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testListOfUserOrders_returnsListOfOrders(){
+    public void testListOfUserOrders_returnsListOfOrders() {
 
         //expected
         Order order = new Order();
@@ -105,7 +106,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testGetUserBucket_returnsBucketOrder(){
+    public void testGetUserBucket_returnsBucketOrder() {
 
         //data
         List<Order> orders = new ArrayList<>();
@@ -131,23 +132,23 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testSaveBucketToOrders_void(){
+    public void testSaveBucketToOrders_void() {
 
         int userId = 1;
 
-        when(userDaoMock.getById(User.class,userId)).thenReturn(new User());
+        when(userDaoMock.getById(User.class, userId)).thenReturn(new User());
 
         orderService.saveBucketToOrders(new Order(), userId);
 
         verify(itemDaoMock).getAll("Item");
 
-        verify(userDaoMock).getById(User.class,userId);
+        verify(userDaoMock).getById(User.class, userId);
 
         verify(orderDaoMock).userOrderList(userId);
     }
 
     @Test
-    public void testAddItemToBucket_void(){
+    public void testAddItemToBucket_void() {
 
         int itemId = 1;
         int avalCount = 5;
@@ -161,19 +162,19 @@ public class OrderServiceTest {
         item.setItemId(itemId);
         item.setAvailableCount(avalCount);
 
-        when(userDaoMock.getById(User.class,userId)).thenReturn(user);
+        when(userDaoMock.getById(User.class, userId)).thenReturn(user);
 
-        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(item);
+        when(itemDaoMock.getById(Item.class, itemId)).thenReturn(item);
 
         orderService.addToBucket(itemId, userId);
 
         verify(itemDaoMock).updateQuantity(item);
 
-        verify(userDaoMock, times(3)).getById(User.class,userId);
+        verify(userDaoMock, times(3)).getById(User.class, userId);
     }
 
     @Test
-    public void testUpdateQuantity_void(){
+    public void testUpdateQuantity_void() {
 
         int userId = 1;
         int itemId = 1;
@@ -193,9 +194,9 @@ public class OrderServiceTest {
         List<Order> list = new ArrayList<>();
         list.add(order);
 
-        when(userDaoMock.getById(User.class,userId)).thenReturn(user);
+        when(userDaoMock.getById(User.class, userId)).thenReturn(user);
 
-        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(item);
+        when(itemDaoMock.getById(Item.class, itemId)).thenReturn(item);
 
         when(orderDaoMock.userOrderList(userId)).thenReturn(list);
 
@@ -205,7 +206,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testSetQuantity_void(){
+    public void testSetQuantity_void() {
 
         int itemId = 1;
         int orderId = 1;
@@ -221,7 +222,7 @@ public class OrderServiceTest {
         List<Order> list = new ArrayList<>();
         list.add(order);
 
-        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(item);
+        when(itemDaoMock.getById(Item.class, itemId)).thenReturn(item);
 
         orderService.setQuantity(orderId, itemId, quantity);
 
@@ -240,7 +241,7 @@ public class OrderServiceTest {
         item.setItemId(itemId);
 
 
-        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(item);
+        when(itemDaoMock.getById(Item.class, itemId)).thenReturn(item);
 
         orderService.removeFromBucket(itemId, userId, quantity);
 
@@ -248,7 +249,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testGetAllTrackedOrders_returnsListOfOrder(){
+    public void testGetAllTrackedOrders_returnsListOfOrder() {
 
         //data
         Order order1 = new Order();
@@ -301,7 +302,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void testGetAllTrackedOrdersByUserId_returnsListOfOrder(){
+    public void testGetAllTrackedOrdersByUserId_returnsListOfOrder() {
 
         //data
         User user1 = new User();

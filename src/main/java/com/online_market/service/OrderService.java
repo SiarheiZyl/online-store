@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Service interface for ${@link Order}
@@ -58,7 +57,7 @@ public interface OrderService {
 
     Map<Order, Map<Item, Integer>> getHistoryOfOrdersPerPage(int userId, int pageId, int pageSize);
 
-    Map<Order, Map<Item, Integer>> getHistoryOfOrdersPerPageFilteredFromToDate(int userId, int pageId, int  pageSize, Date fromDate, Date toDate);
+    Map<Order, Map<Item, Integer>> getHistoryOfOrdersPerPageFilteredFromToDate(int userId, int pageId, int pageSize, Date fromDate, Date toDate);
 
     void repeatOrder(Order repeatedOrder, int orderId);
 

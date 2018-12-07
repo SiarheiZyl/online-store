@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Class for testing ${@link com.online_market.service.ItemServiceImpl}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -43,13 +44,13 @@ public class ItemServiceTest {
     private ItemServiceImpl itemService;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testItemList_returnsListOfItems(){
+    public void testItemList_returnsListOfItems() {
 
         //expected
         List<Item> expected = new ArrayList<>();
@@ -67,7 +68,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testGetItemById_returnsItem(){
+    public void testGetItemById_returnsItem() {
 
         //expected
         int itemId = 1;
@@ -75,7 +76,7 @@ public class ItemServiceTest {
         expected.setItemId(itemId);
 
         //mock
-        when(itemDaoMock.getById(Item.class,itemId)).thenReturn(expected);
+        when(itemDaoMock.getById(Item.class, itemId)).thenReturn(expected);
 
         //actual
         Item actual = itemService.getById(itemId);
@@ -85,7 +86,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testUpdateItem_void(){
+    public void testUpdateItem_void() {
 
         itemService.updateQuantity(new Item());
 
@@ -93,7 +94,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testAddNewItem_void(){
+    public void testAddNewItem_void() {
 
         //data
         String name = "name";
@@ -120,7 +121,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testGetOrderNotNullItems_returnsMap(){
+    public void testGetOrderNotNullItems_returnsMap() {
 
         //expected
         int orderId = 1;
@@ -140,7 +141,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testFilterItemsByAuthor_returnsListOfItems(){
+    public void testFilterItemsByAuthor_returnsListOfItems() {
 
         //data
         List<Item> list = new ArrayList<>();
@@ -184,7 +185,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testFilterItemsByCountry_returnsListOfItems(){
+    public void testFilterItemsByCountry_returnsListOfItems() {
 
         //data
         List<Item> list = new ArrayList<>();
@@ -228,7 +229,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testFilterItemsByMaxHeight_returnsListOfItems(){
+    public void testFilterItemsByMaxHeight_returnsListOfItems() {
 
         //data
         List<Item> list = new ArrayList<>();
@@ -272,7 +273,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testFilterItemsByMaxWidth_returnsListOfItems(){
+    public void testFilterItemsByMaxWidth_returnsListOfItems() {
 
         //data
         List<Item> list = new ArrayList<>();
@@ -316,7 +317,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testFilterItemsByAllParams_returnsListOfItems(){
+    public void testFilterItemsByAllParams_returnsListOfItems() {
 
         //data
         List<Item> list = new ArrayList<>();
@@ -395,7 +396,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testFilterItemsByCategory_returnsListOfItems(){
+    public void testFilterItemsByCategory_returnsListOfItems() {
 
         //data
         Category category1 = new Category();

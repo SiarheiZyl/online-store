@@ -22,12 +22,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/")
 public class LoginController {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(LoginController.class);
 
+    /**
+     * User service object. See {@link com.online_market.service.UserServiceImpl}
+     */
     private final UserService userService;
 
     /**
      * Injecting constructor
+     *
      * @param userService user service
      */
     @Autowired
@@ -45,6 +52,7 @@ public class LoginController {
     public String loginPage(Model model) {
 
         logger.info("Logging page");
+
         userService.logout();
         model.addAttribute("user", new User());
 

@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Class for testing ${@link com.online_market.service.AddressServiceImpl}
+ *
  * @author Siarhei
  * @version 1.0
  */
@@ -30,13 +31,13 @@ public class AddressServiceTest {
     private AddressServiceImpl addressService;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void TestSaveAddress_void(){
+    public void TestSaveAddress_void() {
 
         addressService.save(new Address());
 
@@ -44,7 +45,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    public void TestUpdateAddress_void(){
+    public void TestUpdateAddress_void() {
 
         addressService.save(new Address());
 
@@ -52,14 +53,14 @@ public class AddressServiceTest {
     }
 
     @Test
-    public void testGettingAddressById_returnsUser(){
+    public void testGettingAddressById_returnsUser() {
 
         //expected
         int id = 8;
         Address expected = new Address();
         expected.setAddressId(id);
         //mock
-        when(addressDaoMock.getById(Address.class,id)).thenReturn(expected);
+        when(addressDaoMock.getById(Address.class, id)).thenReturn(expected);
 
         //call
         Address actual = addressService.getById(id);
@@ -70,13 +71,13 @@ public class AddressServiceTest {
 
 
     @Test
-    public void testGettingUserById_returnsNullUser(){
+    public void testGettingUserById_returnsNullUser() {
 
         //expected
         int id = 1;
         Address expected = null;
         //mock
-        when(addressDaoMock.getById(Address.class,id)).thenReturn(expected);
+        when(addressDaoMock.getById(Address.class, id)).thenReturn(expected);
 
         //call
         Address actual = addressService.getById(id);

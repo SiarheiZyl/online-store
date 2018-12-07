@@ -24,18 +24,31 @@ import java.util.*;
 @Transactional
 public class ItemServiceImpl implements ItemService {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(ItemService.class);
 
+    /**
+     * Item dao bean
+     */
     private final ItemDao itemDao;
 
+    /**
+     * Param dao bean
+     */
     private final ParamDao paramDao;
 
+    /**
+     * Category dao bean
+     */
     private final CategoryDao categoryDao;
 
     /**
      * Injecting constructor
-     * @param itemDao item DAO
-     * @param paramDao param DAO
+     *
+     * @param itemDao     item DAO
+     * @param paramDao    param DAO
      * @param categoryDao category DAO
      */
     @Autowired
@@ -81,7 +94,6 @@ public class ItemServiceImpl implements ItemService {
 
         return itemDao.getById(Item.class, id);
     }
-
 
     /**
      * Updating existing item
@@ -175,7 +187,7 @@ public class ItemServiceImpl implements ItemService {
 
         logger.info("Item was saved");
 
-        return  item.getItemId();
+        return item.getItemId();
     }
 
     /**
@@ -342,9 +354,9 @@ public class ItemServiceImpl implements ItemService {
 
         List<Item> result = new ArrayList<>();
 
-        if (category.equals("ALL")){
+        if (category.equals("ALL")) {
             for (Item item : items) {
-                if(item.isShown())
+                if (item.isShown())
                     result.add(item);
             }
 
@@ -358,7 +370,6 @@ public class ItemServiceImpl implements ItemService {
 
         return result;
     }
-
 
     /**
      * Getting items per page
@@ -384,7 +395,6 @@ public class ItemServiceImpl implements ItemService {
         return itemDao.visibleItemListPerPage(pageId, pageSize);
     }
 
-
     /**
      * Getting summary quantity of items in Order
      *
@@ -403,7 +413,6 @@ public class ItemServiceImpl implements ItemService {
         return sum;
     }
 
-
     /**
      * This function is used to find items by key word
      *
@@ -412,6 +421,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Set<Item> search(String searchString) {
+
         Set<Item> result = new HashSet<>();
 
         result.addAll(getFilteredItemsByCategory(itemList(), searchString));

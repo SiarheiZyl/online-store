@@ -18,7 +18,7 @@ import java.io.*;
 public class ImageUtil {
 
     /**
-     * Apache log4j object is used to logging all important info.
+     * Apache log4j object is used to log all important info
      */
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ImageUtil.class);
 
@@ -73,12 +73,13 @@ public class ImageUtil {
 
     /**
      * Method saves some file into images folder(it is assumed the this will be a picture)
+     *
      * @param name - Future name of the saving file
      * @param file - Directly, the file itself
      */
     public static void uploadImage(String name, MultipartFile file) {
         File image = new File(IMAGES_DIR_ABSOLUTE_PATH + name);
-        try(BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(image))) {
+        try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(image))) {
             stream.write(file.getBytes());
             stream.close();
         } catch (Exception e) {
@@ -92,21 +93,28 @@ public class ImageUtil {
         }
     }
 
+    /**
+     * Saving image in medium and small formats
+     *
+     * @param file image
+     * @param name name
+     * @throws IOException
+     */
     private static void saveScaledImages(MultipartFile file, String name) throws IOException {
         InputStream in = new ByteArrayInputStream(file.getBytes());
-        BufferedImage image =  ImageIO.read(in);
+        BufferedImage image = ImageIO.read(in);
 
         int height = image.getHeight();
         int width = image.getWidth();
 
-        double scaleSmall = SMALL_SIZE/(double)width;
-        double scaleMedium = MEDIUM_SIZE/(double)width;
+        double scaleSmall = SMALL_SIZE / (double) width;
+        double scaleMedium = MEDIUM_SIZE / (double) width;
 
-        int smallWidth = (int)(width*scaleSmall);
-        int smallHeight = (int)(height*scaleSmall);
+        int smallWidth = (int) (width * scaleSmall);
+        int smallHeight = (int) (height * scaleSmall);
 
-        int mediumWidth = (int)(width*scaleMedium);
-        int mediumHeight = (int)(height*scaleMedium);
+        int mediumWidth = (int) (width * scaleMedium);
+        int mediumHeight = (int) (height * scaleMedium);
 
         BufferedImage smallImage = new BufferedImage(smallWidth, smallHeight, BufferedImage.TYPE_INT_RGB);
 
@@ -140,6 +148,7 @@ public class ImageUtil {
 
     /**
      * Method give absolute path to the image folder
+     *
      * @return path to the folder.
      */
     public static String getImagesDirectoryAbsolutePath() {

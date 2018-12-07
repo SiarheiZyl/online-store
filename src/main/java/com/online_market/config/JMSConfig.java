@@ -25,13 +25,20 @@ public class JMSConfig {
      */
     private static final String BROKER_URL = "tcp://localhost:61616";
 
+    /**
+     * Default username
+     */
     private static final String BROKER_USERNAME = "admin";
 
+    /**
+     * Default password
+     */
     private static final String BROKER_PASSWORD = "admin";
 
     /**
-     * Method register ActiveMQConnectionFactory in spring context.
-     * It provide a possibility to send messages to ActiveMQ server.
+     * Method registers ActiveMQConnectionFactory in spring context.
+     * By this method app may to send messages to ActiveMQ server.
+     *
      * @return ActiveMQConnectionFactory
      */
     @Bean
@@ -45,9 +52,10 @@ public class JMSConfig {
     }
 
     /**
-     * Method register jmsTemplate in spring context.
+     * Method registers jmsTemplate in spring context.
      * It uses connectionFactory we defined above and give us simple API
      * for sending messages.
+     *
      * @return JmsTemplate
      */
     @Bean
@@ -60,6 +68,7 @@ public class JMSConfig {
 
     /**
      * Method registers jmsListenerContainerFactory in spring context.
+     *
      * @return DefaultJmsListenerContainerFactory
      */
     @Bean

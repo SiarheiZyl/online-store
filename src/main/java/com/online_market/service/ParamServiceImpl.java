@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 /**
  * Class implementing ${@link ParamService}
@@ -21,9 +19,15 @@ import java.util.stream.Collectors;
 @Transactional
 public class ParamServiceImpl implements ParamService {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(ParamService.class);
 
 
+    /**
+     * Param dao bean
+     */
     private final ParamDao paramDao;
 
     /**
@@ -47,7 +51,6 @@ public class ParamServiceImpl implements ParamService {
 
         return new TreeSet<>(paramDao.getAllAuthors());
     }
-
 
     /**
      * Getting all countries

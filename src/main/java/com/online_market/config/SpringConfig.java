@@ -76,7 +76,6 @@ public class SpringConfig {
         return properties;
     }
 
-
     @Bean
     public ViewResolver viewResolver() {
 

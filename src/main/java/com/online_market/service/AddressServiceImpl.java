@@ -1,7 +1,6 @@
 package com.online_market.service;
 
 import com.online_market.dao.AddressDao;
-import com.online_market.dao.ItemDaoImpl;
 import com.online_market.entity.Address;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AddressServiceImpl implements AddressService {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(AddressService.class);
 
+    /**
+     * Address dao bean
+     */
     private final AddressDao addressDao;
 
     /**
      * Injecting constructor
+     *
      * @param addressDao address DAO
      */
     @Autowired
@@ -72,6 +78,6 @@ public class AddressServiceImpl implements AddressService {
 
         logger.info("Getting address by id(called getById(int id))");
 
-        return addressDao.getById(Address.class,id);
+        return addressDao.getById(Address.class, id);
     }
 }

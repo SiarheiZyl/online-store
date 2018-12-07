@@ -22,14 +22,24 @@ import java.util.List;
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(CategoryService.class);
 
+    /**
+     * Category dao bean
+     */
     private final CategoryDao categoryDao;
 
+    /**
+     * Item dao bean
+     */
     private final ItemDao itemDao;
 
     /**
      * Injecting constructor
+     *
      * @param categoryDao category DAO
      */
     @Autowired
@@ -78,24 +88,29 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * Finding all category depends on isShown
+     * Finding all categories depends on isShown
      *
      * @return list of ${@link Category}
      */
-    public List<Category> getAllItemsWithIsShown(boolean isShown){
+    public List<Category> getAllCategoriesWithIsShown(boolean isShown) {
 
-        List<Category> list  = categoryDao.getAllItemsWithIsShown(isShown);
+        List<Category> list = categoryDao.getAllItemsWithIsShown(isShown);
 
         list.sort(Comparator.comparing(Category::getCategoryName));
 
         return list;
     }
 
+
+    /**
+     * Change field "isShown"
+     *
+     * @param category category name
+     */
     @Override
     public void changeVisibilityOfCategory(String category) {
 
-        Category category1  = categoryDao.findByName(category);
-
+        Category category1 = categoryDao.findByName(category);
 
         category1.setShown(!category1.isShown());
 
@@ -103,13 +118,19 @@ public class CategoryServiceImpl implements CategoryService {
 
         boolean isShown = category1.isShown();
         for (Item item : itemDao.getAll("Item")) {
-            if (item.getCategory().getCategoryName().toLowerCase().equals(category.toLowerCase())){
+            if (item.getCategory().getCategoryName().toLowerCase().equals(category.toLowerCase())) {
                 item.setShown(isShown);
                 itemDao.update(item);
             }
         }
     }
 
+    /**
+     * Finding category by name
+     *
+     * @param name name
+     * @return see {@link Category}
+     */
     @Override
     public Category findByName(String name) {
         return categoryDao.findByName(name);

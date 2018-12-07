@@ -2,15 +2,11 @@ package com.online_market.dao;
 
 import com.online_market.entity.User;
 import com.online_market.utils.HashPasswordUtil;
-import com.online_market.utils.MD5Util;
-import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 /**
@@ -22,8 +18,10 @@ import java.util.List;
 @Repository
 public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
 
-    final static Logger logger = Logger.getLogger(UserDao.class);
-
+    /**
+     * SessionFactory exemplar through which we get
+     * sessions and perform database operations
+     */
     private final SessionFactory sessionFactory;
 
     /**
@@ -42,16 +40,16 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
      * @return null if there is no user in DB otherwise ${@link User}
      */
     @Override
-    public User validate(String username, String password)  {
+    public User validate(String username, String password) {
 
         User userForValidation = getUserByLogin(username);
 
-        if(userForValidation == null)
+        if (userForValidation == null)
             return null;
 
         try {
-           if( HashPasswordUtil.check(password, userForValidation.getPassword()))
-               return userForValidation;
+            if (HashPasswordUtil.check(password, userForValidation.getPassword()))
+                return userForValidation;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,6 +98,6 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
         query.setParameter("login", login);
         List list = query.list();
 
-        return list.size()==0 ? null : (User)list.get(0);
+        return list.size() == 0 ? null : (User) list.get(0);
     }
 }

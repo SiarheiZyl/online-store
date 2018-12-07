@@ -25,22 +25,38 @@ import java.util.List;
 @RequestMapping("/")
 public class UserController {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(UserController.class);
 
+    /**
+     * User service object. See {@link com.online_market.service.UserServiceImpl}
+     */
     private final UserService userService;
 
-    private final AddressService addressService;
-
-    private final ItemService itemService;
-
+    /**
+     * Order service object. See {@link com.online_market.service.OrderServiceImpl}
+     */
     private final OrderService orderService;
 
     /**
+     * Item service object. See {@link com.online_market.service.ItemServiceImpl}
+     */
+    private final ItemService itemService;
+
+    /**
+     * Address service object. See {@link com.online_market.service.AddressServiceImpl}
+     */
+    private final AddressService addressService;
+
+    /**
      * Injecting constructor
-     * @param userService user service
+     *
+     * @param userService    user service
      * @param addressService address service
-     * @param itemService item service
-     * @param orderService order service
+     * @param itemService    item service
+     * @param orderService   order service
      */
     @Autowired
     public UserController(UserService userService, AddressService addressService, ItemService itemService, OrderService orderService) {
@@ -73,6 +89,8 @@ public class UserController {
             model.addAttribute("placeHolderForPassword", "New password");
             model.addAttribute("id", id);
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
+            logger.info("User with id: " + id + "visited userInfo page.");
 
             return "userInfo";
         } else {
@@ -115,6 +133,8 @@ public class UserController {
             model.addAttribute("id", id);
 
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
+            logger.info("User with id: " + id + "visited address page.");
 
             return "address";
         } else {

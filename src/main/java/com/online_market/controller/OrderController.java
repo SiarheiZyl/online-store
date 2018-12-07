@@ -24,19 +24,32 @@ import java.util.Date;
 @RequestMapping("/")
 public class OrderController {
 
+    /**
+     * Apache log4j object is used to log all important info
+     */
     final static Logger logger = Logger.getLogger(OrderController.class);
 
-    private final OrderService orderService;
-
-    private final ItemService itemService;
-
+    /**
+     * User service object. See {@link com.online_market.service.UserServiceImpl}
+     */
     private final UserService userService;
 
     /**
+     * Order service object. See {@link com.online_market.service.OrderServiceImpl}
+     */
+    private final OrderService orderService;
+
+    /**
+     * Item service object. See {@link com.online_market.service.ItemServiceImpl}
+     */
+    private final ItemService itemService;
+
+    /**
      * Injecting constructor
-     * @param userService user service
+     *
+     * @param userService  user service
      * @param orderService order service
-     * @param itemService item service
+     * @param itemService  item service
      */
     @Autowired
     public OrderController(OrderService orderService, ItemService itemService, UserService userService) {
@@ -55,17 +68,15 @@ public class OrderController {
     public String orderHistory(@PathVariable("pageId") int pageId, Model model, @RequestParam(value = "fromDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @RequestParam(value = "toDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
 
         int id = userService.getAuthorizedUserId();
-        if (id!=0) {
-
+        if (id != 0) {
             int pageSize = 4;
-            long totalPages ;
+            long totalPages;
 
             model.addAttribute("pageId", pageId);
 
-
             if (fromDate == null && toDate == null) {
 
-                totalPages= orderService.getHistoryOfOrders(id).size()/pageSize + 1;
+                totalPages = orderService.getHistoryOfOrders(id).size() / pageSize + 1;
 
                 if (pageId > pageSize)
                     return "pageNotFound";
@@ -73,14 +84,13 @@ public class OrderController {
                 model.addAttribute("orders", orderService.getHistoryOfOrdersPerPage(id, pageId, pageSize));
                 model.addAttribute("fromDate", null);
                 model.addAttribute("toDate", null);
-            }
-            else {
+            } else {
                 totalPages = orderService.sizeOfHistoryOfOrdersFilteredByDate(id, fromDate, toDate) / pageSize + 1;
 
                 if (pageId > pageSize)
                     return "pageNotFound";
 
-                model.addAttribute("orders", orderService.getHistoryOfOrdersPerPageFilteredFromToDate(id,pageId, pageSize, fromDate, toDate));
+                model.addAttribute("orders", orderService.getHistoryOfOrdersPerPageFilteredFromToDate(id, pageId, pageSize, fromDate, toDate));
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 model.addAttribute("fromDate", format.format(fromDate));
@@ -92,6 +102,8 @@ public class OrderController {
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
+            logger.info("User with id: " + id + "visited orderHistory page.");
 
             return "orderHistory";
         } else {
