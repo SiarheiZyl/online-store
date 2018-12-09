@@ -1,4 +1,4 @@
-package com.online_market;
+package com.online_market.unit;
 
 
 import static org.junit.Assert.assertEquals;

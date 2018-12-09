@@ -24,14 +24,6 @@
 <script src=/resources/js/bucket.js type="text/javascript"></script>
 <jsp:include page="navbar.jsp"/>
 
-<c:if test="${itemMap.size()==0}">
-    <script>
-        $(document).ready(function() {
-            alert("Your basket is empty")
-
-        })
-    </script>
-</c:if>
 <div class="card-body">
     <c:set var="sum" value="${0}"/>
     <c:forEach var="item" items="${itemMap}">

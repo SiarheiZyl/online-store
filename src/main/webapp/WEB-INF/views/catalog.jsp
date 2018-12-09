@@ -79,7 +79,7 @@
                                      src="/mediumImage/${item.itemId}" alt="${item.itemName}">
 
                                 <div class="card-body ">
-                                    <a href="/item/${item.itemId}" style="color: black;">
+                                    <a href="/item/${item.itemId}" style="color: black;" id="itemPage${item.itemId}">
                                         <h4 class="card-title"><strong>${item.itemName}</strong></h4>
                                         <h5><strong><i>$${item.price}</i></strong></h5>
                                         <p class="card-text-bottom">
