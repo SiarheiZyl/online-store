@@ -2,6 +2,7 @@ package com.online_market.controller;
 
 
 import com.online_market.entity.Item;
+import com.online_market.entity.Order;
 import com.online_market.entity.Param;
 import com.online_market.entity.enums.Roles;
 import com.online_market.service.*;
@@ -98,14 +99,18 @@ public class ItemController {
 
             Map<Item, Integer> itemMap = (Map<Item, Integer>) session.getAttribute("basket");
             if (itemMap != null) {
+                model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemMap));
+                Order order = orderService.getBucketOrder(id);
                 orderService.addFromSessionToBucket(itemMap, id);
                 session.invalidate();
+            } else {
+                model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
             }
 
             model.addAttribute("id", id);
             model.addAttribute("role", userService.getById(id).getRole());
             orderService.updateBucket(id);
-            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
+
 
             logger.info("User with id: " + id + "visited catalog page.");
         } else {
@@ -258,7 +263,7 @@ public class ItemController {
      * @return item's page
      */
     @GetMapping("/item/{itemId}")
-    public String getEditItemPage(@PathVariable int itemId, Model model) {
+    public String getEditItemPage(@PathVariable int itemId, Model model, HttpSession session) {
 
         int id = userService.getAuthorizedUserId();
         model.addAttribute("id", id);
@@ -268,6 +273,8 @@ public class ItemController {
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
             logger.info("User with id: " + id + "visited item page with id: " + itemId);
+        } else {
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize((Map<Item, Integer>) session.getAttribute("basket")));
         }
 
         model.addAttribute("item", itemService.getById(itemId));
@@ -277,7 +284,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public String getSearchPage(Model model, @RequestParam(value = "searchData", required = false) String searchData) {
+    public String getSearchPage(Model model, HttpSession session, @RequestParam(value = "searchData", required = false) String searchData) {
 
         int id = userService.getAuthorizedUserId();
         model.addAttribute("id", id);
@@ -287,6 +294,8 @@ public class ItemController {
             model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize(itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId())));
 
             logger.info("User with id: " + id + "visited search page");
+        } else {
+            model.addAttribute("numberOfItemsInBucket", itemService.getOrderSize((Map<Item, Integer>) session.getAttribute("basket")));
         }
 
         if (searchData == null) {

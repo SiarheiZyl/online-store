@@ -512,13 +512,9 @@ public class OrderServiceImpl implements OrderService {
         if (item1.getAvailableCount() != 0) {
 
             if (itemMap.containsKey(item1)) {
-                quantity = itemMap.get(item1) + 1;
+                quantity = itemMap.get(item1) < item1.getAvailableCount() ? itemMap.get(item1) + 1 : itemMap.get(item1);
                 itemMap.remove(item1);
             }
-
-            item1.setAvailableCount(item1.getAvailableCount() - 1);
-            itemDao.updateQuantity(item1);
-
             itemMap.put(item1, quantity);
             session.setAttribute("basket", itemMap);
         }

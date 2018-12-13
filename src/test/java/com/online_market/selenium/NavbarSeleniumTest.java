@@ -27,7 +27,7 @@ public class NavbarSeleniumTest {
     }
 
     @Test
-    public void TestLoginWithCorrectParameters() {
+    public void TestNavbar() {
 
         driver.get(Url.LOGIN);
 

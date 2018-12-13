@@ -2,6 +2,7 @@ package com.online_market.controller;
 
 
 import com.online_market.entity.Item;
+import com.online_market.entity.Order;
 import com.online_market.entity.User;
 import com.online_market.entity.enums.Roles;
 import com.online_market.service.OrderService;
@@ -35,14 +36,17 @@ public class RegistrationController {
      */
     private final UserService userService;
 
+    private final OrderService orderService;
+
     /**
      * Injecting constructor
      *
      * @param userService user service
      */
     @Autowired
-    public RegistrationController(UserService userService) {
+    public RegistrationController(UserService userService, OrderService orderService) {
         this.userService = userService;
+        this.orderService = orderService;
     }
 
     /**
@@ -78,6 +82,6 @@ public class RegistrationController {
 
         userService.register(user);
 
-        return "redirect:/user/" + user.getId();
+        return "redirect:/catalog/1";
     }
 }

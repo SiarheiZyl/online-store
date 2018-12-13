@@ -122,7 +122,11 @@ public class BucketController {
 
         int id = userService.getAuthorizedUserId();
 
-        if (itemService.getById(itemId).getAvailableCount() == 0)
+        Map<Item, Integer> map = id == 0 ? (Map<Item, Integer>) session.getAttribute("basket") : itemService.getOrderNotNullItems(orderService.getBucketOrder(id).getOrderId());
+
+        Item item = itemService.getById(itemId);
+
+        if (map.size() != 0 && map.containsKey(item) && item.getAvailableCount() - map.get(item) == 0)
             return -1 + "";
         if (id != 0) {
             logger.info("User with id: " + id + "trying to add item to bucket.");
@@ -134,7 +138,7 @@ public class BucketController {
             orderService.addItemToSession(itemId, session);
         }
 
-        return itemService.getById(itemId).getAvailableCount() + "";
+        return item.getAvailableCount() + "";
     }
 
     /**

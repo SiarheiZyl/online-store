@@ -27,6 +27,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
     /**
      * Saving to DB
+     *
      * @param t exemplar of any entity
      */
     @Override
@@ -36,6 +37,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
     /**
      * Updating in DB
+     *
      * @param t exemplar of any entity
      */
     @Override
@@ -45,6 +47,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
     /**
      * Saving to DB or updating
+     *
      * @param t exemplar of any entity
      */
     @Override
@@ -54,8 +57,9 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
     /**
      * Getting entity by id
+     *
      * @param type type
-     * @param id id
+     * @param id   id
      * @return exemplar of provided type or null
      */
     @Override
@@ -71,6 +75,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
     /**
      * Getting all
+     *
      * @param type name of Entity
      * @return list of values
      */

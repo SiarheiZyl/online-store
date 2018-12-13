@@ -20,7 +20,7 @@ public interface UserService {
 
     void update(User user);
 
-    User validate(String username, String password) ;
+    User validate(String username, String password);
 
     void authorize(int id);
 

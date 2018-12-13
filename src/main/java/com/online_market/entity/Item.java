@@ -34,7 +34,7 @@ public class Item {
     private String picture = IMAGES_LOCATION + itemId + ".jpg";
 
     @Column(name = "isShown")
-    private boolean isShown;
+    private boolean isShown = true;
 
     @ManyToOne
     @JoinColumn(name = "item_category")

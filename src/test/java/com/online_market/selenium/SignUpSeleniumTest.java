@@ -54,7 +54,7 @@ public class SignUpSeleniumTest {
 
         driver.findElement(By.id("register")).click();
 
-        assertEquals(Url.USER_INFO+24, driver.getCurrentUrl());
+        assertEquals(Url.USER_INFO + 24, driver.getCurrentUrl());
     }
 
     @Test

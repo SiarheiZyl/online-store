@@ -32,6 +32,7 @@ public class ParamServiceImpl implements ParamService {
 
     /**
      * Injecting constructor
+     *
      * @param paramDao param DAO
      */
     @Autowired

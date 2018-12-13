@@ -41,6 +41,7 @@ public class LoginSeleniumTest {
 
         assertEquals(Url.CATALOG, driver.getCurrentUrl());
     }
+
     @Test
     public void TestLoginWithIncorrectParameters() {
 

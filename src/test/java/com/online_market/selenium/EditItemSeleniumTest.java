@@ -27,7 +27,7 @@ public class EditItemSeleniumTest {
     }
 
     @Test
-    public void TestLoginWithCorrectParameters() {
+    public void TestEditItemByAdmin() {
 
         driver.get(Url.LOGIN);
 
@@ -42,15 +42,15 @@ public class EditItemSeleniumTest {
         assertEquals(Url.CATALOG, driver.getCurrentUrl());
 
         int itemId = 2;
-        driver.findElement(By.id("itemPage"+itemId)).click();
-        assertEquals(Url.ITEM+itemId, driver.getCurrentUrl());
+        driver.findElement(By.id("itemPage" + itemId)).click();
+        assertEquals(Url.ITEM + itemId, driver.getCurrentUrl());
 
         int availableCount = 100;
         driver.findElement(By.id("availableCount")).clear();
-        driver.findElement(By.id("availableCount")).sendKeys(availableCount+"");
+        driver.findElement(By.id("availableCount")).sendKeys(availableCount + "");
         driver.findElement(By.id("editItem")).click();
 
-        assertEquals(driver.findElement(By.id("availableCount")).getAttribute("value"), availableCount+"");
+        assertEquals(driver.findElement(By.id("availableCount")).getAttribute("value"), availableCount + "");
     }
 
 
